@@ -5,14 +5,14 @@ module.exports = {
     entry: './src/index.tsx',
     output: {
         path: path.join(__dirname, '/dist'),
-        filename: 'bundle.js'
+        filename: 'bundle.js',
     },
     devServer: {
         hot: true,
         compress: true,
         open: true,
         port: 3000,
-        historyApiFallback: true
+        historyApiFallback: true,
     },
     module: {
         rules: [
