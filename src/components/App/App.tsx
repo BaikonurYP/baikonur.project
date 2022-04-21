@@ -9,9 +9,14 @@ export const Wrapper = styled.div`
     border: 1px solid black;
 `
 
+export const Per = styled.p`
+    font-family: 'SpaceFont';
+`
+
 const App: FC = () => (
     <div>
         <Wrapper />
+        <Per>Космический текст</Per>
         <h1>Мdwqdqwй апп.</h1>
     </div>
 )
