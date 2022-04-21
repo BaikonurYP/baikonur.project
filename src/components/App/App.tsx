@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Redirect, Switch } from 'react-router-dom'
 
 import LoginPage from '../../pages/LoginPage/LoginPage'
 import SignupPage from '../../pages/SignupPage/SignupPage'
@@ -19,6 +19,7 @@ const App: FC = () => {
             <Route path="/signup">
                 <SignupPage />
             </Route>
+            <Redirect exact from="/" to="/home" />
             <Route path="/home">
                 <HamePage />
             </Route>
