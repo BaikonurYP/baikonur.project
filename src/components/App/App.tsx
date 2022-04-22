@@ -1,21 +1,44 @@
 import React, { FC } from 'react'
-import styled from 'styled-components'
+import { Route, Switch } from 'react-router-dom'
 
-/* eslint-disable */
-
-const Wrapper = styled.div`
-    width: 100%;
-    height: 50vh;
-    background-color: black;
-`
-
-import ButtonMain from '../buttons/buttonMain/buttonMain'
+import LoginPage from '../../pages/LoginPage/LoginPage'
+import SignupPage from '../../pages/SignupPage/SignupPage'
+import HamePage from '../../pages/HomePage/HomePage'
+import ProfilePage from '../../pages/ProfilePage/ProfilePage'
+import ForumPage from '../../pages/ForumPage/ForumPage'
+import LeaderboardPage from '../../pages/LeaderboardPage/LeaderboardPage'
+import Page404 from '../../pages/404Page/404Page'
+import Page500 from '../../pages/500Page/500Page'
 
 const App: FC = () => {
     return (
-        <Wrapper>
-            <ButtonMain>Привет</ButtonMain>
-        </Wrapper>
+        <Switch>
+            <Route path="/login">
+                <LoginPage />
+            </Route>
+            <Route path="/signup">
+                <SignupPage />
+            </Route>
+            <Route path="/home">
+                <HamePage />
+            </Route>
+            <Route path="/profile">
+                <ProfilePage />
+            </Route>
+            <Route path="/forum">
+                <ForumPage />
+            </Route>
+            <Route path="/leaderboard">
+                <LeaderboardPage />
+            </Route>
+            <Route path="*">
+                <Page404></Page404>
+            </Route>
+            <Route path="/500">
+                <Page500></Page500>
+            </Route>
+        </Switch>
     )
 }
+
 export default App

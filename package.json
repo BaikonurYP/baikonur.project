@@ -1,63 +1,65 @@
 {
-  "name": "baikonur.project",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.tsx",
-  "scripts": {
-    "lint": "eslint src --quiet",
-    "lint-fix": "eslint src --fix",
-    "start": "webpack serve --mode development",
-    "build": "webpack --mode production"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/BaikonurYP/baikonur.project.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/BaikonurYP/baikonur.project/issues"
-  },
-  "homepage": "https://github.com/BaikonurYP/baikonur.project#readme",
-  "devDependencies": {
-    "@babel/core": "^7.17.9",
-    "@babel/plugin-syntax-jsx": "^7.16.7",
-    "@babel/preset-env": "^7.16.11",
-    "@babel/preset-react": "^7.16.7",
-    "@types/react-dom": "^18.0.1",
-    "@typescript-eslint/eslint-plugin": "^5.20.0",
-    "@typescript-eslint/parser": "^5.20.0",
-    "babel-loader": "^8.2.4",
-    "css-loader": "^6.7.1",
-    "eslint": "^8.13.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-import-resolver-webpack": "^0.12.1",
-    "eslint-plugin-babel": "^5.3.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-react": "^7.22.0",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "html-loader": "^3.1.0",
-    "html-webpack-plugin": "^5.5.0",
-    "mini-css-extract-plugin": "^2.6.0",
-    "path": "^0.12.7",
-    "postcss": "^8.4.12",
-    "postcss-loader": "^6.2.1",
-    "sass": "^1.50.1",
-    "sass-loader": "^12.6.0",
-    "style-loader": "^3.3.1",
-    "ts-loader": "^9.2.8",
-    "typescript": "^4.6.3",
-    "webpack": "^5.72.0",
-    "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.8.1"
-  },
-  "dependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "redux": "^4.2.0",
-    "@types/styled-components": "5.1.24",
-    "styled-components": "5.3.3"
-  }
+    "name": "baikonur.project",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.tsx",
+    "scripts": {
+        "lint": "eslint src --quiet",
+        "lint-fix": "eslint src --fix",
+        "start": "webpack serve --mode development",
+        "build": "webpack --mode production"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/BaikonurYP/baikonur.project.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/BaikonurYP/baikonur.project/issues"
+    },
+    "homepage": "https://github.com/BaikonurYP/baikonur.project#readme",
+    "devDependencies": {
+        "@babel/core": "^7.17.9",
+        "@babel/plugin-syntax-jsx": "^7.16.7",
+        "@babel/preset-env": "^7.16.11",
+        "@babel/preset-react": "^7.16.7",
+        "@types/react-dom": "^18.0.1",
+        "@typescript-eslint/eslint-plugin": "^5.20.0",
+        "@typescript-eslint/parser": "^5.20.0",
+        "babel-loader": "^8.2.4",
+        "css-loader": "^6.7.1",
+        "eslint": "^8.13.0",
+        "eslint-config-airbnb": "^19.0.4",
+        "eslint-import-resolver-webpack": "^0.12.1",
+        "eslint-plugin-babel": "^5.3.0",
+        "eslint-plugin-import": "^2.22.1",
+        "eslint-plugin-jsx-a11y": "^6.4.1",
+        "eslint-plugin-react": "^7.22.0",
+        "eslint-plugin-react-hooks": "^4.2.0",
+        "html-loader": "^3.1.0",
+        "html-webpack-plugin": "^5.5.0",
+        "mini-css-extract-plugin": "^2.6.0",
+        "path": "^0.12.7",
+        "postcss": "^8.4.12",
+        "postcss-loader": "^6.2.1",
+        "sass": "^1.50.1",
+        "sass-loader": "^12.6.0",
+        "style-loader": "^3.3.1",
+        "ts-loader": "^9.2.8",
+        "typescript": "^4.6.3",
+        "webpack": "^5.72.0",
+        "webpack-cli": "^4.9.2",
+        "webpack-dev-server": "^4.8.1",
+        "@types/react-router-dom": "5.3.3"
+    },
+    "dependencies": {
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0",
+        "react-router-dom": "^5.2.0",
+        "redux": "^4.2.0",
+        "@types/styled-components": "5.1.24",
+        "styled-components": "5.3.3"
+    }
 }
