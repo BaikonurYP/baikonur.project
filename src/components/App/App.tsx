@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { Route, Switch, Redirect } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 
 import LoginPage from '../../pages/LoginPage/LoginPage'
 import SignupPage from '../../pages/SignupPage/SignupPage'
