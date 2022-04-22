@@ -1,23 +1,21 @@
 import React, { FC } from 'react'
 import styled from 'styled-components'
 
-import '../../styles/main.scss'
+/* eslint-disable */
 
-export const Wrapper = styled.div`
-    width: 60px;
-    height: 50px;
-    border: 1px solid black;
+const Wrapper = styled.div`
+    width: 100%;
+    height: 50vh;
+    background-color: black;
 `
 
-export const Per = styled.p`
-    font-family: 'SpaceFont';
-`
+import ButtonMain from '../buttons/buttonMain/buttonMain'
 
-const App: FC = () => (
-    <div>
-        <Wrapper />
-        <Per>Космический текст</Per>
-        <h1>Мdwqdqwй апп.</h1>
-    </div>
-)
+const App: FC = () => {
+    return (
+        <Wrapper>
+            <ButtonMain>Привет</ButtonMain>
+        </Wrapper>
+    )
+}
 export default App
