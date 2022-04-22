@@ -1,23 +1,44 @@
 import React, { FC } from 'react'
-import styled from 'styled-components'
+import { Route, Switch } from 'react-router-dom'
 
-import '../../styles/main.scss'
+import LoginPage from '../../pages/LoginPage/LoginPage'
+import SignupPage from '../../pages/SignupPage/SignupPage'
+import HamePage from '../../pages/HomePage/HomePage'
+import ProfilePage from '../../pages/ProfilePage/ProfilePage'
+import ForumPage from '../../pages/ForumPage/ForumPage'
+import LeaderboardPage from '../../pages/LeaderboardPage/LeaderboardPage'
+import Page404 from '../../pages/404Page/404Page'
+import Page500 from '../../pages/500Page/500Page'
 
-export const Wrapper = styled.div`
-    width: 60px;
-    height: 50px;
-    border: 1px solid black;
-`
+const App: FC = () => {
+    return (
+        <Switch>
+            <Route path="/login">
+                <LoginPage />
+            </Route>
+            <Route path="/signup">
+                <SignupPage />
+            </Route>
+            <Route path="/home">
+                <HamePage />
+            </Route>
+            <Route path="/profile">
+                <ProfilePage />
+            </Route>
+            <Route path="/forum">
+                <ForumPage />
+            </Route>
+            <Route path="/leaderboard">
+                <LeaderboardPage />
+            </Route>
+            <Route path="*">
+                <Page404></Page404>
+            </Route>
+            <Route path="/500">
+                <Page500></Page500>
+            </Route>
+        </Switch>
+    )
+}
 
-export const Per = styled.p`
-    font-family: 'SpaceFont';
-`
-
-const App: FC = () => (
-    <div>
-        <Wrapper />
-        <Per>Космический текст</Per>
-        <h1>Мdwqdqwй апп.</h1>
-    </div>
-)
 export default App
