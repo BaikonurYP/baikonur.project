@@ -1,21 +1,36 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     entry: './src/index.tsx',
     output: {
         path: path.join(__dirname, '/dist'),
         filename: 'bundle.js',
+        assetModuleFilename: 'assets/[hash][ext][query]'
     },
     devServer: {
         hot: true,
         compress: true,
         open: true,
         port: 3000,
-        historyApiFallback: true,
+        historyApiFallback: true
     },
     module: {
+
         rules: [
+            {
+                test: /\.(html)$/,
+                use: ['html-loader']
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg|webp|ico)$/i,
+                type: 'asset'
+            },
+            {
+                test: /\.(woff2?|eot|ttf|otf)$/i,
+                type: 'asset/resource'
+            },
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
@@ -36,9 +51,14 @@ module.exports = {
                 ]
             },
             {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader']
-            }
+                test: /\.(s[ac]|c)ss$/i,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'postcss-loader',
+                    'sass-loader',
+                ],
+            },
         ]
     },
     resolve: {
@@ -47,6 +67,9 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: './www/index.html'
-        })
+        }),
+        new MiniCssExtractPlugin({
+            filename: '[name].[contenthash].css',
+        }),
     ]
 };
