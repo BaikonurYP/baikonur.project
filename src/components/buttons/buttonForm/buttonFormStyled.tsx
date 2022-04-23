@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const ButtonFormStyled = styled.button`
-    padding: 0 0 0 0;
+    padding: 0 0 5px 0;
     width: 300px;
     height: 37px;
     background: #4a3c55;
