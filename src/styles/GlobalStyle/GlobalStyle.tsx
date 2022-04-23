@@ -1,8 +1,9 @@
 import { createGlobalStyle } from 'styled-components'
 
 // @ts-ignore
-
 import SpaceFont from '../../vendor/fonts/spaceagecyrillic/spaceagecyrillic_regular.ttf'
+// @ts-ignore
+import BGImage from '../../images/bg.jpg'
 
 const Global = createGlobalStyle`
   @font-face {
@@ -25,6 +26,8 @@ const Global = createGlobalStyle`
 
       body {
         margin: 0;
+        background: url(${BGImage});
+        background-size: cover;
       }
 
       main {
