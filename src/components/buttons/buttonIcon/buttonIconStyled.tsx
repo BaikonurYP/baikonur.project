@@ -8,7 +8,7 @@ export const Wrapper = styled.div`
     cursor: pointer;
 
     &:hover div {
-        box-shadow: 0px 0px 10px 0px #1884b4;
+        box-shadow: 0px 0px 10px 0px var(--blue-light);
     }
 `
 export const Title = styled.p`
@@ -16,7 +16,7 @@ export const Title = styled.p`
     padding: 0;
     font-family: 'Roboto';
     font-size: 8px;
-    color: #ffffff;
+    color: var(--white);
     text-transform: uppercase;
 `
 
@@ -28,7 +28,7 @@ export const Container = styled.div<ContainerProps>`
     margin: 4px 0 0 0;
     width: 33px;
     height: 33px;
-    border: 2px solid #1884b4;
+    border: 2px solid var(--blue-light);
     border-radius: 3px;
     background-size: 60%;
     background-position: center center;

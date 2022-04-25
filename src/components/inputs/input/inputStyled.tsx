@@ -8,18 +8,18 @@ export const InputStyled = styled.input`
     padding: 20px 7px 0;
     width: 280px;
     height: 50px;
-    background-color: #ffffff00;
+    background-color: var(--clear);
     border: none;
     outline: none;
-    border-bottom: 2px solid #ffffff;
+    border-bottom: 2px solid var(--white);
     font-family: 'Roboto';
     font-size: 13px;
-    color: #ffffff;
+    color: var(--white);
 
     &::placeholder {
         font-family: 'Roboto';
         font-size: 13px;
-        color: #ffffff;
+        color: var(--white);
     }
 `
 
@@ -31,5 +31,5 @@ export const ErrorText = styled.p`
     padding: 0;
     font-family: 'Roboto';
     font-size: 13px;
-    color: #e76969;
+    color: var(--red-light);
 `

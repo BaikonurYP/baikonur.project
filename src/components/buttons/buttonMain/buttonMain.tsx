@@ -8,8 +8,8 @@ export interface ButtonMainProps {
     color?: string
 }
 
-const ButtonForm: FC<ButtonMainProps> = (props) => {
+const ButtonMain: FC<ButtonMainProps> = (props) => {
     return <ButtonMainStyled {...props} type="button"></ButtonMainStyled>
 }
 
-export default ButtonForm
+export default ButtonMain
