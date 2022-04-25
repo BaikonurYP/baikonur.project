@@ -1,11 +1,18 @@
 import styled, { css } from 'styled-components'
 import { ButtonMainProps } from './buttonMain'
 
+const colors = {
+    yellow: '#ffcc00',
+    yellow_dark: '#d1a700',
+    purple: '#4a3c55',
+    purple_datk: '#2b2331',
+}
+
 export const ButtonMainStyled = styled.button<ButtonMainProps>`
     padding: 0 0 0 0;
     width: 243px;
     height: 38px;
-    background: #4a3c55;
+    background: ${colors.purple};
     border: none;
     font-family: 'Roboto';
     font-size: 16px;
@@ -14,7 +21,7 @@ export const ButtonMainStyled = styled.button<ButtonMainProps>`
     transition: 0.3s;
 
     &:hover {
-        background: #2b2331;
+        background: ${colors.purple_datk};
     }
 
     &:active {
@@ -24,11 +31,11 @@ export const ButtonMainStyled = styled.button<ButtonMainProps>`
     ${({ color }) =>
         color === 'yellow' &&
         css`
-            background: #ffcc00;
-            color: #4a3c55;
+            background: ${colors.yellow};
+            color: ${colors.purple};
 
             &:hover {
-                background: #d1a700;
+                background: ${colors.yellow_dark};
             }
         `}
 `
