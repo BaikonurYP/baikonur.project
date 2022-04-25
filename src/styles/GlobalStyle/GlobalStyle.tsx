@@ -20,6 +20,10 @@ const Global = createGlobalStyle`
     --yellow-dark: #d1a700;
     --purple: #4a3c55;
     --purple-dark: #2b2331;
+    --white: #ffffff;
+    --blue-light: #1884b4;
+    --red-light: #e76969;
+    --clear: #ffffff00;
 }
 
   * {

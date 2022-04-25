@@ -2,15 +2,15 @@ import styled from 'styled-components'
 
 export const ButtonTextStyled = styled.button`
     padding: 10px;
-    background: #ffffff00;
+    background: var(--clear);
     border: none;
     font-family: 'Roboto';
     font-size: 16px;
-    color: #ffffff;
+    color: var(--white);
     cursor: pointer;
     transition: 0.3s;
 
     &:hover {
-        color: #ffcc00;
+        color: var(--yellow);
     }
 `

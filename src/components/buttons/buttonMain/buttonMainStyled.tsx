@@ -9,7 +9,7 @@ export const ButtonMainStyled = styled.button<ButtonMainProps>`
     border: none;
     font-family: 'Roboto';
     font-size: 16px;
-    color: #ffffff;
+    color: var(--white);
     cursor: pointer;
     transition: 0.3s;
 
