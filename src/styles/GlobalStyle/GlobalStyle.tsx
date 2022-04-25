@@ -15,6 +15,13 @@ const Global = createGlobalStyle`
     src: url('https://fonts.googleapis.com/css2?family=Roboto:ital@1&display=swap');
   } 
 
+  :root {
+    --yellow: #ffcc00;
+    --yellow-dark: #d1a700;
+    --purple: #4a3c55;
+    --purple-dark: #2b2331;
+}
+
   * {
     box-sizing: border-box;
     
