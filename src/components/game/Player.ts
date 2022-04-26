@@ -23,7 +23,6 @@ export default class Player {
             x: 0,
             y: 0,
         }
-        console.log()
     }
 
     draw() {
@@ -46,5 +45,6 @@ export default class Player {
     update() {
         this.draw()
         this.position.x += this.velocity.x
+        this.position.y += this.velocity.y
     }
 }
