@@ -16,11 +16,11 @@ import Skin2 from '../../images/skins/plain_2.svg'
 import Skin3 from '../../images/skins/plain_3.svg'
 
 const leaders = [
-    { name: 'Уничтожитель 1', avatar: Skin1, value: 7896540 },
-    { name: 'Разрушитель', avatar: Skin2, value: 7896540 },
-    { name: 'Уничтожитель 2', avatar: Skin3, value: 7896540 },
-    { name: 'Уничтожитель', avatar: Skin1, value: 7896540 },
-    { name: 'Уничтожитель', avatar: Skin1, value: 7896540 },
+    { id: 1, name: 'Уничтожитель 1', avatar: Skin1, value: 7896540 },
+    { id: 2, name: 'Разрушитель', avatar: Skin2, value: 7896540 },
+    { id: 3, name: 'Уничтожитель 2', avatar: Skin3, value: 7896540 },
+    { id: 4, name: 'Уничтожитель', avatar: Skin1, value: 7896540 },
+    { id: 5 ,name: 'Уничтожитель', avatar: Skin1, value: 7896540 },
 ]
 
 const LeaderboardPage: FC = () => (
@@ -33,7 +33,7 @@ const LeaderboardPage: FC = () => (
         <TitleStyled>Лидеры</TitleStyled>
         <BoardStyled>
             {leaders.map((leader, i) => (
-                <BoardItemStyled>
+                <BoardItemStyled key={leader.id}>
                     <BoardUserInfoStyled>
                         <BoardAvaStyled>
                             <img src={leader.avatar} alt={leader.name} />

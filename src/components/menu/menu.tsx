@@ -29,7 +29,7 @@ const Menu: FC = () => {
     return (
         <MenuStyled>
             {menuItems.map(item => (
-                <ButtonIcon icon={item.icon} onClick={() => handleClick(item.path)}>
+                <ButtonIcon icon={item.icon} onClick={() => handleClick(item.path)} key={item.title}>
                     {item.title}
                 </ButtonIcon>
             ))}

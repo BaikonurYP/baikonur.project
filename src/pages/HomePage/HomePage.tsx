@@ -29,7 +29,7 @@ const HomePage: FC = () => (
         <HomeTextStyled>выберите корабль, которым будете играть</HomeTextStyled>
         <HomeSkinsStyled>
             {skins.map((skin) => (
-                <SkinWrapStyled>
+                <SkinWrapStyled key={skin.title}>
                     <SkinAvaStyled>
                         <img src={skin.skin} alt="" />
                     </SkinAvaStyled>
