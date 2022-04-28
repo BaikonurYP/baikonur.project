@@ -1,8 +1,6 @@
 import { createGlobalStyle } from 'styled-components'
 
-// @ts-ignore
 import SpaceFont from '../../vendor/fonts/spaceagecyrillic/spaceagecyrillic_regular.ttf'
-// @ts-ignore
 import BGImage from '../../images/bg.jpg'
 
 const Global = createGlobalStyle`
@@ -21,7 +19,10 @@ const Global = createGlobalStyle`
     --yellow-dark: #d1a700;
     --purple: #4a3c55;
     --purple-dark: #2b2331;
+    --purple-grey: #63596D;
     --white: #ffffff;
+    --white-30: rgba(255, 255, 255, 0.3);
+    --grey: #CBCBCB;
     --blue-light: #1884b4;
     --red-light: #e76969;
     --clear: #ffffff00;
@@ -37,8 +38,6 @@ const Global = createGlobalStyle`
 
       body {
         margin: 0;
-        background: url(${BGImage});
-        background-size: cover;
       }
 
       main {

@@ -17,6 +17,7 @@
     },
     "rules": {
         "import/named": ["off"],
+        "import/extensions": ["off"],
         "import/no-unresolved": ["off"],
         "arrow-parens": ["off"],
         "camelcase": ["off"],

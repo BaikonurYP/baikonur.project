@@ -1,34 +1,39 @@
 declare module '*.svg' {
-    const value: any;
+    const value: string;
     export = value;
 }
 
 declare module '*.png' {
-    const value: any;
+    const value: string;
     export = value;
 }
 
 declare module '*.jpg' {
-    const value: any;
+    const value: string;
     export = value;
 }
 
 declare module '*.jpeg' {
-    const value: any;
+    const value: string;
     export = value;
 }
 
 declare module '*.gif' {
-    const value: any;
+    const value: string;
     export = value;
 }
 
 declare module '*.bmp' {
-    const value: any;
+    const value: string;
     export = value;
 }
 
 declare module '*.tiff' {
-    const value: any;
+    const value: string;
+    export = value;
+}
+
+declare module '*.ttf' {
+    const value: string;
     export = value;
 }

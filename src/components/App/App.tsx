@@ -19,6 +19,7 @@ const App: FC = () => (
             <SignupPage />
         </Route>
         <Redirect exact from="/" to="home" />
+        <Redirect exact from="/game" to="home" />
         <Route path="/home">
             <HamePage />
         </Route>
