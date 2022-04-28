@@ -6,11 +6,14 @@ export default class Meteorite extends Meteor {
     velocity: { x: number; y: number }
     width: number
     height: number
-    c: any
     image: any
     rotation: number
 
-    constructor(ctx: CanvasRenderingContext2D, MeteorImg: string, data: any) {
+    constructor(
+        ctx: CanvasRenderingContext2D,
+        MeteorImg: string,
+        position: any
+    ) {
         super(ctx, MeteorImg)
         const image = new Image()
         image.src = MeteorImg
@@ -21,8 +24,8 @@ export default class Meteorite extends Meteor {
         this.rotation = 0.45
 
         this.position = {
-            x: data.x,
-            y: data.y,
+            x: position.x,
+            y: position.y,
         }
     }
 }
