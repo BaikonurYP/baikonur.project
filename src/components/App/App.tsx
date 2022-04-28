@@ -3,7 +3,7 @@ import { Route, Redirect, Switch } from 'react-router-dom'
 
 import LoginPage from '../../pages/LoginPage/LoginPage'
 import SignupPage from '../../pages/SignupPage/SignupPage'
-import HamePage from '../../pages/HomePage/HomePage'
+import HomePage from '../../pages/HomePage/HomePage'
 import ProfilePage from '../../pages/ProfilePage/ProfilePage'
 import ForumPage from '../../pages/ForumPage/ForumPage'
 import LeaderboardPage from '../../pages/LeaderboardPage/LeaderboardPage'
@@ -21,7 +21,7 @@ const App: FC = () => (
         <Redirect exact from="/" to="home" />
         <Redirect exact from="/game" to="home" />
         <Route path="/home">
-            <HamePage />
+            <HomePage />
         </Route>
         <Route path="/profile">
             <ProfilePage />
