@@ -1,5 +1,3 @@
-import { number } from 'yup'
-
 interface IData {
     position: {
         x: number

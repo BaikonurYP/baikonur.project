@@ -7,12 +7,12 @@ const Wrapper = styled.div`
     padding: 10px;
 `
 
-import Game from '../../components/game/game'
+import GameComponent from '../../components/game/GameComponent'
 
 const HamePage: FC = () => {
     return (
         <Wrapper>
-            <Game></Game>
+            <GameComponent></GameComponent>
         </Wrapper>
     )
 }
