@@ -19,6 +19,7 @@ const Global = createGlobalStyle`
     --yellow-dark: #d1a700;
     --purple: #4a3c55;
     --purple-dark: #2b2331;
+    --purple-light: #8E7D9C;
     --purple-grey: #63596D;
     --white: #ffffff;
     --white-30: rgba(255, 255, 255, 0.3);

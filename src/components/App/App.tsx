@@ -6,6 +6,7 @@ import SignupPage from '../../pages/SignupPage/SignupPage'
 import HomePage from '../../pages/HomePage/HomePage'
 import ProfilePage from '../../pages/ProfilePage/ProfilePage'
 import ForumPage from '../../pages/ForumPage/ForumPage'
+import ForumThemePage from '../../pages/ForumPage/ForumThemePage'
 import LeaderboardPage from '../../pages/LeaderboardPage/LeaderboardPage'
 import Page404 from '../../pages/404Page/404Page'
 import Page500 from '../../pages/500Page/500Page'
@@ -26,8 +27,11 @@ const App: FC = () => (
         <Route path="/profile">
             <ProfilePage />
         </Route>
-        <Route path="/forum">
+        <Route path="/forum" exact>
             <ForumPage />
+        </Route>
+        <Route path="/forum/:id">
+            <ForumThemePage />
         </Route>
         <Route path="/leaderboard">
             <LeaderboardPage />
