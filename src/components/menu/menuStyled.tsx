@@ -6,10 +6,10 @@ export const MenuStyled = styled.div`
     position: fixed;
     top: 20px;
     left: 20px;
-    & > div{
+    & > div {
         margin-right: 10px;
-        &:last-of-type{
-        margin-right: 0;
+        &:last-of-type {
+            margin-right: 0;
         }
     }
 `
