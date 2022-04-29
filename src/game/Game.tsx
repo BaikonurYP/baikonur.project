@@ -10,6 +10,10 @@ import ShipImg from '../images/ships/shipMain.png'
 import MeteorImg from '../images/Meteors/Meteor.png'
 //@ts-ignore
 import InvaderImg from '../images/invaders/enemy_1.svg'
+//@ts-ignore
+import PlayerProjectileImg from '../images/projectiles/projectile_blue.svg'
+//@ts-ignore
+import InvaderProjectileImg from '../images/projectiles/projectile_green.svg'
 
 import { getRandom } from '../utils/getRandom'
 
@@ -64,7 +68,7 @@ class Game {
                     break
                 case ' ':
                     this.projectiles.push(
-                        new Projectile(this.canvas, {
+                        new Projectile(this.canvas, PlayerProjectileImg, {
                             position: {
                                 x:
                                     this.player.position.x +
@@ -131,6 +135,36 @@ class Game {
         )
     }
 
+    playerUpdate() {
+        this.enemies.forEach((enemy) => {
+            if (
+                enemy.position.y + enemy.width <=
+                    this.player.position.y + this.player.height &&
+                enemy.position.y + enemy.width > this.player.position.y &&
+                enemy.position.x + enemy.width >= this.player.position.x &&
+                enemy.position.x + enemy.width <=
+                    this.player.position.x + this.player.width
+            ) {
+                console.log('В вас попал метеорит')
+            }
+        })
+        this.enemiesProjectiles.forEach((projectile) => {
+            if (
+                projectile.position.y + projectile.width <=
+                    this.player.position.y + this.player.height &&
+                projectile.position.y + projectile.width >
+                    this.player.position.y &&
+                projectile.position.x + projectile.width >=
+                    this.player.position.x &&
+                projectile.position.x + projectile.width <=
+                    this.player.position.x + this.player.width
+            ) {
+                console.log('В вас попал захватчик')
+            }
+        })
+        this.player.update()
+    }
+
     enemiesUpdate() {
         this.enemies.forEach((enemy, i) => {
             if (enemy instanceof Invader) {
@@ -150,11 +184,12 @@ class Game {
                     enemy.velocity.x = 0
                     if (this.enemiesProjectiles.length < 1) {
                         this.enemiesProjectiles.push(
-                            new Projectile(this.canvas, {
+                            new Projectile(this.canvas, InvaderProjectileImg, {
                                 position: {
                                     x: enemy.position.x + enemy.width / 2,
                                     y: enemy.position.y + enemy.height,
                                 },
+
                                 velocity: { x: 0, y: 5 },
                             })
                         )
@@ -171,13 +206,13 @@ class Game {
 
             this.projectiles.forEach((projectile, j) => {
                 if (
-                    projectile.position.y + projectile.radius <=
+                    projectile.position.y + projectile.width <=
                         enemy.position.y + enemy.height &&
-                    projectile.position.y + projectile.radius >
+                    projectile.position.y + projectile.width >
                         enemy.position.y &&
-                    projectile.position.x + projectile.radius >=
+                    projectile.position.x + projectile.width >=
                         enemy.position.x &&
-                    projectile.position.x + projectile.radius <=
+                    projectile.position.x + projectile.width <=
                         enemy.position.x + enemy.width
                 ) {
                     setTimeout(() => {
@@ -218,7 +253,7 @@ class Game {
     enemiesProjectilesUpdate() {
         this.enemiesProjectiles.forEach((projectile, index) => {
             if (
-                projectile.position.y + projectile.radius >=
+                projectile.position.y - projectile.height >=
                 this.canvas.canvas.height
             ) {
                 setTimeout(() => {
@@ -234,7 +269,7 @@ class Game {
         requestAnimationFrame(this.animate)
         this.drawBackground()
         this.control()
-        this.player.update()
+        this.playerUpdate()
         this.enemiesUpdate()
         this.projectilesUpdate()
         this.enemiesProjectilesUpdate()
