@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 import BGImage from '../../images/bg.jpg'
 
 export const ContainerStyled = styled.div`

@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 
 import { ContainerStyled } from './containerStyled'
-import Menu from "../menu/menu";
+import Menu from '../menu/menu'
 
 type ContainerProps = {
     children?: React.ReactNode
@@ -16,4 +16,4 @@ const Container: Props = (props) => (
     </ContainerStyled>
 )
 
-export default Container;
+export default Container
