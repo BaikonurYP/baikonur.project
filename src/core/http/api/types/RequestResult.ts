@@ -1,5 +1,4 @@
-import { string } from "yup"
-import { HttpCode } from "./HTTPTypes"
+import { HttpCode } from './HTTPTypes'
 
 /** Результат запроса к API */
 export type RequestResult<T> = {
