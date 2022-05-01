@@ -113,7 +113,7 @@ const ForumPage: React.FC = () => {
                                 key={item.id}
                             >
                                 <td>{item.theme}</td>
-                                <td>{item.count?.toLocaleString('ru-Ru')}</td>
+                                <td>{item.count.toLocaleString('ru-Ru')}</td>
                                 <td>{item.date}</td>
                             </tr>
                         ))}
