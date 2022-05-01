@@ -24,6 +24,7 @@ const Global = createGlobalStyle`
     --white: #ffffff;
     --white-30: rgba(255, 255, 255, 0.3);
     --grey: #CBCBCB;
+    --light-grey: #EEEEEE;
     --blue-light: #1884b4;
     --red-light: #e76969;
     --clear: #ffffff00;

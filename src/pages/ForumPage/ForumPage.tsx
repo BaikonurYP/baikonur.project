@@ -6,10 +6,11 @@ import {
     ForumTitleWrapStyled,
     ForumWrapperStyled,
     ForumTitleStyled,
+    ForumTableStyled,
 } from './ForumPageStyled'
 
-import ButtonMain from '../../components/buttons/ButtonMain/ButtonMain'
-import Table, { Column, Data } from './Table'
+import ButtonMain from '../../components/buttons/buttonMain/buttonMain'
+import { Column, DataList } from './ForumTypes'
 
 const ForumPage: React.FC = () => {
     const history = useHistory()
@@ -35,7 +36,7 @@ const ForumPage: React.FC = () => {
         ],
         []
     )
-    const data: Data[] = React.useMemo(
+    const data: DataList[] = React.useMemo(
         () => [
             {
                 id: 1,
@@ -97,7 +98,27 @@ const ForumPage: React.FC = () => {
                         + Новый форум
                     </ButtonMain>
                 </ForumTitleWrapStyled>
-                <Table columns={columns} data={data} rowClick={goToTheme} />
+                <ForumTableStyled>
+                    <thead>
+                        <tr>
+                            {columns.map((column) => (
+                                <th key={column.key}>{column.header}</th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {data.map((item, i) => (
+                            <tr
+                                onClick={() => goToTheme(item.id)}
+                                key={item.id}
+                            >
+                                <td>{item.theme}</td>
+                                <td>{item.count?.toLocaleString('ru-Ru')}</td>
+                                <td>{item.date}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </ForumTableStyled>
             </ForumWrapperStyled>
         </Container>
     )

@@ -20,18 +20,18 @@ const App: FC = () => (
             <SignupPage />
         </Route>
         <Redirect exact from="/" to="home" />
-        <Redirect exact from="/game" to="home" />
+        <Redirect from="/game" to="home" />
         <Route path="/home">
             <HomePage />
         </Route>
         <Route path="/profile">
             <ProfilePage />
         </Route>
-        <Route path="/forum" exact>
-            <ForumPage />
-        </Route>
         <Route path="/forum/:id">
             <ForumThemePage />
+        </Route>
+        <Route path="/forum">
+            <ForumPage />
         </Route>
         <Route path="/leaderboard">
             <LeaderboardPage />
