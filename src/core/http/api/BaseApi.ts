@@ -21,7 +21,7 @@ export class BaseApi{
   /**
    * Запрос к АПИ
    * @param url Ручка
-   * @param method Ьетод
+   * @param method Метод
    * @param data Данные
    * @param options Параметры запроса
    * @returns Промис с данными
