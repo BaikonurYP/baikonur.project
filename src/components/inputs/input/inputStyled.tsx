@@ -12,24 +12,24 @@ export const InputStyled = styled.input`
     border: none;
     outline: none;
     border-bottom: 2px solid var(--white);
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-size: 13px;
     color: var(--white);
 
     &::placeholder {
-        font-family: 'Roboto';
+        font-family: 'Roboto', sans-serif;
         font-size: 13px;
         color: var(--white);
     }
 `
 
 export const ErrorText = styled.p`
-    position: absolute;
-    top: 100%;
-    left: 7px;
-    margin: 0;
-    padding: 0;
-    font-family: 'Roboto';
-    font-size: 13px;
+    width: 280px;
+    font-family: 'Roboto', sans-serif;
     color: var(--red-light);
+    border: 1px solid var(--white);
+    background: var(--purple);
+    border-radius: 10px;
+    padding: 7px;
+    font-size: 10px;
 `

@@ -5,7 +5,6 @@ import {
     BoardItemStyled,
     BoardUserValueStyled,
     BoardStyled,
-    LogoStyled,
     TitleStyled,
     BoardUserInfoStyled,
 } from './LeaderboardPageStyled'
@@ -24,12 +23,7 @@ const leaders = [
 ]
 
 const LeaderboardPage: FC = () => (
-    <Container>
-        <LogoStyled>
-            Space
-            <br />
-            invaders
-        </LogoStyled>
+    <Container has_logo={true}>
         <TitleStyled>Лидеры</TitleStyled>
         <BoardStyled>
             {leaders.map((leader, i) => (

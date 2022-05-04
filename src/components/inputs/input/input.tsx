@@ -17,9 +17,7 @@ const Input: FC<InputProps> = (props) => {
     return (
         <Label>
             <InputStyled {...props}></InputStyled>
-            {props.touched && props.errror && (
-                <ErrorText>{props.errror}</ErrorText>
-            )}
+            {props.errror && <ErrorText>{props.errror}</ErrorText>}
         </Label>
     )
 }

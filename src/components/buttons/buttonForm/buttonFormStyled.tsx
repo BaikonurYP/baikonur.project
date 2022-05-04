@@ -21,4 +21,19 @@ export const ButtonFormStyled = styled.button`
     &:active {
         transform: scale(0.98);
     }
+
+    &:disabled {
+        opacity: 0.5;
+        background: var(--purple);
+    }
+`
+export const ButtonFormErrorStyled = styled.p`
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 13px;
+    color: var(--red-light);
+    border: 1px solid var(--white);
+    background: var(--purple);
+    border-radius: 10px;
+    padding: 7px;
 `
