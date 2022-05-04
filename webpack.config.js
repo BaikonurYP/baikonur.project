@@ -1,42 +1,42 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
     entry: './src/index.tsx',
     output: {
         path: path.join(__dirname, '/dist'),
+        publicPath: '/',
         filename: 'bundle.js',
-        assetModuleFilename: 'assets/[hash][ext][query]'
+        assetModuleFilename: 'assets/[hash][ext][query]',
     },
     devServer: {
         hot: true,
         compress: true,
         open: true,
         port: 3000,
-        historyApiFallback: true
+        historyApiFallback: true,
     },
     module: {
-
         rules: [
             {
                 test: /\.(html)$/,
-                use: ['html-loader']
+                use: ['html-loader'],
             },
             {
                 test: /\.(png|jpe?g|gif|svg|webp|ico)$/i,
-                type: 'asset'
+                type: 'asset',
             },
             {
                 test: /\.(woff2?|eot|ttf|otf)$/i,
-                type: 'asset/resource'
+                type: 'asset/resource',
             },
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 use: {
-                    loader: 'babel-loader'
-                }
+                    loader: 'babel-loader',
+                },
             },
             {
                 test: /\.(ts|tsx)$/,
@@ -45,10 +45,13 @@ module.exports = {
                     {
                         loader: 'ts-loader',
                         options: {
-                            configFile: path.resolve(__dirname, 'tsconfig.json')
-                        }
-                    }
-                ]
+                            configFile: path.resolve(
+                                __dirname,
+                                'tsconfig.json'
+                            ),
+                        },
+                    },
+                ],
             },
             {
                 test: /\.(s[ac]|c)ss$/i,
@@ -59,17 +62,17 @@ module.exports = {
                     'sass-loader',
                 ],
             },
-        ]
+        ],
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.js']
+        extensions: ['.tsx', '.ts', '.js'],
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './www/index.html'
+            template: './www/index.html',
         }),
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css',
         }),
-    ]
-};
+    ],
+}
