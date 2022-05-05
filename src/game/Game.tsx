@@ -1,7 +1,7 @@
+import Paint from './Paint'
 import Player from './Player'
 import Projectile from './Projectile'
 import Meteor from './Meteor'
-import Meteorite from './Meteorite'
 import Invader from './Invader'
 
 //@ts-ignore
@@ -28,21 +28,26 @@ const keyMap = {
 class Game {
     canvas: CanvasRenderingContext2D
     player: Player
-    enemies: (Invader | Meteor | Meteorite)[]
+    enemies: (Invader | Meteor)[]
     projectiles: Projectile[]
     enemiesProjectiles: Projectile[]
     onChangePoint: (point: number) => void
     playerSpeed: number
+    paint: Paint
+    size: { width: number; height: number }
 
     constructor(
         ctx: CanvasRenderingContext2D,
         onChangePoint: (point: number) => void
     ) {
+        this.paint = new Paint(ctx)
         this.canvas = ctx
-        this.player = new Player(this.canvas, ShipImg)
+        this.size = { width: ctx.canvas.width, height: ctx.canvas.height }
+        this.player = new Player(this.canvas, ShipImg, this.size)
         this.playerSpeed = 7
+
         this.enemies = [
-            new Invader(this.canvas, InvaderImg),
+            new Invader(this.canvas, InvaderImg, this.size),
             new Meteor(this.canvas, MeteorImg),
         ]
         this.projectiles = []
@@ -54,7 +59,6 @@ class Game {
         addEventListener('keydown', ({ key }) => {
             switch (key) {
                 case 'w':
-                    console.log(123)
                     keyMap.w = true
                     break
                 case 'a':
@@ -104,24 +108,24 @@ class Game {
 
     control() {
         if (keyMap.a && this.player.position.x >= 0) {
-            this.player.velocity.x = -this.playerSpeed
-        } else if (
+            this.player.position.x = this.player.position.x - this.playerSpeed
+        }
+        if (
             keyMap.d &&
             this.player.position.x + this.player.width <=
                 this.canvas.canvas.width
         ) {
-            this.player.velocity.x = this.playerSpeed
-        } else if (keyMap.w && this.player.position.y >= 200) {
-            this.player.velocity.y = -this.playerSpeed
-        } else if (
+            this.player.position.x = this.player.position.x + this.playerSpeed
+        }
+        if (keyMap.w && this.player.position.y >= 200) {
+            this.player.position.y = this.player.position.y - this.playerSpeed
+        }
+        if (
             keyMap.s &&
             this.player.position.y + this.player.height <=
                 this.canvas.canvas.height
         ) {
-            this.player.velocity.y = this.playerSpeed
-        } else {
-            this.player.velocity.x = 0
-            this.player.velocity.y = 0
+            this.player.position.y = this.player.position.y + this.playerSpeed
         }
     }
 
@@ -201,7 +205,19 @@ class Game {
                     this.enemies.splice(i, 1)
                 }, 0)
             } else {
-                enemy.update()
+                if (enemy instanceof Invader) {
+                    this.paint.update(enemy)
+                }
+                if (enemy instanceof Meteor) {
+                    if (
+                        enemy.position.x <= 0 ||
+                        enemy.position.x >=
+                            this.canvas.canvas.width - enemy.width
+                    ) {
+                        enemy.velocity.x = -enemy.velocity.x
+                    }
+                    this.paint.update(enemy, { rotation: true })
+                }
             }
 
             this.projectiles.forEach((projectile, j) => {
@@ -218,17 +234,11 @@ class Game {
                     setTimeout(() => {
                         this.enemies.splice(i, 1)
                         this.projectiles.splice(j, 1)
-                        if (enemy instanceof Meteor) {
-                            console.log(123)
-                            const meteriteNum = getRandom(1, 3)
-                            for (let i = 0; i <= meteriteNum; i++) {
-                                this.enemies.push(
-                                    new Meteorite(this.canvas, MeteorImg, {
-                                        x: enemy.position.x,
-                                        y: enemy.position.y,
-                                    })
-                                )
-                            }
+                        if (enemy instanceof Meteor && enemy.scale != 0.4) {
+                            const meterites = enemy.destruction()
+                            meterites.forEach((meteorite) => {
+                                this.enemies.push(meteorite)
+                            })
                         }
 
                         this.onChangePoint(100)
@@ -245,7 +255,7 @@ class Game {
                     this.projectiles.splice(index, 1)
                 }, 0)
             } else {
-                projectile.update()
+                this.paint.update(projectile)
             }
         })
     }
@@ -260,7 +270,7 @@ class Game {
                     this.enemiesProjectiles.splice(index, 1)
                 }, 0)
             } else {
-                projectile.update()
+                this.paint.update(projectile)
             }
         })
     }
@@ -269,7 +279,7 @@ class Game {
         requestAnimationFrame(this.animate)
         this.drawBackground()
         this.control()
-        this.playerUpdate()
+        this.paint.update(this.player)
         this.enemiesUpdate()
         this.projectilesUpdate()
         this.enemiesProjectilesUpdate()

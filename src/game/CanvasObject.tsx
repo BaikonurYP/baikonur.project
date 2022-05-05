@@ -5,15 +5,15 @@ export default class CanvasObject {
     height: number
     position: { x: number; y: number }
     velocity: { x: number; y: number }
+    img: string
 
     constructor(canvas: CanvasRenderingContext2D, img: string) {
         this.canvas = canvas
-
-        const image = new Image()
-        image.src = img
-        this.image = image
-        this.width = image.width
-        this.height = image.height
+        this.img = img
+        this.image = new Image()
+        this.image.src = img
+        this.width = this.image.width
+        this.height = this.image.height
         this.position = {
             x: 0,
             y: 0,
