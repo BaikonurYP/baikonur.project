@@ -1,39 +1,26 @@
 import CanvasObject from './CanvasObject'
 import { getRandom } from '../utils/getRandom'
-import { number } from 'yup'
 
-interface IPosition {
-    x: number
-    y: number
+interface IOption {
+    position: {
+        x: number
+        y: number
+    }
+    scale: number
 }
 
 export default class Meteor extends CanvasObject {
     scale: number
-    position: { x: number; y: number } = {
-        x: getRandom(this.width, this.canvas.canvas.width),
-        y: -this.width,
-    }
 
-    constructor(
-        ctx: CanvasRenderingContext2D,
-        MeteorImg: string,
-        position?: IPosition,
-        scale: number = 1
-    ) {
-        super(ctx, MeteorImg)
+    constructor(MeteorImg: string, options: IOption) {
+        super(MeteorImg, options.position)
         this.velocity = {
             x: getRandom(3, -3),
             y: getRandom(1, 3),
         }
-        this.scale = scale
+        this.scale = options.scale
         this.width = this.image.width * this.scale
         this.height = this.image.height * this.scale
-        if (position) {
-            this.position = {
-                x: position.x,
-                y: position.y,
-            }
-        }
     }
 
     destruction = () => {
@@ -42,7 +29,7 @@ export default class Meteor extends CanvasObject {
 
         for (let i = 0; i <= meteriteQuantity; i++) {
             meterites.push(
-                new Meteor(this.canvas, this.img, this.position, 0.4)
+                new Meteor(this.img, { position: this.position, scale: 0.4 })
             )
         }
         return meterites

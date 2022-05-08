@@ -1,17 +1,15 @@
 import CanvasObject from './CanvasObject'
-import { getRandom } from '../utils/getRandom'
+
+interface IOption {
+    position: {
+        x: number
+        y: number
+    }
+}
 
 export default class Invader extends CanvasObject {
-    constructor(
-        ctx: CanvasRenderingContext2D,
-        shipImg: string,
-        options: { width: number; height: number }
-    ) {
-        super(ctx, shipImg)
-        this.position = {
-            x: getRandom(this.width, options.width),
-            y: -this.height,
-        }
+    constructor(shipImg: string, options: IOption) {
+        super(shipImg, options.position)
         this.velocity = {
             x: 0,
             y: 3,

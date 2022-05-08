@@ -1,6 +1,6 @@
 import CanvasObject from './CanvasObject'
 
-interface IData {
+interface IOptions {
     position: {
         x: number
         y: number
@@ -12,17 +12,11 @@ interface IData {
 }
 
 export default class Projectile extends CanvasObject {
-    position: any
-    velocity: any
-    radius: number
-    c: any
-
-    constructor(canvas: CanvasRenderingContext2D, img: string, data: IData) {
-        super(canvas, img)
-        this.position = {
-            x: data.position.x - this.width / 2,
-            y: data.position.y,
+    constructor(img: string, options: IOptions) {
+        super(img, options.position)
+        this.velocity = {
+            x: options.velocity.x,
+            y: options.velocity.y,
         }
-        this.velocity = data.velocity
     }
 }

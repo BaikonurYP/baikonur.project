@@ -1,4 +1,7 @@
 import CanvasObject from './CanvasObject'
+import Particle from './Particle'
+
+import { getRandom } from '../utils/getRandom'
 
 export default class Paint {
     ctx: CanvasRenderingContext2D
@@ -26,9 +29,31 @@ export default class Paint {
         )
     }
 
+    drawParticle(object: Particle) {
+        this.ctx.save()
+        this.ctx.globalAlpha = object.opacity
+        this.ctx.beginPath()
+        this.ctx.arc(
+            object.position.x,
+            object.position.y,
+            getRandom(0.1, 7),
+            0,
+            Math.PI * 2
+        )
+        this.ctx.fillStyle = '#BAA0DE'
+        this.ctx.fill()
+        this.ctx.closePath()
+        this.ctx.restore()
+    }
+
+    mooveObject(object: CanvasObject | Particle) {
+        object.position.x += object.velocity.x
+        object.position.y += object.velocity.y
+    }
+
     update(object: CanvasObject, option?: { rotation?: boolean }) {
         if (option) {
-            if (option.rotation) {
+            if (option.rotation && object instanceof CanvasObject) {
                 this.rotation += 0.001
                 this.ctx.save()
                 this.rotate(object)
@@ -41,7 +66,12 @@ export default class Paint {
             return
         }
         this.draw(object)
-        object.position.x += object.velocity.x
-        object.position.y += object.velocity.y
+        this.mooveObject(object)
+    }
+
+    updateParticle(object: Particle) {
+        this.drawParticle(object)
+        object.opacity -= 0.02
+        this.mooveObject(object)
     }
 }
