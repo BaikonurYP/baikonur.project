@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
 `
 
 export const Container = styled.div`
-    margin: 10px 0 0 0;
+    margin: 0;
     padding: 0 10px;
     width: 100%;
     display: flex;
@@ -54,6 +54,5 @@ export const CanvasStyled = styled.canvas`
     width: 100%;
     height: 100%;
     border: 1px solid black;
-    border-radius: 8px;
     z-index: -1;
 `
