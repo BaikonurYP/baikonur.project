@@ -5,15 +5,10 @@ import Meteor from './Meteor'
 import Invader from './Invader'
 import Particle from './Particle'
 
-//@ts-ignore
 import ShipImg from '../images/ships/shipMain.png'
-//@ts-ignore
 import MeteorImg from '../images/Meteors/Meteor.png'
-//@ts-ignore
 import InvaderImg from '../images/invaders/enemy_1.svg'
-//@ts-ignore
 import PlayerProjectileImg from '../images/projectiles/projectile_blue.svg'
-//@ts-ignore
 import InvaderProjectileImg from '../images/projectiles/projectile_green.svg'
 
 import { getRandom } from '../utils/getRandom'

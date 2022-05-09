@@ -1,6 +1,5 @@
 import React, { FC, useRef, useEffect, useState } from 'react'
 
-//@ts-ignore
 import ShipImg from '../../images/ships/shipMain.png'
 
 import {

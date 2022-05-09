@@ -2,7 +2,6 @@ import React, { FC, useRef, useEffect, useState } from 'react'
 import Game from '../../game/Game'
 import { v4 as uuidv4 } from 'uuid'
 
-//@ts-ignore
 import ShipImg from '../../images/ships/shipMain.png'
 
 import {
