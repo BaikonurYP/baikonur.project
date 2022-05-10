@@ -38,11 +38,17 @@ class Game {
     lives: number
     particles: Particle[]
 
-    constructor(
-        ctx: CanvasRenderingContext2D,
-        onChangePoint: (point: number) => void,
-        onChangeLives: (num: number) => void
-    ) {
+    constructor({
+      ctx,
+      onChangeLives,
+      onChangePoints,
+      playerLives,
+    }: {
+      ctx: CanvasRenderingContext2D;
+      onChangePoints: (point: number) => void;
+      onChangeLives: (num: number) => void;
+      playerLives: number;
+    }) {
         this.paint = new Paint(ctx)
         this.ctx = ctx
         this.canvasWidth = ctx.canvas.width
@@ -74,8 +80,8 @@ class Game {
         this.enemiesProjectiles = []
         this.particles = []
         this.point = 0
-        this.lives = 3
-        this.onChangePoint = onChangePoint
+        this.lives = playerLives
+        this.onChangePoint = onChangePoints
         this.onChangeLives = onChangeLives
     }
 
@@ -168,7 +174,9 @@ class Game {
                     this.player.position.x + this.player.width
             ) {
                 this.enemies.splice(i, 1)
+                this.lives -= 1
                 this.onChangeLives(this.lives)
+                if (this.lives === 0) alert('GG')
                 this.createPaticles({
                     x: enemy.position.x,
                     y: enemy.position.y,
@@ -192,7 +200,9 @@ class Game {
                     y: projectile.position.y,
                 })
                 this.enemiesProjectiles.splice(i, 1)
+                this.lives -= 1
                 this.onChangeLives(this.lives)
+                if (this.lives === 0) alert('GG')
                 console.log('В вас попал захватчик')
             }
         })
