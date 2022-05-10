@@ -28,27 +28,25 @@ for (let i = 0; i < 3; i++) {
 const GameComponent: FC = () => {
     const ref = useRef(null)
     const [points, setPoints] = useState(0)
-    const [playerLives, setPlayerLives] = useState(livesArray)
+    const [playerLives, setPlayerLives] = useState(3)
     const [playerSpeed, setPlayerSpeed] = useState(7)
 
     useEffect(() => {
         const ctx = ref.current.getContext('2d')
-        const game = new Game(ctx, changePoints, changeLives)
+        const game = new Game(ctx, onChangePoints, onChangeLives)
         game.start()
     }, [])
 
-    function changePoints(num: number) {
+    function onChangePoints(num: number) {
         setPoints(num)
     }
 
-    function changeLives() {
-        let copy = Object.assign([], playerLives)
-        copy.splice(0, 1)
-        setPlayerLives(copy)
+    function onChangeLives(lives: number) {
+        setPlayerLives(lives > 0 ? lives : 0)
     }
 
     return (
-        <Wrapper onClick={changeLives}>
+        <Wrapper>
             <CanvasStyled
                 ref={ref}
                 width={innerWidth}
@@ -58,9 +56,11 @@ const GameComponent: FC = () => {
                 <LevelTitle>Уровень 1</LevelTitle>
                 <Bar>
                     <LiveContainer>
-                        {playerLives.map((item) => (
-                            <Live src={item.image} key={item.id}></Live>
-                        ))}
+                        {Array(playerLives)
+                            .fill(null)
+                            .map((value, index) => (
+                                <Live src={ShipImg} key={index} />
+                            ))}
                     </LiveContainer>
                     <Points>{points}</Points>
                 </Bar>

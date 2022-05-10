@@ -5,10 +5,10 @@ import Meteor from './Meteor'
 import Invader from './Invader'
 import Particle from './Particle'
 
-import ShipImg from '../images/ships/shipMain.png'
+import ShipImg from '../images/player/plain_1.svg'
 import MeteorImg from '../images/Meteors/Meteor.png'
 import InvaderImg from '../images/invaders/enemy_1.svg'
-import Invider2Img from '../images/invaders/enemy_2.png'
+import Invider2Img from '../images/invaders/enemy_2.svg'
 import PlayerProjectileImg from '../images/projectiles/projectile_blue.svg'
 import InvaderProjectileImg from '../images/projectiles/projectile_green.svg'
 
@@ -199,8 +199,8 @@ class Game {
             enemy.velocity.x = -3
         }
         if (
-            enemy.position.x - 1 <= this.player.position.x &&
-            enemy.position.x + 1 >= this.player.position.x
+            enemy.position.x - 2 <= this.player.position.x &&
+            enemy.position.x + 2 >= this.player.position.x
         ) {
             enemy.velocity.x = 0
 
