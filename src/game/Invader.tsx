@@ -8,6 +8,7 @@ interface IOption {
 }
 
 export default class Invader extends CanvasObject {
+    projectileQuantity: number
     constructor(shipImg: string, options: IOption) {
         super(shipImg, options.position)
         this.velocity = {

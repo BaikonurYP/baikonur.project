@@ -8,11 +8,13 @@ import Particle from './Particle'
 import ShipImg from '../images/ships/shipMain.png'
 import MeteorImg from '../images/Meteors/Meteor.png'
 import InvaderImg from '../images/invaders/enemy_1.svg'
+import Invider2Img from '../images/invaders/enemy_2.png'
 import PlayerProjectileImg from '../images/projectiles/projectile_blue.svg'
 import InvaderProjectileImg from '../images/projectiles/projectile_green.svg'
 
 import { getRandom } from '../utils/getRandom'
 import { number } from 'yup'
+import CanvasObject from './CanvasObject'
 
 const keyMap = {
     w: false,
@@ -22,10 +24,13 @@ const keyMap = {
     space: false,
 }
 
+type ShootingObjects = Invader
+
+type AllObject = CanvasObject | Particle
+
 class Game {
     ctx: CanvasRenderingContext2D
     player: Player
-    enemies: (Invader | Meteor)[]
     projectiles: Projectile[]
     enemiesProjectiles: Projectile[]
     onChangePoint: (point: number) => void
@@ -35,8 +40,9 @@ class Game {
     canvasHeight: number
     point: number
     onChangeLives: (num: number) => void
-    lives: number
     particles: Particle[]
+    invaders: Invader[]
+    meteors: Meteor[]
 
     constructor(
         ctx: CanvasRenderingContext2D,
@@ -54,14 +60,15 @@ class Game {
             },
         })
         this.playerSpeed = 7
-
-        this.enemies = [
+        this.invaders = [
             new Invader(InvaderImg, {
                 position: {
                     x: getRandom(0, this.canvasWidth),
                     y: -40,
                 },
             }),
+        ]
+        this.meteors = [
             new Meteor(MeteorImg, {
                 position: {
                     x: getRandom(10, this.canvasWidth - 10),
@@ -74,7 +81,6 @@ class Game {
         this.enemiesProjectiles = []
         this.particles = []
         this.point = 0
-        this.lives = 3
         this.onChangePoint = onChangePoint
         this.onChangeLives = onChangeLives
     }
@@ -95,17 +101,20 @@ class Game {
                     keyMap.d = true
                     break
                 case ' ':
-                    this.projectiles.push(
-                        new Projectile(PlayerProjectileImg, {
-                            position: {
-                                x:
-                                    this.player.position.x +
-                                    this.player.width / 2,
-                                y: this.player.position.y,
-                            },
-                            velocity: { x: 0, y: -10 },
-                        })
-                    )
+                    setTimeout(() => {
+                        this.projectiles.push(
+                            new Projectile(PlayerProjectileImg, {
+                                position: {
+                                    x:
+                                        this.player.position.x +
+                                        this.player.width / 2,
+                                    y: this.player.position.y,
+                                },
+                                velocity: { x: 0, y: -10 },
+                            })
+                        )
+                    }, 0)
+
                     break
             }
         })
@@ -158,43 +167,12 @@ class Game {
     }
 
     playerUpdate() {
-        this.enemies.forEach((enemy, i) => {
-            if (
-                enemy.position.y + enemy.width <=
-                    this.player.position.y + this.player.height &&
-                enemy.position.y + enemy.width > this.player.position.y &&
-                enemy.position.x + enemy.width >= this.player.position.x &&
-                enemy.position.x + enemy.width <=
-                    this.player.position.x + this.player.width
-            ) {
-                this.enemies.splice(i, 1)
-                this.onChangeLives(this.lives)
-                this.createPaticles({
-                    x: enemy.position.x,
-                    y: enemy.position.y,
-                })
-                console.log('В вас попал метеорит')
-            }
+        this.meteors.forEach((meteor, i) => {
+            this.hitToPlayer(meteor, i, this.meteors)
         })
+
         this.enemiesProjectiles.forEach((projectile, i) => {
-            if (
-                projectile.position.y + projectile.width <=
-                    this.player.position.y + this.player.height &&
-                projectile.position.y + projectile.width >
-                    this.player.position.y &&
-                projectile.position.x + projectile.width >=
-                    this.player.position.x &&
-                projectile.position.x + projectile.width <=
-                    this.player.position.x + this.player.width
-            ) {
-                this.createPaticles({
-                    x: projectile.position.x,
-                    y: projectile.position.y,
-                })
-                this.enemiesProjectiles.splice(i, 1)
-                this.onChangeLives(this.lives)
-                console.log('В вас попал захватчик')
-            }
+            this.hitToPlayer(projectile, i, this.enemiesProjectiles)
         })
         this.paint.update(this.player)
     }
@@ -210,87 +188,168 @@ class Game {
         }
     }
 
-    enemiesUpdate() {
-        this.enemies.forEach((enemy, i) => {
-            if (enemy instanceof Invader) {
-                if (enemy.position.y > 100) {
-                    enemy.velocity.y = 0
-                }
-                if (enemy.position.x < this.player.position.x) {
-                    enemy.velocity.x = 3
-                }
-                if (enemy.position.x > this.player.position.x) {
-                    enemy.velocity.x = -3
-                }
+    aimAtPlayer(enemy: ShootingObjects) {
+        if (enemy.position.y > 100) {
+            enemy.velocity.y = 0
+        }
+        if (enemy.position.x < this.player.position.x) {
+            enemy.velocity.x = 3
+        }
+        if (enemy.position.x > this.player.position.x) {
+            enemy.velocity.x = -3
+        }
+        if (
+            enemy.position.x - 1 <= this.player.position.x &&
+            enemy.position.x + 1 >= this.player.position.x
+        ) {
+            enemy.velocity.x = 0
+
+            if (this.enemiesProjectiles.length === 0) {
+                this.shootToPlayer(enemy)
+            }
+        }
+    }
+
+    shootToPlayer(enemy: Invader) {
+        this.enemiesProjectiles.push(
+            new Projectile(InvaderProjectileImg, {
+                position: {
+                    x: enemy.position.x + enemy.width / 2,
+                    y: enemy.position.y + enemy.height,
+                },
+                velocity: { x: 0, y: 5 },
+            })
+        )
+    }
+
+    remoovebject(arr: any, index: number) {
+        setTimeout(() => {
+            arr.splice(index, 1)
+        }, 0)
+    }
+
+    transformInvider(position: { x: number; y: number }) {
+        this.invaders.splice(0, 2)
+        setTimeout(() => {
+            this.invaders.push(
+                new Invader(Invider2Img, {
+                    position: {
+                        x: position.x,
+                        y: position.y,
+                    },
+                })
+            )
+        }, 0)
+    }
+
+    invidersUpdate() {
+        this.invaders.forEach((invader, i) => {
+            this.aimAtPlayer(invader)
+            this.paint.update(invader)
+            this.hitToObject(invader, i, this.invaders)
+            if (this.invaders.length > 1) {
+                const firstInvider = this.invaders[0]
+                const secondInvider = this.invaders[1]
                 if (
-                    enemy.position.x - 1 <= this.player.position.x &&
-                    enemy.position.x + 1 >= this.player.position.x
+                    firstInvider.position.x + firstInvider.width >=
+                        secondInvider.position.x &&
+                    firstInvider.position.x + firstInvider.width <=
+                        secondInvider.position.x + secondInvider.width &&
+                    firstInvider.position.y + firstInvider.height >=
+                        secondInvider.position.y &&
+                    firstInvider.position.y + firstInvider.height <=
+                        secondInvider.position.y + secondInvider.height
                 ) {
-                    enemy.velocity.x = 0
-                    if (this.enemiesProjectiles.length < 1) {
-                        this.enemiesProjectiles.push(
-                            new Projectile(InvaderProjectileImg, {
-                                position: {
-                                    x: enemy.position.x + enemy.width / 2,
-                                    y: enemy.position.y + enemy.height,
-                                },
-                                velocity: { x: 0, y: 5 },
-                            })
-                        )
-                    }
+                    this.transformInvider({
+                        x: firstInvider.position.x,
+                        y: firstInvider.position.y,
+                    })
                 }
             }
-            if (enemy.position.y >= this.ctx.canvas.height) {
-                setTimeout(() => {
-                    this.enemies.splice(i, 1)
-                }, 0)
-            } else {
-                if (enemy instanceof Invader) {
-                    this.paint.update(enemy)
-                }
-                if (enemy instanceof Meteor) {
-                    if (
-                        enemy.position.x <= 0 ||
-                        enemy.position.x >= this.ctx.canvas.width - enemy.width
-                    ) {
-                        enemy.velocity.x = -enemy.velocity.x
-                    }
-                    this.paint.update(enemy, { rotation: true })
-                }
+        })
+    }
+
+    meteorDestraktion(meteor: Meteor) {
+        if (meteor.scale != 0.4) {
+            const meterites = meteor.destruction()
+            meterites.forEach((meteorite) => {
+                this.meteors.push(meteorite)
+            })
+        }
+        return
+    }
+
+    meteorsUpdate() {
+        this.meteors.forEach((meteor, i) => {
+            if (
+                meteor.position.x <= 0 ||
+                meteor.position.x >= this.ctx.canvas.width - meteor.width
+            ) {
+                meteor.velocity.x = -meteor.velocity.x
             }
-
-            this.projectiles.forEach((projectile, j) => {
-                if (
-                    projectile.position.y + projectile.width <=
-                        enemy.position.y + enemy.height &&
-                    projectile.position.y + projectile.width >
-                        enemy.position.y &&
-                    projectile.position.x + projectile.width >=
-                        enemy.position.x &&
-                    projectile.position.x + projectile.width <=
-                        enemy.position.x + enemy.width
-                ) {
-                    setTimeout(() => {
-                        this.createPaticles({
-                            x: projectile.position.x,
-                            y: projectile.position.y,
-                        })
-
-                        this.enemies.splice(i, 1)
-                        this.projectiles.splice(j, 1)
-
-                        if (enemy instanceof Meteor && enemy.scale != 0.4) {
-                            const meterites = enemy.destruction()
-                            meterites.forEach((meteorite) => {
-                                this.enemies.push(meteorite)
-                            })
-                        }
-                        this.point += 100
-                        this.onChangePoint(this.point)
-                    }, 0)
-                }
+            this.paint.update(meteor, { rotation: true })
+            this.hitToObject(meteor, i, this.meteors, () => {
+                this.meteorDestraktion(meteor)
             })
         })
+    }
+
+    hitToObject(
+        enemy: CanvasObject,
+        index: number,
+        enemiesArr: CanvasObject[],
+        action?: any
+    ) {
+        this.projectiles.forEach((projectile, j) => {
+            if (
+                projectile.position.y + projectile.width <=
+                    enemy.position.y + enemy.height &&
+                projectile.position.y + projectile.width > enemy.position.y &&
+                projectile.position.x + projectile.width >= enemy.position.x &&
+                projectile.position.x + projectile.width <=
+                    enemy.position.x + enemy.width
+            ) {
+                setTimeout(() => {
+                    this.createPaticles({
+                        x: projectile.position.x,
+                        y: projectile.position.y,
+                    })
+
+                    enemiesArr.splice(index, 1)
+                    this.projectiles.splice(j, 1)
+
+                    if (action) {
+                        action()
+                    }
+                    this.point += 100
+                    this.onChangePoint(this.point)
+                }, 0)
+            }
+        })
+    }
+
+    hitToPlayer(
+        object: CanvasObject,
+        index: number,
+        objectsArr: CanvasObject[]
+    ) {
+        if (
+            object.position.y + object.width <=
+                this.player.position.y + this.player.height &&
+            object.position.y + object.width > this.player.position.y &&
+            object.position.x + object.width >= this.player.position.x &&
+            object.position.x + object.width <=
+                this.player.position.x + this.player.width
+        ) {
+            objectsArr.splice(index, 1)
+            this.createPaticles({
+                x: object.position.x,
+                y: object.position.y,
+            })
+            this.player.lives -= 1
+            this.onChangeLives(this.player.lives)
+            console.log('В вас попали')
+        }
     }
 
     projectilesUpdate() {
@@ -337,7 +396,8 @@ class Game {
         this.drawBackground()
         this.control()
         this.playerUpdate()
-        this.enemiesUpdate()
+        this.invidersUpdate()
+        this.meteorsUpdate()
         this.projectilesUpdate()
         this.enemiesProjectilesUpdate()
         this.particlesUpdate()
@@ -347,7 +407,7 @@ class Game {
         this.addListeners()
         this.animate()
         setInterval(() => {
-            this.enemies.push(
+            this.meteors.push(
                 new Meteor(MeteorImg, {
                     position: {
                         x: 0,
@@ -357,8 +417,8 @@ class Game {
                 })
             )
         }, 4000)
-        setInterval(() => {
-            this.enemies.push(
+        setTimeout(() => {
+            this.invaders.push(
                 new Invader(InvaderImg, {
                     position: {
                         x: getRandom(0, this.canvasWidth),
@@ -366,7 +426,7 @@ class Game {
                     },
                 })
             )
-        }, 7000)
+        }, 2000)
     }
 }
 
