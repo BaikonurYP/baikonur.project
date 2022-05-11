@@ -12,6 +12,23 @@ import LeaderboardPage from '../../pages/LeaderboardPage/LeaderboardPage'
 import Page404 from '../../pages/404Page/404Page'
 import Page500 from '../../pages/500Page/500Page'
 
+function startServiceWorker() {
+    window.addEventListener('load', async () => {
+        if ('serviceWorker' in navigator) {
+            try {
+                const test = await navigator.serviceWorker.register(
+                    '/service-worker.js'
+                )
+                console.log(test)
+            } catch (e) {
+                console.log(e)
+            }
+        }
+    })
+}
+
+startServiceWorker()
+
 const App: FC = () => (
     <Switch>
         <Route path="/login">

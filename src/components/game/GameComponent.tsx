@@ -1,6 +1,5 @@
 import React, { FC, useRef, useEffect, useState } from 'react'
 import Game from '../../game/Game'
-import { v4 as uuidv4 } from 'uuid'
 
 import ShipImg from '../../images/ships/shipMain.png'
 
@@ -14,16 +13,6 @@ import {
     Points,
     CanvasStyled,
 } from './GameComponentStyled'
-
-const livesArray: any[] = []
-
-for (let i = 0; i < 3; i++) {
-    const live = {
-        id: uuidv4(),
-        image: ShipImg,
-    }
-    livesArray.push(live)
-}
 
 const GameComponent: FC = () => {
     const ref = useRef(null)
