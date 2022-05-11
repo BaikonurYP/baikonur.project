@@ -3,7 +3,7 @@ import Player from './Player'
 import Projectile from './Projectile'
 import Meteor from './Meteor'
 import Invader from './Invader'
-import Particle from './Particle'
+import Particle, { IParticleOption } from './Particle'
 
 import ShipImg from '../images/player/plain_1.svg'
 import MeteorImg from '../images/Meteors/Meteor.png'
@@ -43,6 +43,8 @@ class Game {
     particles: Particle[]
     invaders: Invader[]
     meteors: Meteor[]
+    stars: Particle[]
+    complexity: number
 
     constructor(
         ctx: CanvasRenderingContext2D,
@@ -53,6 +55,7 @@ class Game {
         this.ctx = ctx
         this.canvasWidth = ctx.canvas.width
         this.canvasHeight = ctx.canvas.height
+        this.complexity = 0.3
         this.player = new Player(ShipImg, {
             position: {
                 x: this.canvasWidth / 2,
@@ -60,14 +63,7 @@ class Game {
             },
         })
         this.playerSpeed = 7
-        this.invaders = [
-            new Invader(InvaderImg, {
-                position: {
-                    x: getRandom(0, this.canvasWidth),
-                    y: -40,
-                },
-            }),
-        ]
+        this.invaders = []
         this.meteors = [
             new Meteor(MeteorImg, {
                 position: {
@@ -80,6 +76,7 @@ class Game {
         this.projectiles = []
         this.enemiesProjectiles = []
         this.particles = []
+        this.stars = []
         this.point = 0
         this.onChangePoint = onChangePoint
         this.onChangeLives = onChangeLives
@@ -181,8 +178,19 @@ class Game {
         for (let i = 0; i <= 15; i++) {
             this.particles.push(
                 new Particle({
-                    x: position.x,
-                    y: position.y,
+                    position: {
+                        x: position.x,
+                        y: position.y,
+                    },
+                    velocity: {
+                        x: getRandom(-3, 3),
+                        y: getRandom(-3, 3),
+                    },
+                    size: {
+                        min: 0.1,
+                        max: 5,
+                    },
+                    color: '#BAA0DE',
                 })
             )
         }
@@ -237,6 +245,8 @@ class Game {
                         x: position.x,
                         y: position.y,
                     },
+                    scale: 1.2,
+                    lives: 3,
                 })
             )
         }, 0)
@@ -315,8 +325,14 @@ class Game {
                         y: projectile.position.y,
                     })
 
-                    enemiesArr.splice(index, 1)
-                    this.projectiles.splice(j, 1)
+                    if (enemy.lives === 1) {
+                        enemiesArr.splice(index, 1)
+                        this.projectiles.splice(j, 1)
+                    }
+                    if (enemy.lives > 1) {
+                        enemy.lives -= 1
+                        this.projectiles.splice(j, 1)
+                    }
 
                     if (action) {
                         action()
@@ -348,7 +364,6 @@ class Game {
             })
             this.player.lives -= 1
             this.onChangeLives(this.player.lives)
-            console.log('В вас попали')
         }
     }
 
@@ -379,13 +394,44 @@ class Game {
         })
     }
 
+    createStars() {
+        for (let i = 0; i <= 100; i++) {
+            this.particles.push(
+                new Particle({
+                    position: {
+                        x: getRandom(0, this.canvasWidth),
+                        y: getRandom(0, this.canvasHeight),
+                    },
+                    velocity: {
+                        x: 0,
+                        y: 0.3,
+                    },
+                    size: {
+                        min: 0.1,
+                        max: 3,
+                    },
+                    fades: true,
+                    color: 'white',
+                })
+            )
+        }
+    }
+
     particlesUpdate() {
         this.particles.forEach((particle, i) => {
+            if (particle.fades) {
+                if (this.complexity <= 20) {
+                    particle.velocity.y = this.complexity
+                }
+            }
             if (particle.opacity <= 0) {
                 setTimeout(() => {
                     this.particles.splice(i, 1)
                 }, 0)
                 return
+            }
+            if (particle.position.y >= this.canvasHeight) {
+                particle.position.y = -1
             }
             this.paint.updateParticle(particle)
         })
@@ -393,37 +439,52 @@ class Game {
 
     animate = () => {
         requestAnimationFrame(this.animate)
-        this.drawBackground()
         this.control()
+        this.drawBackground()
+        this.particlesUpdate()
+        this.meteorsUpdate()
         this.playerUpdate()
         this.invidersUpdate()
-        this.meteorsUpdate()
         this.projectilesUpdate()
         this.enemiesProjectilesUpdate()
-        this.particlesUpdate()
     }
 
     start() {
         this.addListeners()
         this.animate()
+        this.createStars()
+
+        setInterval(() => {
+            this.complexity += 0.3
+        }, 1000 * 20)
+
         setInterval(() => {
             this.meteors.push(
                 new Meteor(MeteorImg, {
                     position: {
-                        x: 0,
-                        y: 0,
+                        x: getRandom(60, this.canvasWidth - 60),
+                        y: -60,
                     },
                     scale: 1,
                 })
             )
         }, 4000)
-        setTimeout(() => {
+
+        setInterval(() => {
+            if (this.invaders.length >= 2) {
+                return
+            }
+            if (this.invaders.length > 0 && this.invaders[0].scale > 1) {
+                return
+            }
             this.invaders.push(
                 new Invader(InvaderImg, {
                     position: {
                         x: getRandom(0, this.canvasWidth),
                         y: -40,
                     },
+                    scale: 1,
+                    lives: 1,
                 })
             )
         }, 2000)

@@ -29,18 +29,18 @@ export default class Paint {
         )
     }
 
-    drawParticle(object: Particle) {
+    drawParticle(particle: Particle) {
         this.ctx.save()
-        this.ctx.globalAlpha = object.opacity
+        this.ctx.globalAlpha = particle.opacity
         this.ctx.beginPath()
         this.ctx.arc(
-            object.position.x,
-            object.position.y,
-            getRandom(0.1, 7),
+            particle.position.x,
+            particle.position.y,
+            getRandom(particle.size.min, particle.size.max),
             0,
             Math.PI * 2
         )
-        this.ctx.fillStyle = '#BAA0DE'
+        this.ctx.fillStyle = particle.color
         this.ctx.fill()
         this.ctx.closePath()
         this.ctx.restore()
@@ -71,7 +71,10 @@ export default class Paint {
 
     updateParticle(object: Particle) {
         this.drawParticle(object)
-        object.opacity -= 0.02
+        if (!object.fades) {
+            object.opacity -= 0.02
+        }
+
         this.mooveObject(object)
     }
 }

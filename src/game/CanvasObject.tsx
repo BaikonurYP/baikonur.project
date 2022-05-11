@@ -5,6 +5,7 @@ export default class CanvasObject {
     position: { x: number; y: number }
     velocity: { x: number; y: number }
     img: string
+    lives: number
 
     constructor(img: string, position: { x: number; y: number }) {
         this.img = img
@@ -12,6 +13,11 @@ export default class CanvasObject {
         this.image.src = img
         this.width = this.image.width
         this.height = this.image.height
+        this.image.onload = () => {
+            this.width = this.image.width
+            this.height = this.image.height
+        }
+        this.lives = 1
         this.position = {
             x: position.x,
             y: position.y,

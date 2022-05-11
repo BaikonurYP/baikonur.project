@@ -11,6 +11,7 @@ interface IOption {
 
 export default class Meteor extends CanvasObject {
     scale: number
+    lives: number
 
     constructor(MeteorImg: string, options: IOption) {
         super(MeteorImg, options.position)
@@ -19,8 +20,10 @@ export default class Meteor extends CanvasObject {
             y: getRandom(1, 3),
         }
         this.scale = options.scale
-        this.width = this.image.width * this.scale
-        this.height = this.image.height * this.scale
+        this.image.onload = () => {
+            this.width = this.image.width * this.scale
+            this.height = this.image.height * this.scale
+        }
     }
 
     destruction = () => {
