@@ -2,6 +2,7 @@ import CanvasObject from './CanvasObject'
 import Particle from './Particle'
 
 import { getRandom } from '../utils/getRandom'
+import Invader from './Invader'
 
 export default class Paint {
     ctx: CanvasRenderingContext2D

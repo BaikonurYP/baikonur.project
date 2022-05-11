@@ -61,12 +61,12 @@ class Game {
         })
         this.playerSpeed = 7
         this.invaders = [
-            new Invader(InvaderImg, {
-                position: {
-                    x: getRandom(0, this.canvasWidth),
-                    y: -40,
-                },
-            }),
+            // new Invader(InvaderImg, {
+            //     position: {
+            //         x: getRandom(0, this.canvasWidth),
+            //         y: -40,
+            //     },
+            // }),
         ]
         this.meteors = [
             new Meteor(MeteorImg, {
@@ -247,7 +247,7 @@ class Game {
             this.aimAtPlayer(invader)
             this.paint.update(invader)
             this.hitToObject(invader, i, this.invaders)
-            if (this.invaders.length > 1) {
+            if (this.invaders.length === 2) {
                 const firstInvider = this.invaders[0]
                 const secondInvider = this.invaders[1]
                 if (
@@ -417,16 +417,20 @@ class Game {
                 })
             )
         }, 4000)
-        setTimeout(() => {
-            this.invaders.push(
-                new Invader(InvaderImg, {
-                    position: {
-                        x: getRandom(0, this.canvasWidth),
-                        y: -40,
-                    },
-                })
-            )
-        }, 2000)
+
+        setInterval(() => {
+            if (this.invaders.length < 2) {
+                this.invaders.push(
+                    new Invader(InvaderImg, {
+                        position: {
+                            x: getRandom(0, this.canvasWidth),
+                            y: -40,
+                        },
+                    })
+                )
+            }
+            return
+        }, 1000)
     }
 }
 
