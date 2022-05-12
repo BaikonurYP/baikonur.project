@@ -463,7 +463,7 @@ class Game {
     }
 
     animate = () => {
-        if (!this.pause) {
+        if (!this.pause || !document.hidden) {
             requestAnimationFrame(this.animate)
         }
         this.drawBackground()
