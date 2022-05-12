@@ -3,6 +3,8 @@ import { useHistory } from 'react-router-dom'
 import ButtonForm from '../../components/buttons/buttonForm/buttonForm'
 import Container from '../../components/container/container'
 import Input from '../../components/inputs/input/input'
+import { Layout } from '../../components/layout/layout'
+import { Logo } from '../../components/logo/logo'
 import {
     emailValidator,
     firstNameValidator,
@@ -26,6 +28,11 @@ const SignupPage: FC = () => {
     const [touched, setTouched] = React.useState('')
     const onBlur = (e: any) => {
         setTouched('')
+    }
+
+    const onFocus = (field: string) => {
+        setFormError('');
+        setTouched(field)
     }
 
     /** Поле логина */
@@ -95,17 +102,17 @@ const SignupPage: FC = () => {
     React.useEffect(() => {
         setFormValid(
             lfVal &&
-                pfVal &&
-                fnfVal &&
-                lnfVal &&
-                efVal &&
-                phfVal &&
-                !lfError &&
-                !pfError &&
-                !fnfError &&
-                !lnfError &&
-                !efError &&
-                !phfError
+            pfVal &&
+            fnfVal &&
+            lnfVal &&
+            efVal &&
+            phfVal &&
+            !lfError &&
+            !pfError &&
+            !fnfError &&
+            !lnfError &&
+            !efError &&
+            !phfError
         )
     }, [
         lfVal,
@@ -127,7 +134,21 @@ const SignupPage: FC = () => {
 
     /** Обработка нажатия */
     const submitClick = () => {
-        setFormError('')
+        setFormError('');
+        if (!lfVal || !lfVal || !fnfVal ||
+            !lnfVal ||
+            !efVal ||
+            !phfVal) {
+            setFormError('Пожалуйста, заполните все необходимые поля');
+            return;
+        }
+        else if (lfError || pfError || fnfError ||
+            lnfError ||
+            efError ||
+            phfError) {
+            setFormError('Одно или несколько полей содержат ошибки');
+            return;
+        }
         authApi
             .signUp({
                 login: lfVal,
@@ -147,76 +168,90 @@ const SignupPage: FC = () => {
     }
 
     return (
-        <Container has_logo={true}>
-            <Input
-                name="login"
-                type="text"
-                placeholder="Логин"
-                value={lfVal}
-                errror={lfError}
-                touched={touched === 'login'}
-                onChange={lfOnChange}
-                onBlur={onBlur}
-            ></Input>
-            <Input
-                name="password"
-                type="password"
-                placeholder="Пароль"
-                value={pfVal}
-                errror={pfError}
-                touched={touched === 'password'}
-                onChange={pfOnChange}
-                onBlur={onBlur}
-            ></Input>
-            <Input
-                name="first_name"
-                type="text"
-                placeholder="Имя"
-                value={fnfVal}
-                errror={fnfError}
-                touched={touched === 'first_name'}
-                onChange={fnfOnChange}
-                onBlur={onBlur}
-            ></Input>
-            <Input
-                name="second_name"
-                type="text"
-                placeholder="Фамилия"
-                value={lnfVal}
-                errror={lnfError}
-                touched={touched === 'second_name'}
-                onChange={lnfOnChange}
-                onBlur={onBlur}
-            ></Input>
-            <Input
-                name="email"
-                type="text"
-                placeholder="EMail"
-                value={efVal}
-                errror={efError}
-                touched={touched === 'email'}
-                onChange={efOnChange}
-                onBlur={onBlur}
-            ></Input>
-            <Input
-                name="phone"
-                type="text"
-                placeholder="Номер телефона"
-                value={phfVal}
-                errror={phfError}
-                touched={touched === 'phone'}
-                onChange={phfOnChange}
-                onBlur={onBlur}
-            ></Input>
-            <br />
-            <ButtonForm
-                onClick={submitClick}
-                disabled={!formValid}
-                error={formError}
-            >
-                Зарегистрироваться
-            </ButtonForm>
-        </Container>
+        <Layout hasMenu>
+            <Container direction='column'>
+                <Logo />
+                <Input
+                    name="login"
+                    type="text"
+                    placeholder="Логин"
+                    value={lfVal}
+                    helper={lfError}
+                    state={lfError ? 'danger' : 'default'}
+                    touched={touched === 'login'}
+                    onChange={lfOnChange}
+                    onBlur={onBlur}
+                    onFocus={() => onFocus('login')}
+                ></Input>
+                <Input
+                    name="password"
+                    type="password"
+                    placeholder="Пароль"
+                    value={pfVal}
+                    helper={pfError}
+                    state={pfError ? 'danger' : 'default'}
+                    touched={touched === 'password'}
+                    onChange={pfOnChange}
+                    onBlur={onBlur}
+                    onFocus={() => onFocus('password')}
+                ></Input>
+                <Input
+                    name="first_name"
+                    type="text"
+                    placeholder="Имя"
+                    value={fnfVal}
+                    helper={fnfError}
+                    state={fnfError ? 'danger' : 'default'}
+                    touched={touched === 'first_name'}
+                    onChange={fnfOnChange}
+                    onBlur={onBlur}
+                    onFocus={() => onFocus('first_name')}
+                ></Input>
+                <Input
+                    name="second_name"
+                    type="text"
+                    placeholder="Фамилия"
+                    value={lnfVal}
+                    helper={lnfError}
+                    state={lnfError ? 'danger' : 'default'}
+                    touched={touched === 'second_name'}
+                    onChange={lnfOnChange}
+                    onBlur={onBlur}
+                    onFocus={() => onFocus('second_name')}
+                ></Input>
+                <Input
+                    name="email"
+                    type="text"
+                    placeholder="EMail"
+                    value={efVal}
+                    helper={efError}
+                    state={efError ? 'danger' : 'default'}
+                    touched={touched === 'email'}
+                    onChange={efOnChange}
+                    onBlur={onBlur}
+                    onFocus={() => onFocus('email')}
+                ></Input>
+                <Input
+                    name="phone"
+                    type="text"
+                    placeholder="Номер телефона"
+                    value={phfVal}
+                    helper={phfError}
+                    state={phfError ? 'danger' : 'default'}
+                    touched={touched === 'phone'}
+                    onChange={phfOnChange}
+                    onBlur={onBlur}
+                    onFocus={() => onFocus('phone')}
+                ></Input>
+                <br />
+                <ButtonForm
+                    onClick={submitClick}
+                    helper={formError}
+                >
+                    Зарегистрироваться
+                </ButtonForm>
+            </Container>
+        </Layout>
     )
 }
 

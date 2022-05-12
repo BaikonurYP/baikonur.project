@@ -1,23 +1,28 @@
 import React, { FC } from 'react'
+import Tooltip from '../../tooltip/tooltip'
+import { TooltipPosition } from '../../tooltip/tooltipStyled'
 
-import { Label, InputStyled, ErrorText } from './inputStyled'
+import { Label, InputStyled, InputState } from './inputStyled'
 
 interface InputProps {
     type: string
     name: string
     placeholder?: string
     value: string
-    onChange: (e: React.ChangeEvent<any>) => void
-    onBlur: (e: any) => void
+    state?: InputState
+    onChange?: (e: React.ChangeEvent<any>) => void
+    onBlur?: (e: any) => void
+    onFocus?: (e: any) => void
     touched: boolean
-    errror: string
+    helperPosition?: TooltipPosition
+    helper: string
 }
 
 const Input: FC<InputProps> = (props) => {
     return (
         <Label>
-            <InputStyled {...props}></InputStyled>
-            {props.errror && <ErrorText>{props.errror}</ErrorText>}
+            <InputStyled state={props.state} {...props}></InputStyled>
+            {props.helper && <Tooltip visibility={props.touched} position={props.helperPosition}>{props.helper}</Tooltip>}
         </Label>
     )
 }

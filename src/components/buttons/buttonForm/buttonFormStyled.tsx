@@ -1,5 +1,9 @@
 import styled from 'styled-components'
 
+export const ButtonContainerStyled = styled.div`
+    position: relative;
+`;
+
 export const ButtonFormStyled = styled.button`
     padding: 0 0 5px 0;
     width: 300px;
@@ -26,14 +30,4 @@ export const ButtonFormStyled = styled.button`
         opacity: 0.5;
         background: var(--purple);
     }
-`
-export const ButtonFormErrorStyled = styled.p`
-    text-align: center;
-    font-family: 'Roboto', sans-serif;
-    font-size: 13px;
-    color: var(--red-light);
-    border: 1px solid var(--white);
-    background: var(--purple);
-    border-radius: 10px;
-    padding: 7px;
 `

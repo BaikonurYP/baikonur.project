@@ -8,7 +8,8 @@ import {
 } from '../../core/helpers/FormValidator'
 import { AuthApi } from '../../core/http/api/AuthApi'
 import { useHistory } from 'react-router-dom'
-import { RequestResult } from '../../core/http/api/types/RequestResult'
+import { Layout } from '../../components/layout/layout'
+import { Logo } from '../../components/logo/logo'
 
 const authApi = new AuthApi()
 
@@ -24,6 +25,11 @@ const LoginPage: FC = () => {
     const [touched, setTouched] = React.useState('')
     const onBlur = (e: any) => {
         setTouched('')
+    }
+
+    const onFocus = (field: string) => {
+        setFormError('');
+        setTouched(field)
     }
 
     /** Поле логина */
@@ -63,7 +69,15 @@ const LoginPage: FC = () => {
 
     /** Обработка нажатия */
     const submitClick = () => {
-        setFormError('')
+        setFormError('');
+        if (!lfVal || !lfVal) {
+            setFormError('Пожалуйста, заполните все необходимые поля');
+            return;
+        }
+        else if (lfError || pfError) {
+            setFormError('Одно или несколько полей содержат ошибки');
+            return;
+        }
         authApi
             .signIn({
                 login: lfVal,
@@ -79,36 +93,42 @@ const LoginPage: FC = () => {
     }
 
     return (
-        <Container has_logo={true}>
-            <Input
-                name="login"
-                type="text"
-                placeholder="Логин"
-                value={lfVal}
-                errror={lfError}
-                touched={touched === 'login'}
-                onChange={lfOnChange}
-                onBlur={onBlur}
-            ></Input>
-            <Input
-                name="password"
-                type="password"
-                placeholder="Пароль"
-                value={pfVal}
-                errror={pfError}
-                touched={touched === 'password'}
-                onChange={pfOnChange}
-                onBlur={onBlur}
-            ></Input>
-            <br />
-            <ButtonForm
-                onClick={submitClick}
-                disabled={!formValid}
-                error={formError}
-            >
-                Войти
-            </ButtonForm>
-        </Container>
+        <Layout hasMenu>
+            <Container direction='column'>
+                <Logo />
+                <Input
+                    name="login"
+                    type="text"
+                    placeholder="Логин"
+                    value={lfVal}
+                    helper={lfError}
+                    state={lfError ? 'danger' : 'default'}
+                    touched={touched === 'login'}
+                    onChange={lfOnChange}
+                    onBlur={onBlur}
+                    onFocus={() => onFocus('login')}
+                ></Input>
+                <Input
+                    name="password"
+                    type="password"
+                    placeholder="Пароль"
+                    value={pfVal}
+                    helper={pfError}
+                    state={pfError ? 'danger' : 'default'}
+                    touched={touched === 'password'}
+                    onChange={pfOnChange}
+                    onBlur={onBlur}
+                    onFocus={() => onFocus('password')}
+                ></Input>
+                <br />
+                <ButtonForm
+                    onClick={submitClick}
+                    helper={formError}
+                >
+                    Войти
+                </ButtonForm>
+            </Container>
+        </Layout>
     )
 }
 
