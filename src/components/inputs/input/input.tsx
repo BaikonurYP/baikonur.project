@@ -22,7 +22,14 @@ const Input: FC<InputProps> = (props) => {
     return (
         <Label>
             <InputStyled state={props.state} {...props}></InputStyled>
-            {props.helper && <Tooltip visibility={props.touched} position={props.helperPosition}>{props.helper}</Tooltip>}
+            {props.helper && (
+                <Tooltip
+                    visibility={props.touched}
+                    position={props.helperPosition}
+                >
+                    {props.helper}
+                </Tooltip>
+            )}
         </Label>
     )
 }

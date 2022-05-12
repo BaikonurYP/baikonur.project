@@ -26,7 +26,7 @@ const leaders = [
 
 const LeaderboardPage: FC = () => (
     <Layout hasMenu>
-        <Container direction='column'>
+        <Container direction="column">
             <Logo />
             <TitleStyled>Лидеры</TitleStyled>
             <BoardStyled>

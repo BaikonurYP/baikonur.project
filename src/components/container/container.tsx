@@ -1,15 +1,21 @@
 import React, { FC } from 'react'
 
-import { ContainerContentAlign, ContainerCrossAxisAlign, ContainerDirection, ContainerMineAxisAlign, ContainerStyled } from './containerStyled'
+import {
+    ContainerContentAlign,
+    ContainerCrossAxisAlign,
+    ContainerDirection,
+    ContainerMineAxisAlign,
+    ContainerStyled,
+} from './containerStyled'
 
 type ContainerProps = {
-    children?: React.ReactNode,
+    children?: React.ReactNode
     /** Направление контейнера */
-    direction?: ContainerDirection,
+    direction?: ContainerDirection
     /** Выравнивание по основной оси */
-    mineAxisAlign?: ContainerMineAxisAlign,
+    mineAxisAlign?: ContainerMineAxisAlign
     /** Выравнивание по перекрёcной оси */
-    crossAxisAlign?: ContainerCrossAxisAlign,
+    crossAxisAlign?: ContainerCrossAxisAlign
     /** Выравнивание контента  */
     contentAlign?: ContainerContentAlign
 }
@@ -17,7 +23,12 @@ type ContainerProps = {
 type Props = FC<ContainerProps>
 
 const Container: Props = (props) => (
-    <ContainerStyled direction={props.direction} mineAxisAlign={props.mineAxisAlign} crossAxisAlign={props.crossAxisAlign} contentAlign={props.contentAlign}>
+    <ContainerStyled
+        direction={props.direction}
+        mineAxisAlign={props.mineAxisAlign}
+        crossAxisAlign={props.crossAxisAlign}
+        contentAlign={props.contentAlign}
+    >
         {props.children}
     </ContainerStyled>
 )

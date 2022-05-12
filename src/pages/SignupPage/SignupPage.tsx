@@ -31,7 +31,7 @@ const SignupPage: FC = () => {
     }
 
     const onFocus = (field: string) => {
-        setFormError('');
+        setFormError('')
         setTouched(field)
     }
 
@@ -102,17 +102,17 @@ const SignupPage: FC = () => {
     React.useEffect(() => {
         setFormValid(
             lfVal &&
-            pfVal &&
-            fnfVal &&
-            lnfVal &&
-            efVal &&
-            phfVal &&
-            !lfError &&
-            !pfError &&
-            !fnfError &&
-            !lnfError &&
-            !efError &&
-            !phfError
+                pfVal &&
+                fnfVal &&
+                lnfVal &&
+                efVal &&
+                phfVal &&
+                !lfError &&
+                !pfError &&
+                !fnfError &&
+                !lnfError &&
+                !efError &&
+                !phfError
         )
     }, [
         lfVal,
@@ -134,20 +134,20 @@ const SignupPage: FC = () => {
 
     /** Обработка нажатия */
     const submitClick = () => {
-        setFormError('');
-        if (!lfVal || !lfVal || !fnfVal ||
-            !lnfVal ||
-            !efVal ||
-            !phfVal) {
-            setFormError('Пожалуйста, заполните все необходимые поля');
-            return;
-        }
-        else if (lfError || pfError || fnfError ||
+        setFormError('')
+        if (!lfVal || !lfVal || !fnfVal || !lnfVal || !efVal || !phfVal) {
+            setFormError('Пожалуйста, заполните все необходимые поля')
+            return
+        } else if (
+            lfError ||
+            pfError ||
+            fnfError ||
             lnfError ||
             efError ||
-            phfError) {
-            setFormError('Одно или несколько полей содержат ошибки');
-            return;
+            phfError
+        ) {
+            setFormError('Одно или несколько полей содержат ошибки')
+            return
         }
         authApi
             .signUp({
@@ -169,7 +169,7 @@ const SignupPage: FC = () => {
 
     return (
         <Layout hasMenu>
-            <Container direction='column'>
+            <Container direction="column">
                 <Logo />
                 <Input
                     name="login"
@@ -244,10 +244,7 @@ const SignupPage: FC = () => {
                     onFocus={() => onFocus('phone')}
                 ></Input>
                 <br />
-                <ButtonForm
-                    onClick={submitClick}
-                    helper={formError}
-                >
+                <ButtonForm onClick={submitClick} helper={formError}>
                     Зарегистрироваться
                 </ButtonForm>
             </Container>

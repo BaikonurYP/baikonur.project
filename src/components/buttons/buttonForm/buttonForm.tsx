@@ -8,7 +8,7 @@ interface ButtonFormProps {
     children: string
     disabled?: boolean
     onClick: () => void
-    helper?: string,
+    helper?: string
     helperPosition?: TooltipPosition
     helperState?: TooltipState
 }
@@ -18,7 +18,13 @@ const ButtonForm: FC<ButtonFormProps> = (props) => {
         <ButtonContainerStyled>
             <ButtonFormStyled type="submit" {...props}></ButtonFormStyled>
             {props.helper && (
-                <Tooltip visibility={props.helper.length != 0} position={props.helperPosition} state={props.helperState}>{props.helper}</Tooltip>
+                <Tooltip
+                    visibility={props.helper.length != 0}
+                    position={props.helperPosition}
+                    state={props.helperState}
+                >
+                    {props.helper}
+                </Tooltip>
             )}
         </ButtonContainerStyled>
     )

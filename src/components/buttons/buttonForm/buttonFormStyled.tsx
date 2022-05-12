@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const ButtonContainerStyled = styled.div`
     position: relative;
-`;
+`
 
 export const ButtonFormStyled = styled.button`
     padding: 0 0 5px 0;

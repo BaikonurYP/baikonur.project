@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
 export type TooltipPosition = 'left' | 'right' | 'top' | 'bottom'
 
@@ -32,8 +32,8 @@ export const TooltipStyled = styled.span<{
         }
     }}
 
-    ${props => {
-        switch(props.state){
+    ${(props) => {
+        switch (props.state) {
             case 'danger':
                 return `
                     color: var(--red-light);
@@ -47,7 +47,6 @@ export const TooltipStyled = styled.span<{
 
     ${(props) => {
         switch (props.position) {
-           
             case 'top':
                 return `
                     bottom: 100%;

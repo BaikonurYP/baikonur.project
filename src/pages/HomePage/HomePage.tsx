@@ -26,9 +26,11 @@ const userName = 'Великий уравнитель'
 
 const HomePage: FC = () => (
     <Layout hasMenu>
-        <Container direction='column'>
+        <Container direction="column">
             <HomeTitleStyled>Привет, {userName}</HomeTitleStyled>
-            <HomeTextStyled>выберите корабль, которым будете играть</HomeTextStyled>
+            <HomeTextStyled>
+                выберите корабль, которым будете играть
+            </HomeTextStyled>
             <HomeSkinsStyled>
                 {skins.map((skin) => (
                     <SkinWrapStyled key={skin.title}>

@@ -28,7 +28,7 @@ const LoginPage: FC = () => {
     }
 
     const onFocus = (field: string) => {
-        setFormError('');
+        setFormError('')
         setTouched(field)
     }
 
@@ -69,14 +69,13 @@ const LoginPage: FC = () => {
 
     /** Обработка нажатия */
     const submitClick = () => {
-        setFormError('');
+        setFormError('')
         if (!lfVal || !lfVal) {
-            setFormError('Пожалуйста, заполните все необходимые поля');
-            return;
-        }
-        else if (lfError || pfError) {
-            setFormError('Одно или несколько полей содержат ошибки');
-            return;
+            setFormError('Пожалуйста, заполните все необходимые поля')
+            return
+        } else if (lfError || pfError) {
+            setFormError('Одно или несколько полей содержат ошибки')
+            return
         }
         authApi
             .signIn({
@@ -94,7 +93,7 @@ const LoginPage: FC = () => {
 
     return (
         <Layout hasMenu>
-            <Container direction='column'>
+            <Container direction="column">
                 <Logo />
                 <Input
                     name="login"
@@ -121,10 +120,7 @@ const LoginPage: FC = () => {
                     onFocus={() => onFocus('password')}
                 ></Input>
                 <br />
-                <ButtonForm
-                    onClick={submitClick}
-                    helper={formError}
-                >
+                <ButtonForm onClick={submitClick} helper={formError}>
                     Войти
                 </ButtonForm>
             </Container>
