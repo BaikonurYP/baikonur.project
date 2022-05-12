@@ -21,7 +21,16 @@
         "import/no-unresolved": ["off"],
         "arrow-parens": ["off"],
         "camelcase": ["off"],
-        "comma-dangle": ["error", { "functions": "ignore" }],
+        "comma-dangle": [
+            "error",
+            {
+                "arrays": "never",
+                "objects": "never",
+                "imports": "never",
+                "exports": "never",
+                "functions": "never"
+            }
+        ],
         "eol-last": ["off"],
         "func-names": ["error", "never"],
         "function-paren-newline": ["error", "consistent"],

@@ -21,7 +21,7 @@ const keyMap = {
     s: false,
     d: false,
     space: false,
-    esc: false,
+    esc: false
 }
 
 type ShootingObjects = Invader
@@ -30,23 +30,41 @@ type AllObject = CanvasObject | Particle
 
 class Game {
     ctx: CanvasRenderingContext2D
+
     player: Player
+
     projectiles: Projectile[]
+
     enemiesProjectiles: Projectile[]
+
     onChangePoint: (point: number) => void
+
     playerSpeed: number
+
     paint: Paint
+
     canvasWidth: number
+
     canvasHeight: number
+
     point: number
+
     onChangeLives: (num: number) => void
+
     particles: Particle[]
+
     invaders: Invader[]
+
     meteors: Meteor[]
+
     stars: Particle[]
+
     complexity: number
+
     shooting: boolean
+
     per: number
+
     pause: boolean
 
     constructor(
@@ -62,8 +80,8 @@ class Game {
         this.player = new Player(ShipImg, {
             position: {
                 x: this.canvasWidth / 2,
-                y: this.canvasHeight,
-            },
+                y: this.canvasHeight
+            }
         })
         this.playerSpeed = 7
         this.invaders = []
@@ -71,10 +89,10 @@ class Game {
             new Meteor(MeteorImg, {
                 position: {
                     x: getRandom(10, this.canvasWidth - 10),
-                    y: -20,
+                    y: -20
                 },
-                scale: 1,
-            }),
+                scale: 1
+            })
         ]
         this.projectiles = []
         this.enemiesProjectiles = []
@@ -141,25 +159,29 @@ class Game {
             this.pause = true
         }
     }
+
     control() {
         if (keyMap.a && this.player.position.x >= 0) {
-            this.player.position.x = this.player.position.x - this.playerSpeed
+            this.player.position.x -= this.playerSpeed
         }
+
         if (
             keyMap.d &&
             this.player.position.x + this.player.width <= this.ctx.canvas.width
         ) {
-            this.player.position.x = this.player.position.x + this.playerSpeed
+            this.player.position.x += this.playerSpeed
         }
+
         if (keyMap.w && this.player.position.y >= 200) {
-            this.player.position.y = this.player.position.y - this.playerSpeed
+            this.player.position.y -= this.playerSpeed
         }
+
         if (
             keyMap.s &&
             this.player.position.y + this.player.height <=
                 this.ctx.canvas.height
         ) {
-            this.player.position.y = this.player.position.y + this.playerSpeed
+            this.player.position.y += this.playerSpeed
         }
         if (keyMap.space) {
             this.shoot()
@@ -191,9 +213,9 @@ class Game {
             new Projectile(PlayerProjectileImg, {
                 position: {
                     x: this.player.position.x + this.player.width / 2,
-                    y: this.player.position.y,
+                    y: this.player.position.y
                 },
-                velocity: { x: 0, y: -10 },
+                velocity: { x: 0, y: -10 }
             })
         )
         this.per = per
@@ -205,17 +227,17 @@ class Game {
                 new Particle({
                     position: {
                         x: position.x,
-                        y: position.y,
+                        y: position.y
                     },
                     velocity: {
                         x: getRandom(-3, 3),
-                        y: getRandom(-3, 3),
+                        y: getRandom(-3, 3)
                     },
                     size: {
                         min: 0.1,
-                        max: 5,
+                        max: 5
                     },
-                    color: '#BAA0DE',
+                    color: '#BAA0DE'
                 })
             )
         }
@@ -248,9 +270,9 @@ class Game {
             new Projectile(InvaderProjectileImg, {
                 position: {
                     x: enemy.position.x + enemy.width / 2,
-                    y: enemy.position.y + enemy.height,
+                    y: enemy.position.y + enemy.height
                 },
-                velocity: { x: 0, y: 5 },
+                velocity: { x: 0, y: 5 }
             })
         )
     }
@@ -268,10 +290,10 @@ class Game {
                 new Invader(Invider2Img, {
                     position: {
                         x: position.x,
-                        y: position.y,
+                        y: position.y
                     },
                     scale: 1.2,
-                    lives: 3,
+                    lives: 3
                 })
             )
         }, 0)
@@ -297,7 +319,7 @@ class Game {
                 ) {
                     this.transformInvider({
                         x: firstInvider.position.x,
-                        y: firstInvider.position.y,
+                        y: firstInvider.position.y
                     })
                 }
             }
@@ -347,7 +369,7 @@ class Game {
                 setTimeout(() => {
                     this.createPaticles({
                         x: projectile.position.x,
-                        y: projectile.position.y,
+                        y: projectile.position.y
                     })
 
                     if (enemy.lives === 1) {
@@ -385,7 +407,7 @@ class Game {
             objectsArr.splice(index, 1)
             this.createPaticles({
                 x: object.position.x,
-                y: object.position.y,
+                y: object.position.y
             })
             this.player.lives -= 1
             this.onChangeLives(this.player.lives)
@@ -425,18 +447,18 @@ class Game {
                 new Particle({
                     position: {
                         x: getRandom(0, this.canvasWidth),
-                        y: getRandom(0, this.canvasHeight),
+                        y: getRandom(0, this.canvasHeight)
                     },
                     velocity: {
                         x: 0,
-                        y: 0.3,
+                        y: 0.3
                     },
                     size: {
                         min: 0.1,
-                        max: 3,
+                        max: 3
                     },
                     fades: true,
-                    color: 'white',
+                    color: 'white'
                 })
             )
         }
@@ -463,7 +485,7 @@ class Game {
     }
 
     animate = () => {
-        if (!this.pause || !document.hidden) {
+        if (!this.pause) {
             requestAnimationFrame(this.animate)
         }
         this.drawBackground()
@@ -484,9 +506,9 @@ class Game {
                 new Meteor(MeteorImg, {
                     position: {
                         x: getRandom(60, this.canvasWidth - 60),
-                        y: -60,
+                        y: -60
                     },
-                    scale: 1,
+                    scale: 1
                 })
             )
         }, (5000 / this.complexity) * 1.8)
@@ -505,10 +527,10 @@ class Game {
                 new Invader(InvaderImg, {
                     position: {
                         x: getRandom(0, this.canvasWidth),
-                        y: -40,
+                        y: -40
                     },
                     scale: 1,
-                    lives: 1,
+                    lives: 1
                 })
             )
         }, (3000 / this.complexity) * 1.5)
@@ -525,7 +547,6 @@ class Game {
             }
             clearInterval(this.addInvader())
             this.complexity += 1
-
             this.addInvader()
         }, 1000 * 30)
     }
