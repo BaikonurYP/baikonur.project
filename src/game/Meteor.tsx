@@ -32,7 +32,7 @@ export default class Meteor extends CanvasObject {
 
         for (let i = 0; i <= meteriteQuantity; i++) {
             meterites.push(
-                new Meteor(this.img, { position: this.position, scale: 0.4 })
+                new Meteor(this.img, { position: this.position, scale: 0.6 })
             )
         }
         return meterites

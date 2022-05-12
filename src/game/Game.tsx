@@ -13,7 +13,6 @@ import PlayerProjectileImg from '../images/projectiles/projectile_blue.svg'
 import InvaderProjectileImg from '../images/projectiles/projectile_green.svg'
 
 import { getRandom } from '../utils/getRandom'
-import { number } from 'yup'
 import CanvasObject from './CanvasObject'
 
 const keyMap = {
@@ -22,6 +21,7 @@ const keyMap = {
     s: false,
     d: false,
     space: false,
+    esc: false,
 }
 
 type ShootingObjects = Invader
@@ -45,6 +45,9 @@ class Game {
     meteors: Meteor[]
     stars: Particle[]
     complexity: number
+    shooting: boolean
+    per: number
+    pause: boolean
 
     constructor(
         ctx: CanvasRenderingContext2D,
@@ -55,7 +58,7 @@ class Game {
         this.ctx = ctx
         this.canvasWidth = ctx.canvas.width
         this.canvasHeight = ctx.canvas.height
-        this.complexity = 0.3
+        this.complexity = 1
         this.player = new Player(ShipImg, {
             position: {
                 x: this.canvasWidth / 2,
@@ -78,6 +81,9 @@ class Game {
         this.particles = []
         this.stars = []
         this.point = 0
+        this.per = 0
+        this.shooting = false
+        this.pause = false
         this.onChangePoint = onChangePoint
         this.onChangeLives = onChangeLives
     }
@@ -98,20 +104,10 @@ class Game {
                     keyMap.d = true
                     break
                 case ' ':
-                    setTimeout(() => {
-                        this.projectiles.push(
-                            new Projectile(PlayerProjectileImg, {
-                                position: {
-                                    x:
-                                        this.player.position.x +
-                                        this.player.width / 2,
-                                    y: this.player.position.y,
-                                },
-                                velocity: { x: 0, y: -10 },
-                            })
-                        )
-                    }, 0)
-
+                    keyMap.space = true
+                    break
+                case 'Escape':
+                    this.onPause()
                     break
             }
         })
@@ -131,11 +127,20 @@ class Game {
                     keyMap.d = false
                     break
                 case ' ':
+                    keyMap.space = false
                     break
             }
         })
     }
 
+    onPause() {
+        if (this.pause) {
+            this.pause = false
+            this.animate()
+        } else {
+            this.pause = true
+        }
+    }
     control() {
         if (keyMap.a && this.player.position.x >= 0) {
             this.player.position.x = this.player.position.x - this.playerSpeed
@@ -156,6 +161,9 @@ class Game {
         ) {
             this.player.position.y = this.player.position.y + this.playerSpeed
         }
+        if (keyMap.space) {
+            this.shoot()
+        }
     }
 
     drawBackground() {
@@ -172,6 +180,23 @@ class Game {
             this.hitToPlayer(projectile, i, this.enemiesProjectiles)
         })
         this.paint.update(this.player)
+    }
+
+    shoot() {
+        let per = performance.now()
+        if (per - this.per < 150) {
+            return
+        }
+        this.projectiles.push(
+            new Projectile(PlayerProjectileImg, {
+                position: {
+                    x: this.player.position.x + this.player.width / 2,
+                    y: this.player.position.y,
+                },
+                velocity: { x: 0, y: -10 },
+            })
+        )
+        this.per = per
     }
 
     createPaticles(position: { x: number; y: number }) {
@@ -280,7 +305,7 @@ class Game {
     }
 
     meteorDestraktion(meteor: Meteor) {
-        if (meteor.scale != 0.4) {
+        if (meteor.scale != 0.6) {
             const meterites = meteor.destruction()
             meterites.forEach((meteorite) => {
                 this.meteors.push(meteorite)
@@ -438,27 +463,23 @@ class Game {
     }
 
     animate = () => {
-        requestAnimationFrame(this.animate)
-        this.control()
+        if (!this.pause) {
+            requestAnimationFrame(this.animate)
+        }
         this.drawBackground()
         this.particlesUpdate()
         this.meteorsUpdate()
-        this.playerUpdate()
+        if (this.player.lives > 0) {
+            this.control()
+            this.playerUpdate()
+        }
         this.invidersUpdate()
         this.projectilesUpdate()
         this.enemiesProjectilesUpdate()
     }
 
-    start() {
-        this.addListeners()
-        this.animate()
-        this.createStars()
-
-        setInterval(() => {
-            this.complexity += 0.3
-        }, 1000 * 20)
-
-        setInterval(() => {
+    addMeteor() {
+        let meteor = setInterval(() => {
             this.meteors.push(
                 new Meteor(MeteorImg, {
                     position: {
@@ -468,9 +489,12 @@ class Game {
                     scale: 1,
                 })
             )
-        }, 4000)
+        }, (5000 / this.complexity) * 1.8)
+        return meteor
+    }
 
-        setInterval(() => {
+    addInvader() {
+        let invader = setInterval(() => {
             if (this.invaders.length >= 2) {
                 return
             }
@@ -487,7 +511,30 @@ class Game {
                     lives: 1,
                 })
             )
-        }, 2000)
+        }, (3000 / this.complexity) * 1.5)
+        return invader
+    }
+
+    startMechanics() {
+        this.addMeteor()
+        this.addInvader()
+        setInterval(() => {
+            if (this.complexity <= 4) {
+                clearInterval(this.addMeteor())
+                this.addMeteor()
+            }
+            clearInterval(this.addInvader())
+            this.complexity += 1
+
+            this.addInvader()
+        }, 1000 * 30)
+    }
+
+    start() {
+        this.addListeners()
+        this.animate()
+        this.createStars()
+        this.startMechanics()
     }
 }
 
