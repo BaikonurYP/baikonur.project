@@ -2,6 +2,7 @@ import { createGlobalStyle } from 'styled-components'
 
 import SpaceFont from '../../vendor/fonts/spaceagecyrillic/spaceagecyrillic_regular.ttf'
 import BGImage from '../../images/bg.jpg'
+import { colors, getColor } from './colors'
 
 const Global = createGlobalStyle`
   @font-face {
@@ -15,20 +16,10 @@ const Global = createGlobalStyle`
   } 
 
   :root {
-    --yellow: #ffcc00;
-    --yellow-dark: #d1a700;
-    --purple: #4a3c55;
-    --purple-dark: #2b2331;
-    --purple-light: #8E7D9C;
-    --purple-grey: #63596D;
-    --white: #ffffff;
-    --white-30: rgba(255, 255, 255, 0.3);
-    --grey: #CBCBCB;
-    --light-grey: #EEEEEE;
-    --blue-light: #1884b4;
-    --red-light: #e76969;
-    --clear: #ffffff00;
-}
+    ${Object.keys(colors).map((k: keyof typeof colors) => {
+        return `--${k}: ${colors[k]};`
+    })}
+  }
 
   * {
     box-sizing: border-box;

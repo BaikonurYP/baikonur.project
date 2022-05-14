@@ -18,6 +18,8 @@ type ContainerProps = {
     crossAxisAlign?: ContainerCrossAxisAlign
     /** Выравнивание контента  */
     contentAlign?: ContainerContentAlign
+    /** Размер контейнера */
+    width?: number
 }
 
 type Props = FC<ContainerProps>
@@ -28,6 +30,7 @@ const Container: Props = (props) => (
         mineAxisAlign={props.mineAxisAlign}
         crossAxisAlign={props.crossAxisAlign}
         contentAlign={props.contentAlign}
+        width={props.width}
     >
         {props.children}
     </ContainerStyled>

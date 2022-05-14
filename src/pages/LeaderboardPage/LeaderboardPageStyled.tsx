@@ -1,22 +1,23 @@
 import styled from 'styled-components'
+import { getColor } from '../../styles/GlobalStyle/colors'
 
 export const BoardStyled = styled.div`
-    background-color: var(--white-30);
+    background-color: ${getColor('white-30')};
     width: 800px;
     padding: 30px;
     margin-bottom: 35px;
 `
 export const BoardItemStyled = styled.div`
     border-radius: 6px;
-    border: 3px solid var(--yellow);
+    border: 3px solid ${getColor('yellow')};
     padding: 6px 18px;
     font-size: 24px;
     display: flex;
-    color: var(--white);
+    color: ${getColor('white')};
     font-weight: bold;
     align-items: center;
     justify-content: space-between;
-    background-color: var(--purple);
+    background-color: ${getColor('purple')};
     font-family: 'Roboto';
     margin-bottom: 24px;
     &:last-of-type {
@@ -32,7 +33,7 @@ export const BoardAvaStyled = styled.div`
     width: 56px;
     height: 56px;
     border-radius: 28px;
-    background-color: var(--purple-grey);
+    background-color: ${getColor('purple-grey')};
     display: flex;
     align-content: center;
     justify-content: center;
@@ -42,7 +43,7 @@ export const BoardAvaStyled = styled.div`
     }
 `
 export const BoardUserValueStyled = styled.div`
-    color: var(--yellow);
+    color: ${getColor('yellow')};
     display: flex;
     img {
         margin-right: 10px;
@@ -51,7 +52,7 @@ export const BoardUserValueStyled = styled.div`
 export const TitleStyled = styled.div`
     font-size: 40px;
     font-family: 'SpaceFont';
-    color: var(--white);
+    color: ${getColor('white')};
     text-transform: uppercase;
     margin-bottom: 30px;
 `

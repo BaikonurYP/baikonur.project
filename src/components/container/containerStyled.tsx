@@ -26,10 +26,11 @@ export const ContainerStyled = styled.div<{
     direction?: ContainerDirection
     mineAxisAlign?: ContainerMineAxisAlign
     crossAxisAlign?: ContainerCrossAxisAlign
-    contentAlign?: ContainerContentAlign
+    contentAlign?: ContainerContentAlign,
+    width?: number
 }>`
     display: flex;
-    flex: 1;
+    width: ${props => (props.width ?? 100)}%;
     ${(props) => {
         switch (props.direction) {
             case 'column':

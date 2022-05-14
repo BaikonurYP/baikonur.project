@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import Tooltip from '../../tooltip/tooltip'
 import { TooltipPosition } from '../../tooltip/tooltipStyled'
 
-import { Label, InputStyled, InputState } from './inputStyled'
+import { Label, InputStyled, InputState, InpurErrorStyle } from './inputStyled'
 
 interface InputProps {
     type: string
@@ -22,14 +22,15 @@ const Input: FC<InputProps> = (props) => {
     return (
         <Label>
             <InputStyled state={props.state} {...props}></InputStyled>
-            {props.helper && (
+            {/* {props.helper && (
                 <Tooltip
-                    visibility={props.touched}
+                    visible={props.touched}
                     position={props.helperPosition}
                 >
                     {props.helper}
                 </Tooltip>
-            )}
+            )} */}
+            {props.helper && <InpurErrorStyle>{props.helper}</InpurErrorStyle>}
         </Label>
     )
 }

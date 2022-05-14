@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { getColor } from '../../../styles/GlobalStyle/colors'
 
 export const ButtonContainerStyled = styled.div`
     position: relative;
@@ -8,18 +9,18 @@ export const ButtonFormStyled = styled.button`
     padding: 0 0 5px 0;
     width: 300px;
     height: 37px;
-    background: var(--purple);
-    border: 1px solid var(--white);
+    background: ${getColor('purple')};
+    border: 1px solid ${getColor('white')};
     border-radius: 8px;
     font-family: 'SpaceFont';
     font-size: 16px;
     text-transform: uppercase;
-    color: var(--white);
+    color: ${getColor('white')};
     cursor: pointer;
     transition: 0.3s;
 
     &:hover {
-        background: var(--purple-dark);
+        background: ${getColor('purple-dark')};
     }
 
     &:active {
@@ -28,6 +29,6 @@ export const ButtonFormStyled = styled.button`
 
     &:disabled {
         opacity: 0.5;
-        background: var(--purple);
+        background: ${getColor('purple')};
     }
 `

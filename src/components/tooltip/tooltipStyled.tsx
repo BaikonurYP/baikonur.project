@@ -1,119 +1,144 @@
 import styled from 'styled-components'
+import { colors, getColor } from '../../styles/GlobalStyle/colors'
 
 export type TooltipPosition = 'left' | 'right' | 'top' | 'bottom'
 
 export type TooltipState = 'default' | 'danger'
 
+function getTooltipColor(state: TooltipState) {
+    const tooltip_colors: Record<TooltipState, keyof typeof colors> = {
+        default: 'white',
+        danger: 'red-light',
+    }
+    return tooltip_colors[state]
+}
+
+function getTextAlign(pos: TooltipPosition) {
+    const positions: Record<TooltipPosition, string> = {
+        top: 'center',
+        bottom: 'center',
+        left: 'right',
+        right: 'left',
+    }
+    return positions[pos]
+}
+
+/**
+ * Сгенерировать селекторы для тултипа в зависимости от позиции
+ * @param arr массив значений (последовательность top, right, bottom, left)
+ * @param units единицы измерений значений
+ * @param prefixParrern паттерн именования селектора (позиция подстовляется через '{pos}')
+ * @returns
+ */
+function getSelectorsForArray(
+    arr: number[] | string[],
+    units: 'px' | '%' | '',
+    prefixParrern?: string
+) {
+    let getPrefix = (pos: string) =>
+        prefixParrern ? prefixParrern.replaceAll('{pos}', pos) : pos
+    let positions = ['top', 'right', 'bottom', 'left']
+    return arr
+        .map((str, ind) => {
+            let val = str ? `${str}${units}` : 'unset'
+            return `${getPrefix(positions[ind])}: ${val}`
+        })
+        .join(';')
+}
+
+/** Получить стили основного блока тултипа в зависимости от параметра положения */
+function getMinePosition(pos: TooltipPosition) {
+    const positions: Record<TooltipPosition, number[]> = {
+        top: [null, null, 100, 50],
+        bottom: [100, null, null, 50],
+        left: [50, 105, null, null],
+        right: [50, null, null, 105],
+    }
+
+    const margins: Record<TooltipPosition, number[]> = {
+        top: [null, null, -10, -100],
+        bottom: [10, null, null, -100],
+        left: [null, null, null, null],
+        right: [null, null, null, null],
+    }
+
+    return (
+        getSelectorsForArray(positions[pos], '%') +
+        ';' +
+        getSelectorsForArray(margins[pos], 'px', 'margin-{pos}')
+    )
+}
+
+/** Получить стили стрелки тултипа в зависимости от параметра положения */
+function getArrowPosition(pos: TooltipPosition) {
+    const positions: Record<TooltipPosition, number[]> = {
+        top: [100, null, null, 50],
+        bottom: [null, null, 100, 50],
+        left: [50, null, null, 100],
+        right: [50, 100, null, null],
+    }
+
+    const margins: Record<TooltipPosition, number[]> = {
+        top: [null, null, null, -5],
+        bottom: [null, null, null, -5],
+        left: [-5, null, null, null],
+        right: [-5, null, null, null],
+    }
+
+    let color: keyof typeof colors = 'purple'
+    let transparent = 'transparent'
+
+    const borders: Record<TooltipPosition, string[]> = {
+        top: [getColor(color), transparent, transparent, transparent],
+        bottom: [transparent, transparent, getColor(color), transparent],
+        left: [transparent, transparent, transparent, getColor(color)],
+        right: [transparent, getColor(color), transparent, transparent],
+    }
+
+    return (
+        getSelectorsForArray(positions[pos], '%') +
+        ';' +
+        getSelectorsForArray(margins[pos], 'px', 'margin-{pos}') +
+        ';' +
+        getSelectorsForArray(borders[pos], '', 'border-{pos}-color')
+    )
+}
+
 export const TooltipStyled = styled.span<{
-    visibility: boolean
+    visibile: boolean
     position: TooltipPosition
     state?: TooltipState
 }>`
     width: 200px;
-    background-color: var(--purple);
-    color: var(--white);
+    background-color: ${getColor('purple')};
+    color: ${getColor('white')};
     font-family: 'Roboto', sans-serif;
     font-size: 12px;
     padding: 5px;
     border-radius: 6px;
     position: absolute;
     z-index: 1;
+    visibility: ${(props) => (props.visibile ? 'visible' : 'hidden')}
+    color: ${(props) => getColor(getTooltipColor(props.state ?? 'default'))};
+    text-align: ${(props) => getTextAlign(props.position ?? 'right')};
+    ${(props) => getMinePosition(props.position ?? 'right')};
+
+
+    &::after{
+        content: " ";
+        position: absolute;
+        border-width: 5px;
+        border-style: solid;
+        ${(props) => getArrowPosition(props.position ?? 'right')};
+    }
 
     ${(props) => {
-        switch (props.visibility) {
-            case true:
-                return `
-                    visibility: visible;
-                `
-            default:
-                return `
-                    visibility: hidden;
-                `
-        }
-    }}
-
-    ${(props) => {
-        switch (props.state) {
-            case 'danger':
-                return `
-                    color: var(--red-light);
-                `
-            default:
-                return `
-                    color: var(--white);
-                `
-        }
-    }}
-
-    ${(props) => {
-        switch (props.position) {
-            case 'top':
-                return `
-                    bottom: 100%;
-                    left: 50%;
-                    margin-left: -100px; 
-                    text-align: center;
-                    margin-bottom: -10px;
-                    &::after {
-                        content: " ";
-                        position: absolute;
-                        top: 100%;
-                        left: 50%;
-                        margin-left: -5px;
-                        border-width: 5px;
-                        border-style: solid;
-                        border-color: var(--purple) transparent transparent transparent;
-                        
-                    }`
-            case 'bottom':
-                return `
-                    top: 100%;
-                    left: 50%;
-                    margin-left: -100px;
-                    text-align: center;
-                    margin-top: 10px;
-                    &::after {
-                        content: " ";
-                        position: absolute;
-                        bottom: 100%; 
-                        left: 50%;
-                        margin-left: -5px;
-                        border-width: 5px;
-                        border-style: solid;
-                        border-color: transparent transparent var(--purple) transparent;
-                    }`
+        switch (props.position ?? 'right') {
             case 'left':
+            case 'right':
                 return `
-                    top: 50%;
-                    right: 105%;
                     transform: translateY(-50%);
-                    text-align: right;
-                    &::after {
-                        content: " ";
-                        position: absolute;
-                        top: 50%;
-                        left: 100%;
-                        margin-top: -5px;
-                        border-width: 5px;
-                        border-style: solid;
-                        border-color: transparent transparent transparent var(--purple);
-                    }`
-            default:
-                return `
-                    top: 50%;
-                    left: 105%;
-                    transform: translateY(-50%);
-                    text-align: left;
-                    &::after {
-                        content: " ";
-                        position: absolute;
-                        top: 50%;
-                        right: 100%; 
-                        margin-top: -5px;
-                        border-width: 5px;
-                        border-style: solid;
-                        border-color: transparent var(--purple) transparent transparent;
-                    }`
+                    `
         }
     }}
 `

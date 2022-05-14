@@ -4,7 +4,7 @@ import { TooltipPosition, TooltipState, TooltipStyled } from './tooltipStyled'
 
 interface TooltipProps {
     children?: React.ReactNode
-    visibility: boolean
+    visible: boolean
     position?: TooltipPosition
     state?: TooltipState
 }
@@ -12,7 +12,7 @@ interface TooltipProps {
 const Tooltip: FC<TooltipProps> = (props) => {
     return (
         <TooltipStyled
-            visibility={props.visibility}
+            visibile={props.visible}
             position={props.position}
             state={props.state}
         >

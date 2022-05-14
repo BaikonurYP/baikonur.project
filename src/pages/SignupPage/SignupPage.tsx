@@ -1,3 +1,4 @@
+import { Formik } from 'formik'
 import React, { FC } from 'react'
 import { useHistory } from 'react-router-dom'
 import ButtonForm from '../../components/buttons/buttonForm/buttonForm'
@@ -5,6 +6,7 @@ import Container from '../../components/container/container'
 import Input from '../../components/inputs/input/input'
 import { Layout } from '../../components/layout/layout'
 import { Logo } from '../../components/logo/logo'
+import { chunkArray } from '../../core/helpers/ArrayHelpers'
 import {
     emailValidator,
     firstNameValidator,
@@ -17,6 +19,61 @@ import { AuthApi } from '../../core/http/api/AuthApi'
 
 const authApi = new AuthApi()
 
+type signUpFields = {
+    login: string
+    password: string
+    first_name: string
+    second_name: string
+    email: string
+    phone: string
+}
+
+const signUpFieldsPreset: {
+    [key in keyof signUpFields]: {
+        type: string
+        name: string
+        placeholder: string
+        validator: (str: string) => string
+    }
+} = {
+    login: {
+        type: 'text',
+        name: 'login',
+        placeholder: 'Логин',
+        validator: loginValidator,
+    },
+    password: {
+        type: 'password',
+        name: 'password',
+        placeholder: 'Пароль',
+        validator: passwordValidator,
+    },
+    first_name: {
+        type: 'text',
+        name: 'first_name',
+        placeholder: 'Имя',
+        validator: firstNameValidator,
+    },
+    second_name: {
+        type: 'text',
+        name: 'second_name',
+        placeholder: 'Фамилия',
+        validator: secondNameValidator,
+    },
+    email: {
+        type: 'text',
+        name: 'email',
+        placeholder: 'Email',
+        validator: emailValidator,
+    },
+    phone: {
+        type: 'text',
+        name: 'phone',
+        placeholder: 'Номер телефона',
+        validator: phoneValidator,
+    },
+}
+
 /** Страница регистрации */
 const SignupPage: FC = () => {
     const history = useHistory()
@@ -24,229 +81,111 @@ const SignupPage: FC = () => {
         history.push(`/game`)
     }
 
-    /** текущее touched-поле */
-    const [touched, setTouched] = React.useState('')
-    const onBlur = (e: any) => {
-        setTouched('')
-    }
-
-    const onFocus = (field: string) => {
-        setFormError('')
-        setTouched(field)
-    }
-
-    /** Поле логина */
-    const [lfVal, setLfVal] = React.useState('')
-    const lfOnChange = (e: React.ChangeEvent<any>) => {
-        setTouched('login')
-        setLfVal(e.target.value)
-    }
-
-    /** Поле пароля */
-    const [pfVal, setPfVal] = React.useState('')
-    const pfOnChange = (e: React.ChangeEvent<any>) => {
-        setTouched('password')
-        setPfVal(e.target.value)
-    }
-
-    /** Поле имени */
-    const [fnfVal, setFnfVal] = React.useState('')
-    const fnfOnChange = (e: React.ChangeEvent<any>) => {
-        setTouched('first_name')
-        setFnfVal(e.target.value)
-    }
-
-    /** Поле фамилии */
-    const [lnfVal, setLnfVal] = React.useState('')
-    const lnfOnChange = (e: React.ChangeEvent<any>) => {
-        setTouched('second_name')
-        setLnfVal(e.target.value)
-    }
-
-    /** Поле почты */
-    const [efVal, setEfVal] = React.useState('')
-    const efOnChange = (e: React.ChangeEvent<any>) => {
-        setTouched('email')
-        setEfVal(e.target.value)
-    }
-
-    /** Поле телефона */
-    const [phfVal, setPhfVal] = React.useState('')
-    const phfOnChange = (e: React.ChangeEvent<any>) => {
-        setTouched('phone')
-        setPhfVal(e.target.value)
-    }
-
-    /** Ошибки полей */
-    const [lfError, setLfError] = React.useState('')
-    const [pfError, setPfError] = React.useState('')
-    const [fnfError, setFnfError] = React.useState('')
-    const [lnfError, setLnfError] = React.useState('')
-    const [efError, setEfError] = React.useState('')
-    const [phfError, setPhfError] = React.useState('')
-
-    /** Проверка полей валидаторами */
-    React.useEffect(() => {
-        setLfError(loginValidator(lfVal))
-        setPfError(passwordValidator(pfVal))
-        setFnfError(firstNameValidator(fnfVal))
-        setLnfError(secondNameValidator(lnfVal))
-        setEfError(emailValidator(efVal))
-        setPhfError(phoneValidator(phfVal))
-    }, [lfVal, pfVal, fnfVal, lnfVal, efVal, phfVal])
-
-    /** Поле валидности формы */
-    const [formValid, setFormValid] = React.useState(false)
-
-    /** Проверка валидности формы (если валидна - кнопку можно нажать) */
-    React.useEffect(() => {
-        setFormValid(
-            lfVal &&
-                pfVal &&
-                fnfVal &&
-                lnfVal &&
-                efVal &&
-                phfVal &&
-                !lfError &&
-                !pfError &&
-                !fnfError &&
-                !lnfError &&
-                !efError &&
-                !phfError
-        )
-    }, [
-        lfVal,
-        pfVal,
-        fnfVal,
-        lnfVal,
-        efVal,
-        phfVal,
-        lfError,
-        pfError,
-        fnfError,
-        lnfError,
-        efError,
-        phfError,
-    ])
-
     /** Ошибка формы */
     const [formError, setFormError] = React.useState('')
 
-    /** Обработка нажатия */
-    const submitClick = () => {
-        setFormError('')
-        if (!lfVal || !lfVal || !fnfVal || !lnfVal || !efVal || !phfVal) {
-            setFormError('Пожалуйста, заполните все необходимые поля')
-            return
-        } else if (
-            lfError ||
-            pfError ||
-            fnfError ||
-            lnfError ||
-            efError ||
-            phfError
-        ) {
-            setFormError('Одно или несколько полей содержат ошибки')
-            return
-        }
-        authApi
-            .signUp({
-                login: lfVal,
-                password: pfVal,
-                first_name: fnfVal,
-                second_name: lnfVal,
-                email: efVal,
-                phone: phfVal,
-            })
-            .then((result) => {
-                if (result.successes) {
-                    goToGame()
-                } else {
-                    setFormError(result.error)
-                }
-            })
-    }
 
     return (
         <Layout hasMenu>
             <Container direction="column">
                 <Logo />
-                <Input
-                    name="login"
-                    type="text"
-                    placeholder="Логин"
-                    value={lfVal}
-                    helper={lfError}
-                    state={lfError ? 'danger' : 'default'}
-                    touched={touched === 'login'}
-                    onChange={lfOnChange}
-                    onBlur={onBlur}
-                    onFocus={() => onFocus('login')}
-                ></Input>
-                <Input
-                    name="password"
-                    type="password"
-                    placeholder="Пароль"
-                    value={pfVal}
-                    helper={pfError}
-                    state={pfError ? 'danger' : 'default'}
-                    touched={touched === 'password'}
-                    onChange={pfOnChange}
-                    onBlur={onBlur}
-                    onFocus={() => onFocus('password')}
-                ></Input>
-                <Input
-                    name="first_name"
-                    type="text"
-                    placeholder="Имя"
-                    value={fnfVal}
-                    helper={fnfError}
-                    state={fnfError ? 'danger' : 'default'}
-                    touched={touched === 'first_name'}
-                    onChange={fnfOnChange}
-                    onBlur={onBlur}
-                    onFocus={() => onFocus('first_name')}
-                ></Input>
-                <Input
-                    name="second_name"
-                    type="text"
-                    placeholder="Фамилия"
-                    value={lnfVal}
-                    helper={lnfError}
-                    state={lnfError ? 'danger' : 'default'}
-                    touched={touched === 'second_name'}
-                    onChange={lnfOnChange}
-                    onBlur={onBlur}
-                    onFocus={() => onFocus('second_name')}
-                ></Input>
-                <Input
-                    name="email"
-                    type="text"
-                    placeholder="EMail"
-                    value={efVal}
-                    helper={efError}
-                    state={efError ? 'danger' : 'default'}
-                    touched={touched === 'email'}
-                    onChange={efOnChange}
-                    onBlur={onBlur}
-                    onFocus={() => onFocus('email')}
-                ></Input>
-                <Input
-                    name="phone"
-                    type="text"
-                    placeholder="Номер телефона"
-                    value={phfVal}
-                    helper={phfError}
-                    state={phfError ? 'danger' : 'default'}
-                    touched={touched === 'phone'}
-                    onChange={phfOnChange}
-                    onBlur={onBlur}
-                    onFocus={() => onFocus('phone')}
-                ></Input>
-                <br />
-                <ButtonForm onClick={submitClick} helper={formError}>
-                    Зарегистрироваться
-                </ButtonForm>
+                <Formik
+                    initialValues={{ login: '', password: '', first_name: '', second_name: '', phone: '', email: '' } as signUpFields}
+                    validate={(values: signUpFields) => {
+                        const errors: Partial<signUpFields> = {}
+                        Object.keys(values).forEach(
+                            (value: keyof signUpFields) => {
+                                if (!values[value]) {
+                                    errors[
+                                        value
+                                    ] = `Поле "${signUpFieldsPreset[value].placeholder}" должно быть заполнено`
+                                } else if (
+                                    signUpFieldsPreset[value].validator(
+                                        values[value]
+                                    )
+                                ) {
+                                    errors[value] = signUpFieldsPreset[
+                                        value
+                                    ].validator(values[value])
+                                }
+                            }
+                        )
+
+                        return errors
+                    }}
+                    onSubmit={(values, { setSubmitting }) => {
+                        setSubmitting(false)
+                        setFormError('')
+                        authApi.signUp(values).then((result) => {
+                            if (result.successes) {
+                                goToGame()
+                            } else {
+                                setFormError(result.error)
+                            }
+                        })
+                    }}
+                >
+                    {({
+                        values,
+                        errors,
+                        touched,
+                        handleChange,
+                        handleBlur,
+                        handleSubmit,
+                        isSubmitting,
+                        isValid,
+                    }) => (
+                        <form onSubmit={handleSubmit} style={{"width": "100%"}}>
+                            <Container direction="column">
+                                <br />
+                                {chunkArray(
+                                    Object.keys(signUpFieldsPreset)
+                                ).map((fields: (keyof signUpFields)[]) => (
+                                    <Container
+                                        mineAxisAlign="between"
+                                        key={fields[0]}
+                                        width={70}
+                                    >
+                                        {fields.map((field) => (
+                                            <Input
+                                                key={
+                                                    signUpFieldsPreset[field]
+                                                        .name
+                                                }
+                                                type={
+                                                    signUpFieldsPreset[field]
+                                                        .type
+                                                }
+                                                name={
+                                                    signUpFieldsPreset[field]
+                                                        .name
+                                                }
+                                                placeholder={
+                                                    signUpFieldsPreset[field]
+                                                        .placeholder
+                                                }
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                value={values[field]}
+                                                touched={touched[field]}
+                                                helper={errors[field]}
+                                                state={
+                                                    errors[field]
+                                                        ? 'danger'
+                                                        : 'default'
+                                                }
+                                            ></Input>
+                                        ))}
+                                    </Container>
+                                ))}
+
+                                <ButtonForm helper={formError}>
+                                    Зарегистрироваться
+                                </ButtonForm>
+                            </Container>
+                        </form>
+                    )}
+                </Formik>
             </Container>
         </Layout>
     )

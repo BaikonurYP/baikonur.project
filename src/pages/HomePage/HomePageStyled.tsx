@@ -1,9 +1,10 @@
 import styled from 'styled-components'
+import { getColor } from '../../styles/GlobalStyle/colors'
 
 export const HomeTitleStyled = styled.div`
     font-size: 40px;
     font-family: 'SpaceFont';
-    color: var(--white);
+    color: ${getColor('white')};
     text-transform: uppercase;
     margin-bottom: 60px;
 `
@@ -12,7 +13,7 @@ export const HomeTextStyled = styled.p`
     font-family: 'Roboto';
     margin-bottom: 70px;
     text-align: center;
-    color: var(--white);
+    color: ${getColor('white')};
 `
 export const HomeSkinsStyled = styled.div`
     width: 800px;
@@ -27,13 +28,13 @@ export const SkinWrapStyled = styled.div`
     align-items: center;
     display: flex;
     flex-direction: column;
-    color: var(--white);
+    color: ${getColor('white')};
     &:hover {
         cursor: pointer;
-        color: var(--blue-light);
+        color: ${getColor('blue-light')};
     }
     &:hover > div:first-of-type {
-        outline: 4px solid var(--blue-light);
+        outline: 4px solid ${getColor('blue-light')};
     }
 `
 export const SkinAvaStyled = styled.div`

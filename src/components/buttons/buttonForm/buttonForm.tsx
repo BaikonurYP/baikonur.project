@@ -7,7 +7,7 @@ import { ButtonContainerStyled, ButtonFormStyled } from './buttonFormStyled'
 interface ButtonFormProps {
     children: string
     disabled?: boolean
-    onClick: () => void
+    onClick?: () => void
     helper?: string
     helperPosition?: TooltipPosition
     helperState?: TooltipState
@@ -19,7 +19,7 @@ const ButtonForm: FC<ButtonFormProps> = (props) => {
             <ButtonFormStyled type="submit" {...props}></ButtonFormStyled>
             {props.helper && (
                 <Tooltip
-                    visibility={props.helper.length != 0}
+                    visible={props.helper.length != 0}
                     position={props.helperPosition}
                     state={props.helperState}
                 >
