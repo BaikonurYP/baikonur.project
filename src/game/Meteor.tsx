@@ -12,12 +12,13 @@ interface IOption {
 export default class Meteor extends CanvasObject {
     scale: number
     lives: number
+    rotation: number = 0.45
 
     constructor(MeteorImg: string, options: IOption) {
         super(MeteorImg, options.position)
         this.velocity = {
             x: getRandom(3, -3),
-            y: getRandom(1, 3),
+            y: getRandom(1, 3)
         }
         this.scale = options.scale
         this.image.onload = () => {

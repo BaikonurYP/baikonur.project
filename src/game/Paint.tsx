@@ -2,20 +2,20 @@ import CanvasObject from './CanvasObject'
 import Particle from './Particle'
 
 import { getRandom } from '../utils/getRandom'
+import Meteor from './Meteor'
 
 export default class Paint {
     ctx: CanvasRenderingContext2D
-    rotation: number = 0.45
 
     constructor(ctx: CanvasRenderingContext2D) {
         this.ctx = ctx
     }
 
-    rotate(object: CanvasObject) {
+    rotate(object: Meteor) {
         const x = object.position.x + object.width / 2
         const y = object.position.y + object.height / 2
         this.ctx.translate(x, y)
-        this.ctx.rotate(Math.PI / this.rotation)
+        this.ctx.rotate(Math.PI / object.rotation)
         this.ctx.translate(-x, -y)
     }
 
@@ -53,8 +53,8 @@ export default class Paint {
 
     update(object: CanvasObject, option?: { rotation?: boolean }) {
         if (option) {
-            if (option.rotation && object instanceof CanvasObject) {
-                this.rotation += 0.001
+            if (option.rotation && object instanceof Meteor) {
+                object.rotation += 0.001
                 this.ctx.save()
                 this.rotate(object)
                 this.draw(object)

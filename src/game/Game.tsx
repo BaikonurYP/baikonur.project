@@ -1,9 +1,11 @@
+import CanvasObject from './CanvasObject'
 import Paint from './Paint'
 import Player from './Player'
 import Projectile from './Projectile'
 import Meteor from './Meteor'
 import Invader from './Invader'
-import Particle, { IParticleOption } from './Particle'
+import Particle from './Particle'
+import Perk from './Perk'
 
 import ShipImg from '../images/player/plain_1.svg'
 import MeteorImg from '../images/Meteors/Meteor.png'
@@ -11,9 +13,11 @@ import InvaderImg from '../images/invaders/enemy_1.svg'
 import Invider2Img from '../images/invaders/enemy_2.svg'
 import PlayerProjectileImg from '../images/projectiles/projectile_blue.svg'
 import InvaderProjectileImg from '../images/projectiles/projectile_green.svg'
+import firePerkImg from '../images/perks/flash.svg'
+import livePerkImg from '../images/perks/heart.svg'
+import timePerkImg from '../images/perks/clock.svg'
 
 import { getRandom } from '../utils/getRandom'
-import CanvasObject from './CanvasObject'
 
 const keyMap = {
     w: false,
@@ -51,6 +55,8 @@ class Game {
 
     onChangeLives: (num: number) => void
 
+    onChangeLevel: (num: number) => void
+
     particles: Particle[]
 
     invaders: Invader[]
@@ -67,10 +73,14 @@ class Game {
 
     pause: boolean
 
+    perks: Perk[]
+    firePower: number
+
     constructor(
         ctx: CanvasRenderingContext2D,
         onChangePoint: (point: number) => void,
-        onChangeLives: (num: number) => void
+        onChangeLives: (num: number) => void,
+        onChangeLevel: (num: number) => void
     ) {
         this.paint = new Paint(ctx)
         this.ctx = ctx
@@ -98,12 +108,35 @@ class Game {
         this.enemiesProjectiles = []
         this.particles = []
         this.stars = []
+
+        this.perks = []
         this.point = 0
         this.per = 0
-        this.shooting = false
+        this.firePower = 250
         this.pause = false
         this.onChangePoint = onChangePoint
         this.onChangeLives = onChangeLives
+        this.onChangeLevel = onChangeLevel
+    }
+
+    fireUpgrade = () => {
+        if (this.firePower < 100) {
+            return
+        }
+        this.firePower -= 20
+    }
+
+    liveUpgrade = () => {
+        this.player.lives += 1
+        this.onChangeLives(this.player.lives)
+    }
+
+    timeUpgrade = () => {
+        if (this.complexity === 1) {
+            return
+        }
+        this.complexity -= 1
+        this.onChangeLevel(this.complexity)
     }
 
     addListeners() {
@@ -123,9 +156,6 @@ class Game {
                     break
                 case ' ':
                     keyMap.space = true
-                    break
-                case 'Escape':
-                    this.onPause()
                     break
             }
         })
@@ -206,7 +236,7 @@ class Game {
 
     shoot() {
         let per = performance.now()
-        if (per - this.per < 150) {
+        if (per - this.per < this.firePower) {
             return
         }
         this.projectiles.push(
@@ -397,9 +427,9 @@ class Game {
         objectsArr: CanvasObject[]
     ) {
         if (
-            object.position.y + object.width <=
+            object.position.y + object.height >= this.player.position.y &&
+            object.position.y + object.height <=
                 this.player.position.y + this.player.height &&
-            object.position.y + object.width > this.player.position.y &&
             object.position.x + object.width >= this.player.position.x &&
             object.position.x + object.width <=
                 this.player.position.x + this.player.width
@@ -409,6 +439,7 @@ class Game {
                 x: object.position.x,
                 y: object.position.y
             })
+
             this.player.lives -= 1
             this.onChangeLives(this.player.lives)
         }
@@ -484,20 +515,23 @@ class Game {
         })
     }
 
-    animate = () => {
-        if (!this.pause) {
-            requestAnimationFrame(this.animate)
-        }
-        this.drawBackground()
-        this.particlesUpdate()
-        this.meteorsUpdate()
-        if (this.player.lives > 0) {
-            this.control()
-            this.playerUpdate()
-        }
-        this.invidersUpdate()
-        this.projectilesUpdate()
-        this.enemiesProjectilesUpdate()
+    perksUpdate() {
+        this.perks.forEach((perk, i) => {
+            if (
+                perk.position.y + perk.height >= this.player.position.y &&
+                perk.position.y + perk.height > this.player.position.y &&
+                perk.position.x + perk.width >= this.player.position.x &&
+                perk.position.x + perk.width <=
+                    this.player.position.x + this.player.width
+            ) {
+                this.perks.splice(i, 1)
+                perk.upgrade()
+            }
+            if (perk.position.y >= this.canvasWidth) {
+                this.perks.splice(i, 1)
+            }
+            this.paint.update(perk)
+        })
     }
 
     addMeteor() {
@@ -537,9 +571,63 @@ class Game {
         return invader
     }
 
+    addPerk = () => {
+        const perkNum = getRandom(1, 4)
+        switch (perkNum) {
+            case 1:
+                this.perks.push(
+                    new Perk(
+                        firePerkImg,
+                        {
+                            x: getRandom(
+                                this.player.width,
+                                this.canvasWidth - this.player.width
+                            ),
+                            y: -30
+                        },
+                        this.fireUpgrade
+                    )
+                )
+                break
+            case 2:
+                this.perks.push(
+                    new Perk(
+                        livePerkImg,
+                        {
+                            x: getRandom(
+                                this.player.width,
+                                this.canvasWidth - this.player.width
+                            ),
+                            y: -30
+                        },
+                        this.liveUpgrade
+                    )
+                )
+                break
+            case 3:
+                this.perks.push(
+                    new Perk(
+                        timePerkImg,
+                        {
+                            x: getRandom(
+                                this.player.width,
+                                this.canvasWidth - this.player.width
+                            ),
+                            y: -30
+                        },
+                        this.timeUpgrade
+                    )
+                )
+                break
+        }
+    }
+
     startMechanics() {
         this.addMeteor()
         this.addInvader()
+        setInterval(() => {
+            this.addPerk()
+        }, 1000 * 25)
         setInterval(() => {
             if (this.complexity <= 4) {
                 clearInterval(this.addMeteor())
@@ -547,8 +635,26 @@ class Game {
             }
             clearInterval(this.addInvader())
             this.complexity += 1
+            this.onChangeLevel(this.complexity)
             this.addInvader()
         }, 1000 * 30)
+    }
+
+    animate = () => {
+        if (!this.pause) {
+            requestAnimationFrame(this.animate)
+        }
+        this.drawBackground()
+        this.particlesUpdate()
+        this.projectilesUpdate()
+        this.meteorsUpdate()
+        if (this.player.lives > 0) {
+            this.control()
+            this.enemiesProjectilesUpdate()
+            this.playerUpdate()
+        }
+        this.invidersUpdate()
+        this.perksUpdate()
     }
 
     start() {
@@ -556,6 +662,24 @@ class Game {
         this.animate()
         this.createStars()
         this.startMechanics()
+    }
+
+    restart() {
+        this.player.position = {
+            x: this.canvasWidth / 2 - this.player.width / 2,
+            y: this.canvasHeight - this.player.height - 20
+        }
+        this.player.lives = 3
+        this.firePower = 250
+        this.complexity = 1
+        this.meteors = []
+        this.invaders = []
+        this.projectiles = []
+        this.enemiesProjectiles = []
+        this.perks = []
+        this.onChangeLevel(1)
+        this.onChangePoint(0)
+        this.onChangeLives(3)
     }
 }
 
