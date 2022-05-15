@@ -3,6 +3,7 @@ import { HTTPMethod } from './types/HTTPTypes'
 import { RequestResult } from './types/RequestResult'
 import { SwaggerUserInfo } from './types/SwaggerTypes'
 
+/** АПИ для работы с авторизацией */
 export class AuthApi extends BaseApi {
     /**
      * Регистрация
