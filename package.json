@@ -8,7 +8,8 @@
         "lint-fix": "eslint src --fix",
         "start": "webpack serve --mode development",
         "build": "webpack --mode production",
-        "precommit": "lint-staged"
+        "precommit": "lint-staged",
+        "test": "node_modules/.bin/jest"
     },
     "repository": {
         "type": "git",
