@@ -5,5 +5,4 @@ export const rootReducer = combineReducers({
     leaders: leadersReducer,
 })
 
-
 export type RootState = ReturnType<typeof rootReducer>

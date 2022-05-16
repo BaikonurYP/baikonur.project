@@ -7,7 +7,7 @@ import {
     BoardStyled,
     LogoStyled,
     TitleStyled,
-    BoardUserInfoStyled
+    BoardUserInfoStyled,
 } from './LeaderboardPageStyled'
 
 import Star from '../../images/icons/star.svg'
@@ -16,14 +16,14 @@ import Skin2 from '../../images/skins/plain_2.svg'
 import Skin3 from '../../images/skins/plain_3.svg'
 
 import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
-import {fetchLeaders} from "../../store/actions/leadersAction";
+import { fetchLeaders } from '../../store/actions/leadersAction'
 
 const leadersMock = [
     { id: 1, name: 'Уничтожитель 1', avatar: Skin1, value: 7896540 },
     { id: 2, name: 'Разрушитель', avatar: Skin2, value: 7896540 },
     { id: 3, name: 'Уничтожитель 2', avatar: Skin3, value: 7896540 },
     { id: 4, name: 'Уничтожитель', avatar: Skin1, value: 7896540 },
-    { id: 5, name: 'Уничтожитель', avatar: Skin1, value: 7896540 }
+    { id: 5, name: 'Уничтожитель', avatar: Skin1, value: 7896540 },
 ]
 
 const LeaderboardPage: FC = () => {

@@ -1,5 +1,3 @@
 import leader from './leaderSaga'
 
-export default [
-    leader,
-]
+export default [leader]
