@@ -79,7 +79,7 @@ const LoginPage: FC = () => {
                     }}
                     onSubmit={(values, { setSubmitting }) => {
                         setSubmitting(false)
-                        setFormError('');
+                        setFormError('')
 
                         authApi.signIn(values).then((result) => {
                             if (result.successes) {
@@ -127,9 +127,7 @@ const LoginPage: FC = () => {
                                     )
                                 )}
 
-                                <ButtonForm
-                                    helper={formError}
-                                >
+                                <ButtonForm helper={formError}>
                                     Войти
                                 </ButtonForm>
                             </Container>

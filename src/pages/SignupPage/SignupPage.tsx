@@ -84,13 +84,21 @@ const SignupPage: FC = () => {
     /** Ошибка формы */
     const [formError, setFormError] = React.useState('')
 
-
     return (
         <Layout hasMenu>
             <Container direction="column">
                 <Logo />
                 <Formik
-                    initialValues={{ login: '', password: '', first_name: '', second_name: '', phone: '', email: '' } as signUpFields}
+                    initialValues={
+                        {
+                            login: '',
+                            password: '',
+                            first_name: '',
+                            second_name: '',
+                            phone: '',
+                            email: '',
+                        } as signUpFields
+                    }
                     validate={(values: signUpFields) => {
                         const errors: Partial<signUpFields> = {}
                         Object.keys(values).forEach(
@@ -135,7 +143,7 @@ const SignupPage: FC = () => {
                         isSubmitting,
                         isValid,
                     }) => (
-                        <form onSubmit={handleSubmit} style={{"width": "100%"}}>
+                        <form onSubmit={handleSubmit} style={{ width: '100%' }}>
                             <Container direction="column">
                                 <br />
                                 {chunkArray(

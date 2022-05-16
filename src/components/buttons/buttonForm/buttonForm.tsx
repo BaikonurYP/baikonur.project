@@ -5,7 +5,7 @@ import { TooltipPosition, TooltipState } from '../../tooltip/tooltipStyled'
 import { ButtonContainerStyled, ButtonFormStyled } from './buttonFormStyled'
 
 interface ButtonFormProps {
-    children: string
+    children?: string
     disabled?: boolean
     onClick?: () => void
     helper?: string
