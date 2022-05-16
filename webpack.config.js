@@ -1,7 +1,9 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const WorkboxPlugin = require('workbox-webpack-plugin')
+// const WorkboxPlugin = require('workbox-webpack-plugin')
+const { InjectManifest } = require('workbox-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = {
     entry: './src/index.tsx',
@@ -75,9 +77,22 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css',
         }),
-        new WorkboxPlugin.GenerateSW({
-            clientsClaim: true,
-            skipWaiting: true,
+        new CopyPlugin({
+            patterns: [
+                {
+                    from: 'service-worker.js',
+                    to: './',
+                },
+            ],
         }),
+        // new InjectManifest({
+        //     swSrc: './service-worker.js',
+        //     swDest: 'service-worker.js',
+        //     // Any other config if needed.
+        // }),
+        // new WorkboxPlugin.GenerateSW({
+        //     clientsClaim: true,
+        //     skipWaiting: true,
+        // }),
     ],
 }
