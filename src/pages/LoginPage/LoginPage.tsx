@@ -2,41 +2,14 @@ import React, { FC } from 'react'
 import ButtonForm from '../../components/buttons/buttonForm/buttonForm'
 import Container from '../../components/container/container'
 import Input from '../../components/inputs/input/input'
-import {
-    loginValidator,
-    passwordValidator,
-} from '../../core/helpers/FormValidator'
 import { AuthApi } from '../../core/http/api/AuthApi'
 import { useHistory } from 'react-router-dom'
 import { Layout } from '../../components/layout/layout'
 import { Logo } from '../../components/logo/logo'
-import { Formik } from 'formik'
+import { useFormik } from 'formik'
+import * as yup from 'yup'
 
 const authApi = new AuthApi()
-
-type loginFields = { login: string; password: string }
-
-const loginFieldsPreset: {
-    [key in keyof loginFields]: {
-        type: string
-        name: string
-        placeholder: string
-        validator: (str: string) => string
-    }
-} = {
-    login: {
-        type: 'text',
-        name: 'login',
-        placeholder: 'Логин',
-        validator: loginValidator,
-    },
-    password: {
-        type: 'password',
-        name: 'password',
-        placeholder: 'Пароль',
-        validator: passwordValidator,
-    },
-}
 
 /** Страница логина */
 const LoginPage: FC = () => {
@@ -49,91 +22,87 @@ const LoginPage: FC = () => {
     /** Ошибка формы */
     const [formError, setFormError] = React.useState('')
 
+    const formik = useFormik({
+        initialValues: {
+            login: '',
+            password: '',
+        },
+        validationSchema: yup.object({
+            login: yup
+                .string()
+                .required('Поле обязательно для заполнения')
+                .min(3, 'Минимальная длина - 3 символа')
+                .matches(
+                    /^[A-z0-9_-]{3,20}$/,
+                    'Допускается латиница, цифры, дефис (-) и нижнее подчеркивание(_)'
+                )
+                .matches(/^.*[A-z]{1}.*$/, 'Должна быть как миним одна буква'),
+            password: yup
+                .string()
+                .required('Поле обязательно для заполнения')
+                .min(8, 'Минимальная длина - 8 символов')
+                .max(40, 'Максимальная длина - 40 символов')
+                .matches(
+                    /^.*[A-ZА-ЯЁ]{1}.*$/,
+                    'Должна быть как минимум одна заглавная буква'
+                )
+                .matches(/^.*[0-9].*$/i, 'Должна быть как минимум одна цифра'),
+        }),
+        onSubmit: (values, { setSubmitting }) => {
+            setSubmitting(false)
+            setFormError('')
+
+            authApi.signIn(values).then((result) => {
+                if (result.successes) {
+                    goToGame()
+                } else {
+                    setFormError(result.error)
+                }
+            })
+        },
+    })
+
     return (
         <Layout hasMenu>
             <Container direction="column">
                 <Logo />
-                <Formik
-                    initialValues={{ login: '', password: '' } as loginFields}
-                    validate={(values: loginFields) => {
-                        const errors: Partial<loginFields> = {}
-                        Object.keys(values).forEach(
-                            (value: keyof loginFields) => {
-                                if (!values[value]) {
-                                    errors[
-                                        value
-                                    ] = `Поле "${loginFieldsPreset[value].placeholder}" должно быть заполнено`
-                                } else if (
-                                    loginFieldsPreset[value].validator(
-                                        values[value]
-                                    )
-                                ) {
-                                    errors[value] = loginFieldsPreset[
-                                        value
-                                    ].validator(values[value])
-                                }
+                <form onSubmit={formik.handleSubmit}>
+                    <Container direction="column">
+                        <br />
+                        <Input
+                            type="text"
+                            name="login"
+                            placeholder="Логин"
+                            value={formik.values.login}
+                            onChange={formik.handleChange}
+                            helper={formik.errors.login}
+                            state={
+                                formik.errors.login && formik.touched.login
+                                    ? 'danger'
+                                    : 'default'
                             }
-                        )
-
-                        return errors
-                    }}
-                    onSubmit={(values, { setSubmitting }) => {
-                        setSubmitting(false)
-                        setFormError('')
-
-                        authApi.signIn(values).then((result) => {
-                            if (result.successes) {
-                                goToGame()
-                            } else {
-                                setFormError(result.error)
+                            onBlur={formik.handleBlur}
+                            touched={formik.touched.login}
+                        />
+                        <Input
+                            type="password"
+                            name="password"
+                            placeholder="Пароль"
+                            value={formik.values.password}
+                            onChange={formik.handleChange}
+                            helper={formik.errors.password}
+                            state={
+                                formik.errors.password &&
+                                formik.touched.password
+                                    ? 'danger'
+                                    : 'default'
                             }
-                        })
-                    }}
-                >
-                    {({
-                        values,
-                        errors,
-                        touched,
-                        handleChange,
-                        handleBlur,
-                        handleSubmit,
-                        isSubmitting,
-                        isValid,
-                    }) => (
-                        <form onSubmit={handleSubmit}>
-                            <Container direction="column">
-                                <br />
-                                {Object.keys(loginFieldsPreset).map(
-                                    (field: keyof loginFields) => (
-                                        <Input
-                                            key={loginFieldsPreset[field].name}
-                                            type={loginFieldsPreset[field].type}
-                                            name={loginFieldsPreset[field].name}
-                                            placeholder={
-                                                loginFieldsPreset[field]
-                                                    .placeholder
-                                            }
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            value={values[field]}
-                                            touched={touched[field]}
-                                            helper={errors[field]}
-                                            state={
-                                                errors[field]
-                                                    ? 'danger'
-                                                    : 'default'
-                                            }
-                                        ></Input>
-                                    )
-                                )}
-
-                                <ButtonForm helper={formError}>
-                                    Войти
-                                </ButtonForm>
-                            </Container>
-                        </form>
-                    )}
-                </Formik>
+                            onBlur={formik.handleBlur}
+                            touched={formik.touched.password}
+                        />
+                        <ButtonForm helper={formError}>Войти</ButtonForm>
+                    </Container>
+                </form>
             </Container>
         </Layout>
     )

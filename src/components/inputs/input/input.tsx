@@ -22,15 +22,9 @@ const Input: FC<InputProps> = (props) => {
     return (
         <Label>
             <InputStyled state={props.state} {...props}></InputStyled>
-            {/* {props.helper && (
-                <Tooltip
-                    visible={props.touched}
-                    position={props.helperPosition}
-                >
-                    {props.helper}
-                </Tooltip>
-            )} */}
-            {props.helper && <InpurErrorStyle>{props.helper}</InpurErrorStyle>}
+            {props.touched && props.helper && (
+                <InpurErrorStyle>{props.helper}</InpurErrorStyle>
+            )}
         </Label>
     )
 }

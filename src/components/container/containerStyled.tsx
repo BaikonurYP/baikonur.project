@@ -31,18 +31,7 @@ export const ContainerStyled = styled.div<{
 }>`
     display: flex;
     width: ${(props) => props.width ?? 100}%;
-    ${(props) => {
-        switch (props.direction) {
-            case 'column':
-                return 'flex-direction: column;'
-            case 'column-reverse':
-                return 'flex-direction: column-reverse;'
-            case 'row-reverse':
-                return 'flex-direction: row-reverse;'
-            default:
-                return 'flex-direction: row;'
-        }
-    }}
+    flex-direction: ${props => props.direction ?? 'row'};
 
     ${(props) => {
         switch (props.mineAxisAlign) {

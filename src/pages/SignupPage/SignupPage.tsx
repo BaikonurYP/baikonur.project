@@ -1,4 +1,4 @@
-import { Formik } from 'formik'
+import { Formik, useFormik } from 'formik'
 import React, { FC } from 'react'
 import { useHistory } from 'react-router-dom'
 import ButtonForm from '../../components/buttons/buttonForm/buttonForm'
@@ -6,73 +6,10 @@ import Container from '../../components/container/container'
 import Input from '../../components/inputs/input/input'
 import { Layout } from '../../components/layout/layout'
 import { Logo } from '../../components/logo/logo'
-import { chunkArray } from '../../core/helpers/ArrayHelpers'
-import {
-    emailValidator,
-    firstNameValidator,
-    loginValidator,
-    passwordValidator,
-    phoneValidator,
-    secondNameValidator,
-} from '../../core/helpers/FormValidator'
 import { AuthApi } from '../../core/http/api/AuthApi'
+import * as yup from 'yup'
 
 const authApi = new AuthApi()
-
-type signUpFields = {
-    login: string
-    password: string
-    first_name: string
-    second_name: string
-    email: string
-    phone: string
-}
-
-const signUpFieldsPreset: {
-    [key in keyof signUpFields]: {
-        type: string
-        name: string
-        placeholder: string
-        validator: (str: string) => string
-    }
-} = {
-    login: {
-        type: 'text',
-        name: 'login',
-        placeholder: 'Логин',
-        validator: loginValidator,
-    },
-    password: {
-        type: 'password',
-        name: 'password',
-        placeholder: 'Пароль',
-        validator: passwordValidator,
-    },
-    first_name: {
-        type: 'text',
-        name: 'first_name',
-        placeholder: 'Имя',
-        validator: firstNameValidator,
-    },
-    second_name: {
-        type: 'text',
-        name: 'second_name',
-        placeholder: 'Фамилия',
-        validator: secondNameValidator,
-    },
-    email: {
-        type: 'text',
-        name: 'email',
-        placeholder: 'Email',
-        validator: emailValidator,
-    },
-    phone: {
-        type: 'text',
-        name: 'phone',
-        placeholder: 'Номер телефона',
-        validator: phoneValidator,
-    },
-}
 
 /** Страница регистрации */
 const SignupPage: FC = () => {
@@ -84,116 +21,191 @@ const SignupPage: FC = () => {
     /** Ошибка формы */
     const [formError, setFormError] = React.useState('')
 
+    const formik = useFormik({
+        initialValues: {
+            login: '',
+            password: '',
+            first_name: '',
+            second_name: '',
+            phone: '',
+            email: '',
+        },
+        validationSchema: yup.object({
+            login: yup
+                .string()
+                .required('Поле обязательно для заполнения')
+                .min(3, 'Минимальная длина - 3 символа')
+                .matches(
+                    /^[A-z0-9_-]{3,20}$/,
+                    'Допускается латиница, цифры, дефис (-) и нижнее подчеркивание(_)'
+                )
+                .matches(/^.*[A-z]{1}.*$/, 'Должна быть как миним одна буква'),
+            password: yup
+                .string()
+                .required('Поле обязательно для заполнения')
+                .min(8, 'Минимальная длина - 8 символов')
+                .max(40, 'Максимальная длина - 40 символов')
+                .matches(
+                    /^.*[A-ZА-ЯЁ]{1}.*$/,
+                    'Должна быть как минимум одна заглавная буква'
+                )
+                .matches(/^.*[0-9].*$/i, 'Должна быть как минимум одна цифра'),
+            first_name: yup
+                .string()
+                .required('Поле обязательно для заполнения')
+                .matches(
+                    /^[A-ZА-ЯЁ][A-zА-яЁё-]+$/,
+                    'Допускается только кириллица, латиница и нижнее подчеркивание (_)'
+                ),
+            second_name: yup
+                .string()
+                .required('Поле обязательно для заполнения')
+                .matches(
+                    /^[A-ZА-ЯЁ][A-zА-яЁё-]+$/,
+                    'Допускается только кириллица, латиница и нижнее подчеркивание (_)'
+                ),
+            email: yup
+                .string()
+                .required('Поле обязательно для заполнения')
+                .email('Адрес электроной почты должен быь введен корректно'),
+            phone: yup
+                .string()
+                .required('Поле обязательно для заполнения')
+                .min(8, 'Минимальная длина - 8 символов')
+                .max(15, 'Максимальная длина - 15 символов')
+                .matches(
+                    /^\+?\d{8,15}$/,
+                    'Допускаются только цифры и знак плюса в начале'
+                ),
+        }),
+        onSubmit: (values, { setSubmitting }) => {
+            setSubmitting(false)
+            setFormError('')
+            authApi.signUp(values).then((result) => {
+                if (result.successes) {
+                    goToGame()
+                } else {
+                    setFormError(result.error)
+                }
+            })
+        },
+    })
+
     return (
         <Layout hasMenu>
             <Container direction="column">
                 <Logo />
-                <Formik
-                    initialValues={
-                        {
-                            login: '',
-                            password: '',
-                            first_name: '',
-                            second_name: '',
-                            phone: '',
-                            email: '',
-                        } as signUpFields
-                    }
-                    validate={(values: signUpFields) => {
-                        const errors: Partial<signUpFields> = {}
-                        Object.keys(values).forEach(
-                            (value: keyof signUpFields) => {
-                                if (!values[value]) {
-                                    errors[
-                                        value
-                                    ] = `Поле "${signUpFieldsPreset[value].placeholder}" должно быть заполнено`
-                                } else if (
-                                    signUpFieldsPreset[value].validator(
-                                        values[value]
-                                    )
-                                ) {
-                                    errors[value] = signUpFieldsPreset[
-                                        value
-                                    ].validator(values[value])
+
+                <form onSubmit={formik.handleSubmit} style={{ width: '100%' }}>
+                    <Container direction="column">
+                        <br />
+                        <Container mineAxisAlign="between" width={70}>
+                            <Input
+                                type="text"
+                                name="login"
+                                placeholder="Логин"
+                                value={formik.values.login}
+                                onChange={formik.handleChange}
+                                helper={formik.errors.login}
+                                state={
+                                    formik.errors.login && formik.touched.login
+                                        ? 'danger'
+                                        : 'default'
                                 }
-                            }
-                        )
+                                onBlur={formik.handleBlur}
+                                touched={formik.touched.login}
+                            />
+                            <Input
+                                type="password"
+                                name="password"
+                                placeholder="Пароль"
+                                value={formik.values.password}
+                                onChange={formik.handleChange}
+                                helper={formik.errors.password}
+                                state={
+                                    formik.errors.password &&
+                                    formik.touched.password
+                                        ? 'danger'
+                                        : 'default'
+                                }
+                                onBlur={formik.handleBlur}
+                                touched={formik.touched.password}
+                            />
+                        </Container>
 
-                        return errors
-                    }}
-                    onSubmit={(values, { setSubmitting }) => {
-                        setSubmitting(false)
-                        setFormError('')
-                        authApi.signUp(values).then((result) => {
-                            if (result.successes) {
-                                goToGame()
-                            } else {
-                                setFormError(result.error)
-                            }
-                        })
-                    }}
-                >
-                    {({
-                        values,
-                        errors,
-                        touched,
-                        handleChange,
-                        handleBlur,
-                        handleSubmit,
-                        isSubmitting,
-                        isValid,
-                    }) => (
-                        <form onSubmit={handleSubmit} style={{ width: '100%' }}>
-                            <Container direction="column">
-                                <br />
-                                {chunkArray(
-                                    Object.keys(signUpFieldsPreset)
-                                ).map((fields: (keyof signUpFields)[]) => (
-                                    <Container
-                                        mineAxisAlign="between"
-                                        key={fields[0]}
-                                        width={70}
-                                    >
-                                        {fields.map((field) => (
-                                            <Input
-                                                key={
-                                                    signUpFieldsPreset[field]
-                                                        .name
-                                                }
-                                                type={
-                                                    signUpFieldsPreset[field]
-                                                        .type
-                                                }
-                                                name={
-                                                    signUpFieldsPreset[field]
-                                                        .name
-                                                }
-                                                placeholder={
-                                                    signUpFieldsPreset[field]
-                                                        .placeholder
-                                                }
-                                                onChange={handleChange}
-                                                onBlur={handleBlur}
-                                                value={values[field]}
-                                                touched={touched[field]}
-                                                helper={errors[field]}
-                                                state={
-                                                    errors[field]
-                                                        ? 'danger'
-                                                        : 'default'
-                                                }
-                                            ></Input>
-                                        ))}
-                                    </Container>
-                                ))}
+                        <Container mineAxisAlign="between" width={70}>
+                            <Input
+                                type="text"
+                                name="first_name"
+                                placeholder="Имя"
+                                value={formik.values.first_name}
+                                onChange={formik.handleChange}
+                                helper={formik.errors.first_name}
+                                state={
+                                    formik.errors.first_name &&
+                                    formik.touched.first_name
+                                        ? 'danger'
+                                        : 'default'
+                                }
+                                onBlur={formik.handleBlur}
+                                touched={formik.touched.first_name}
+                            />
+                            <Input
+                                type="text"
+                                name="second_name"
+                                placeholder="Фамилия"
+                                value={formik.values.second_name}
+                                onChange={formik.handleChange}
+                                helper={formik.errors.second_name}
+                                state={
+                                    formik.errors.second_name &&
+                                    formik.touched.second_name
+                                        ? 'danger'
+                                        : 'default'
+                                }
+                                onBlur={formik.handleBlur}
+                                touched={formik.touched.second_name}
+                            />
+                        </Container>
 
-                                <ButtonForm helper={formError}>
-                                    Зарегистрироваться
-                                </ButtonForm>
-                            </Container>
-                        </form>
-                    )}
-                </Formik>
+                        <Container mineAxisAlign="between" width={70}>
+                            <Input
+                                type="text"
+                                name="phone"
+                                placeholder="Телефон"
+                                value={formik.values.phone}
+                                onChange={formik.handleChange}
+                                helper={formik.errors.phone}
+                                state={
+                                    formik.errors.phone && formik.touched.phone
+                                        ? 'danger'
+                                        : 'default'
+                                }
+                                onBlur={formik.handleBlur}
+                                touched={formik.touched.phone}
+                            />
+                            <Input
+                                type="text"
+                                name="email"
+                                placeholder="EMail"
+                                value={formik.values.email}
+                                onChange={formik.handleChange}
+                                helper={formik.errors.email}
+                                state={
+                                    formik.errors.email && formik.touched.email
+                                        ? 'danger'
+                                        : 'default'
+                                }
+                                onBlur={formik.handleBlur}
+                                touched={formik.touched.email}
+                            />
+                        </Container>
+
+                        <ButtonForm helper={formError}>
+                            Зарегистрироваться
+                        </ButtonForm>
+                    </Container>
+                </form>
             </Container>
         </Layout>
     )
