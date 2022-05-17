@@ -31,7 +31,7 @@ export const ContainerStyled = styled.div<{
 }>`
     display: flex;
     width: ${(props) => props.width ?? 100}%;
-    flex-direction: ${props => props.direction ?? 'row'}
+    flex-direction: ${props => props.direction ?? 'row'};
 
     ${(props) => {
         switch (props.mineAxisAlign) {
