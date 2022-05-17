@@ -36,11 +36,11 @@ const App: FC = () => (
         <Route path="/leaderboard">
             <LeaderboardPage />
         </Route>
-        <Route path="*">
-            <Page404 />
-        </Route>
         <Route path="/500">
             <Page500 />
+        </Route>
+        <Route path="*">
+            <Page404 />
         </Route>
     </Switch>
 )
