@@ -8,6 +8,13 @@ import { Layout } from '../../components/layout/layout'
 import { Logo } from '../../components/logo/logo'
 import { AuthApi } from '../../core/http/api/AuthApi'
 import * as yup from 'yup'
+import {
+    emailValidationChain,
+    loginValidationChain,
+    nameValidationChain,
+    passwordValidationChain,
+    phoneValidationChain,
+} from '../../components/inputs/validators'
 
 const authApi = new AuthApi()
 
@@ -31,52 +38,12 @@ const SignupPage: FC = () => {
             email: '',
         },
         validationSchema: yup.object({
-            login: yup
-                .string()
-                .required('Поле обязательно для заполнения')
-                .min(3, 'Минимальная длина - 3 символа')
-                .matches(
-                    /^[A-z0-9_-]{3,20}$/,
-                    'Допускается латиница, цифры, дефис (-) и нижнее подчеркивание(_)'
-                )
-                .matches(/^.*[A-z]{1}.*$/, 'Должна быть как миним одна буква'),
-            password: yup
-                .string()
-                .required('Поле обязательно для заполнения')
-                .min(8, 'Минимальная длина - 8 символов')
-                .max(40, 'Максимальная длина - 40 символов')
-                .matches(
-                    /^.*[A-ZА-ЯЁ]{1}.*$/,
-                    'Должна быть как минимум одна заглавная буква'
-                )
-                .matches(/^.*[0-9].*$/i, 'Должна быть как минимум одна цифра'),
-            first_name: yup
-                .string()
-                .required('Поле обязательно для заполнения')
-                .matches(
-                    /^[A-ZА-ЯЁ][A-zА-яЁё-]+$/,
-                    'Допускается только кириллица, латиница и нижнее подчеркивание (_)'
-                ),
-            second_name: yup
-                .string()
-                .required('Поле обязательно для заполнения')
-                .matches(
-                    /^[A-ZА-ЯЁ][A-zА-яЁё-]+$/,
-                    'Допускается только кириллица, латиница и нижнее подчеркивание (_)'
-                ),
-            email: yup
-                .string()
-                .required('Поле обязательно для заполнения')
-                .email('Адрес электроной почты должен быь введен корректно'),
-            phone: yup
-                .string()
-                .required('Поле обязательно для заполнения')
-                .min(8, 'Минимальная длина - 8 символов')
-                .max(15, 'Максимальная длина - 15 символов')
-                .matches(
-                    /^\+?\d{8,15}$/,
-                    'Допускаются только цифры и знак плюса в начале'
-                ),
+            login: loginValidationChain,
+            password: passwordValidationChain,
+            first_name: nameValidationChain,
+            second_name: nameValidationChain,
+            email: emailValidationChain,
+            phone: phoneValidationChain,
         }),
         onSubmit: (values, { setSubmitting }) => {
             setSubmitting(false)
