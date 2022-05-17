@@ -48,7 +48,7 @@ export class BaseApi {
             config = { ...config, ...options }
         }
 
-        let result: RequestResult<T>
+        let result: RequestResult<T> = {}
         return axios(config)
             .then((response) => {
                 result.successes = true
@@ -63,6 +63,11 @@ export class BaseApi {
                 }
                 if (error.response) {
                     result.error = error.response.data
+                    if (typeof result.error == 'object') {
+                        if (result.error.reason)
+                            result.error = result.error.reason
+                        else result.error = JSON.stringify(result.error)
+                    }
                     if (!result.code) result.code = error.response.status
                 }
                 return result

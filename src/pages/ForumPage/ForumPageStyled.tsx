@@ -1,11 +1,12 @@
 import styled from 'styled-components'
+import { getColor } from '../../styles/GlobalStyle/colors'
 
 export const ForumWrapperStyled = styled.div`
     width: 1140px;
     padding: 30px;
     font-family: 'Roboto';
-    background-color: var(--purple-light);
-    color: var(--white);
+    background-color: ${getColor('purple-light')};
+    color: ${getColor('white')};
     margin-top: 80px;
 `
 export const ForumTableStyled = styled.table`
@@ -15,7 +16,7 @@ export const ForumTableStyled = styled.table`
     border-collapse: collapse;
     font-size: 14px;
     tr {
-        border-bottom: 1px solid var(--purple-grey);
+        border-bottom: 1px solid ${getColor('purple-grey')};
         padding: 16px 0;
         td {
             padding: 16px 10px;
@@ -23,7 +24,7 @@ export const ForumTableStyled = styled.table`
         }
         th {
             padding: 16px 10px;
-            background-color: var(--purple);
+            background-color: ${getColor('purple')};
             text-align: left;
         }
     }
@@ -45,20 +46,20 @@ export const SkinWrapStyled = styled.div`
     align-items: center;
     display: flex;
     flex-direction: column;
-    color: var(--white);
+    color: ${getColor('white')};
     &:hover {
         cursor: pointer;
-        color: var(--blue-light);
+        color: ${getColor('blue-light')};
     }
     &:hover > div:first-of-type {
-        outline: 4px solid var(--blue-light);
+        outline: 4px solid ${getColor('blue-light')};
     }
 `
 export const ForumAvaStyled = styled.div`
     width: 78px;
     height: 78px;
     border-radius: 39px;
-    background-color: var(--light-grey);
+    background-color: ${getColor('light-grey')};
     overflow: hidden;
     img {
         width: 70%;
@@ -88,8 +89,8 @@ export const ForumMessageStyled = styled.div`
     flex-direction: column;
 `
 export const ForumTextareaStyled = styled.textarea`
-    border: 1px solid var(--purple);
-    background-color: var(--light-grey);
+    border: 1px solid ${getColor('purple')};
+    background-color: ${getColor('light-grey')};
     width: 100%;
     min-height: 100px;
     margin: 12px 0;
