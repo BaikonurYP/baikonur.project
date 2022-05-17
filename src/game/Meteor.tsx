@@ -20,6 +20,7 @@ export default class Meteor extends CanvasObject {
             x: getRandom(3, -3),
             y: getRandom(1, 3)
         }
+        this.lives = 1
         this.scale = options.scale
         this.image.onload = () => {
             this.width = this.image.width * this.scale
@@ -28,14 +29,14 @@ export default class Meteor extends CanvasObject {
     }
 
     destruction = () => {
-        const meteriteQuantity = getRandom(1, 3)
-        const meterites: Meteor[] = []
+        const meteoriteQuantity = getRandom(1, 3)
+        const meteorites: Meteor[] = []
 
-        for (let i = 0; i <= meteriteQuantity; i++) {
-            meterites.push(
+        for (let i = 0; i <= meteoriteQuantity; i++) {
+            meteorites.push(
                 new Meteor(this.img, { position: this.position, scale: 0.6 })
             )
         }
-        return meterites
+        return meteorites
     }
 }

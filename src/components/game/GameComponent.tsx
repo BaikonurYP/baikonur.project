@@ -85,13 +85,15 @@ const GameComponent: FC = () => {
 
     return (
         <Wrapper>
-            <Popup title="Пауза" onVisible={pause}>
+            <Popup title="Пауза" isVisible={pause}>
                 <ButtonText onClick={onPause}>Продолжить игру</ButtonText>
                 <ButtonText onClick={restartHandler}>Начать заново</ButtonText>
                 <ButtonText onClick={onLeave}>Выйти из игры</ButtonText>
             </Popup>
-            <Popup title="Game over" onVisible={playerLives > 0 ? false : true}>
-                <ButtonText onClick={restartHandler}>Начать заново</ButtonText>
+            <Popup title="Game over" isVisible={playerLives > 0 ? false : true}>
+                <ButtonText onClick={() => currentGame.restart()}>
+                    Начать заново
+                </ButtonText>
                 <ButtonText onClick={onLookLiders}>
                     Посмотреть лидеров
                 </ButtonText>

@@ -17,14 +17,13 @@ export default class CanvasObject {
             this.width = this.image.width
             this.height = this.image.height
         }
-        this.lives = 1
         this.position = {
             x: position.x,
-            y: position.y,
+            y: position.y
         }
         this.velocity = {
             x: 0,
-            y: 0,
+            y: 0
         }
     }
 }

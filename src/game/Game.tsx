@@ -74,7 +74,16 @@ class Game {
     pause: boolean
 
     perks: Perk[]
+
     firePower: number
+
+    meteorTimeStep: number
+
+    invaderTimeStep: number
+
+    perkTimeStep: number
+
+    complexityTimeStep: number
 
     constructor(
         ctx: CanvasRenderingContext2D,
@@ -117,6 +126,10 @@ class Game {
         this.onChangePoint = onChangePoint
         this.onChangeLives = onChangeLives
         this.onChangeLevel = onChangeLevel
+        this.meteorTimeStep = 0
+        this.invaderTimeStep = 0
+        this.perkTimeStep = 0
+        this.complexityTimeStep = 0
     }
 
     fireUpgrade = () => {
@@ -307,12 +320,6 @@ class Game {
         )
     }
 
-    remoovebject(arr: any, index: number) {
-        setTimeout(() => {
-            arr.splice(index, 1)
-        }, 0)
-    }
-
     transformInvider(position: { x: number; y: number }) {
         this.invaders.splice(0, 2)
         setTimeout(() => {
@@ -356,8 +363,8 @@ class Game {
         })
     }
 
-    meteorDestraktion(meteor: Meteor) {
-        if (meteor.scale != 0.6) {
+    meteorDestraction(meteor: Meteor) {
+        if (meteor.scale !== 0.6) {
             const meterites = meteor.destruction()
             meterites.forEach((meteorite) => {
                 this.meteors.push(meteorite)
@@ -376,7 +383,7 @@ class Game {
             }
             this.paint.update(meteor, { rotation: true })
             this.hitToObject(meteor, i, this.meteors, () => {
-                this.meteorDestraktion(meteor)
+                this.meteorDestraction(meteor)
             })
         })
     }
@@ -534,8 +541,70 @@ class Game {
         })
     }
 
+    addPerk = () => {
+        const perkStep = performance.now()
+        if (perkStep - this.perkTimeStep > 15000) {
+            let perkNum
+            if (this.complexity > 1) {
+                perkNum = getRandom(1, 4)
+            } else {
+                perkNum = getRandom(1, 3)
+            }
+            switch (perkNum) {
+                case 1:
+                    this.perks.push(
+                        new Perk(
+                            firePerkImg,
+                            {
+                                x: getRandom(
+                                    this.player.width,
+                                    this.canvasWidth - this.player.width
+                                ),
+                                y: -30
+                            },
+                            this.fireUpgrade
+                        )
+                    )
+                    break
+                case 2:
+                    this.perks.push(
+                        new Perk(
+                            livePerkImg,
+                            {
+                                x: getRandom(
+                                    this.player.width,
+                                    this.canvasWidth - this.player.width
+                                ),
+                                y: -30
+                            },
+                            this.liveUpgrade
+                        )
+                    )
+                    break
+                case 3:
+                    this.perks.push(
+                        new Perk(
+                            timePerkImg,
+                            {
+                                x: getRandom(
+                                    this.player.width,
+                                    this.canvasWidth - this.player.width
+                                ),
+                                y: -30
+                            },
+                            this.timeUpgrade
+                        )
+                    )
+                    break
+            }
+            this.perkTimeStep = perkStep
+        }
+        return
+    }
+
     addMeteor() {
-        let meteor = setInterval(() => {
+        const meteorStep = performance.now()
+        if (meteorStep - this.meteorTimeStep > (5000 / this.complexity) * 1.2) {
             this.meteors.push(
                 new Meteor(MeteorImg, {
                     position: {
@@ -545,12 +614,17 @@ class Game {
                     scale: 1
                 })
             )
-        }, (5000 / this.complexity) * 1.8)
-        return meteor
+            this.meteorTimeStep = meteorStep
+        }
+        return
     }
 
     addInvader() {
-        let invader = setInterval(() => {
+        const invaderStep = performance.now()
+        if (
+            invaderStep - this.invaderTimeStep >
+            (3000 / this.complexity) * 1.5
+        ) {
             if (this.invaders.length >= 2) {
                 return
             }
@@ -567,77 +641,18 @@ class Game {
                     lives: 1
                 })
             )
-        }, (3000 / this.complexity) * 1.5)
-        return invader
-    }
-
-    addPerk = () => {
-        const perkNum = getRandom(1, 4)
-        switch (perkNum) {
-            case 1:
-                this.perks.push(
-                    new Perk(
-                        firePerkImg,
-                        {
-                            x: getRandom(
-                                this.player.width,
-                                this.canvasWidth - this.player.width
-                            ),
-                            y: -30
-                        },
-                        this.fireUpgrade
-                    )
-                )
-                break
-            case 2:
-                this.perks.push(
-                    new Perk(
-                        livePerkImg,
-                        {
-                            x: getRandom(
-                                this.player.width,
-                                this.canvasWidth - this.player.width
-                            ),
-                            y: -30
-                        },
-                        this.liveUpgrade
-                    )
-                )
-                break
-            case 3:
-                this.perks.push(
-                    new Perk(
-                        timePerkImg,
-                        {
-                            x: getRandom(
-                                this.player.width,
-                                this.canvasWidth - this.player.width
-                            ),
-                            y: -30
-                        },
-                        this.timeUpgrade
-                    )
-                )
-                break
+            this.invaderTimeStep = invaderStep
         }
+        return
     }
 
-    startMechanics() {
-        this.addMeteor()
-        this.addInvader()
-        setInterval(() => {
-            this.addPerk()
-        }, 1000 * 25)
-        setInterval(() => {
-            if (this.complexity <= 4) {
-                clearInterval(this.addMeteor())
-                this.addMeteor()
-            }
-            clearInterval(this.addInvader())
+    increaseComplexity() {
+        const complexityTimeStep = performance.now()
+        if (complexityTimeStep - this.complexityTimeStep > 20000) {
             this.complexity += 1
             this.onChangeLevel(this.complexity)
-            this.addInvader()
-        }, 1000 * 30)
+            this.complexityTimeStep = complexityTimeStep
+        }
     }
 
     animate = () => {
@@ -655,13 +670,16 @@ class Game {
         }
         this.invidersUpdate()
         this.perksUpdate()
+        this.addMeteor()
+        this.addInvader()
+        this.addPerk()
+        this.increaseComplexity()
     }
 
     start() {
         this.addListeners()
         this.animate()
         this.createStars()
-        this.startMechanics()
     }
 
     restart() {
@@ -680,6 +698,7 @@ class Game {
         this.onChangeLevel(1)
         this.onChangePoint(0)
         this.onChangeLives(3)
+        performance.clearResourceTimings()
     }
 }
 
