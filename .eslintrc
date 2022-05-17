@@ -54,6 +54,7 @@
         "no-underscore-dangle": ["warn"],
         "no-unneeded-ternary": ["warn"],
         "no-unused-expressions": ["off"],
+        "no-undef": ["off"],
         "no-unused-vars": ["off"],
         "no-use-before-define": ["warn"],
         "object-shorthand": ["warn"],
