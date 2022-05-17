@@ -1,16 +1,17 @@
 import styled from 'styled-components'
+import { getColor } from '../../../styles/GlobalStyle/colors'
 
 export const ButtonTextStyled = styled.button`
     padding: 10px;
-    background: var(--clear);
+    background: ${getColor('clear')};
     border: none;
     font-family: 'Roboto';
     font-size: 16px;
-    color: var(--white);
+    color: ${getColor('white')};
     cursor: pointer;
     transition: 0.3s;
 
     &:hover {
-        color: var(--yellow);
+        color: ${getColor('yellow')};
     }
 `

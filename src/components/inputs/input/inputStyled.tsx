@@ -1,35 +1,48 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import { colors, getColor } from '../../../styles/GlobalStyle/colors'
 
 export const Label = styled.label`
     position: relative;
+    height: 75px;
 `
 
-export const InputStyled = styled.input`
-    padding: 20px 7px 0;
+export type InputState = 'default' | 'danger'
+
+function getInputColor(state: InputState) {
+    const input_colors: Record<InputState, keyof typeof colors> = {
+        default: 'white',
+        danger: 'red-light',
+    }
+    return input_colors[state] || 'white'
+}
+
+export const InputStyled = styled.input<{ state: InputState }>`
+    padding: 0px 7px 0;
     width: 280px;
-    height: 50px;
-    background-color: var(--clear);
+    height: 30px;
+    background-color: ${getColor('clear')};
     border: none;
     outline: none;
-    border-bottom: 2px solid var(--white);
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-size: 13px;
-    color: var(--white);
+    color: ${(props) => getColor(getInputColor(props.state))};
+    border-bottom: 2px solid ${(props) => getColor(getInputColor(props.state))};
 
     &::placeholder {
-        font-family: 'Roboto';
+        font-family: 'Roboto', sans-serif;
         font-size: 13px;
-        color: var(--white);
+        color: ${getColor('white')};
     }
 `
 
-export const ErrorText = styled.p`
+export const InpurErrorStyle = styled.span`
+    color: ${getColor('red-light')};
+    font-size: 10px;
+    font-family: 'Roboto', sans-serif;
     position: absolute;
-    top: 100%;
-    left: 7px;
-    margin: 0;
-    padding: 0;
-    font-family: 'Roboto';
-    font-size: 13px;
-    color: var(--red-light);
+    top: 40px;
+    right: 0px;
+    width: 280px;
+    padding-left: 7px;
+    font-weight: bold;
 `

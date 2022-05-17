@@ -1,20 +1,21 @@
 import styled, { css } from 'styled-components'
+import { getColor } from '../../../styles/GlobalStyle/colors'
 import { ButtonMainProps } from './buttonMain'
 
 export const ButtonMainStyled = styled.button<ButtonMainProps>`
     padding: 0 0 0 0;
     width: 243px;
     height: 38px;
-    background: var(--purple);
+    background: ${getColor('purple')};
     border: none;
     font-family: 'Roboto';
     font-size: 16px;
-    color: var(--white);
+    color: ${getColor('white')};
     cursor: pointer;
     transition: 0.3s;
 
     &:hover {
-        background: var(--purple-dark);
+        background: ${getColor('purple-dark')};
     }
 
     &:active {
@@ -24,11 +25,11 @@ export const ButtonMainStyled = styled.button<ButtonMainProps>`
     ${({ color }) =>
         color === 'yellow' &&
         css`
-            background: var(--yellow);
-            color: var(--purple);
+            background: ${getColor('yellow')};
+            color: ${getColor('purple')};
 
             &:hover {
-                background: var(--yellow-dark);
+                background: ${getColor('yellow-dark')};
             }
         `}
 `

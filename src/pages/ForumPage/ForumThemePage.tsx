@@ -18,6 +18,7 @@ import Ava1 from './images/ava1.svg'
 import Ava2 from './images/ava2.svg'
 import Ava3 from './images/ava3.svg'
 import ButtonMain from '../../components/buttons/buttonMain/buttonMain'
+import { Layout } from '../../components/layout/layout'
 
 const ForumThemePage: React.FC = () => {
     const history = useHistory()
@@ -68,37 +69,45 @@ const ForumThemePage: React.FC = () => {
         []
     )
     return (
-        <Container>
-            <ForumWrapperStyled>
-                <ForumTableStyled>
-                    <thead>
-                        <tr>
-                            {columns.map((column) => (
-                                <th key={column.key}>{column.header}</th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data.map((item, i) => (
-                            <tr key={item.id}>
-                                <td>
-                                    <ForumAvaStyled>
-                                        <img src={item.avatar} alt="avatar" />
-                                    </ForumAvaStyled>
-                                </td>
-                                <td>{item.message}</td>
+        <Layout hasMenu>
+            <Container direction="column">
+                <ForumWrapperStyled>
+                    <ForumTableStyled>
+                        <thead>
+                            <tr>
+                                {columns.map((column) => (
+                                    <th key={column.key}>{column.header}</th>
+                                ))}
                             </tr>
-                        ))}
-                    </tbody>
-                </ForumTableStyled>
-                <ForumMessageStyled>
-                    <ForumTextareaStyled />
-                    <ButtonMain color="yellow" onClick={() => console.log()}>
-                        Отправить сообщение
-                    </ButtonMain>
-                </ForumMessageStyled>
-            </ForumWrapperStyled>
-        </Container>
+                        </thead>
+                        <tbody>
+                            {data.map((item, i) => (
+                                <tr key={item.id}>
+                                    <td>
+                                        <ForumAvaStyled>
+                                            <img
+                                                src={item.avatar}
+                                                alt="avatar"
+                                            />
+                                        </ForumAvaStyled>
+                                    </td>
+                                    <td>{item.message}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </ForumTableStyled>
+                    <ForumMessageStyled>
+                        <ForumTextareaStyled />
+                        <ButtonMain
+                            color="yellow"
+                            onClick={() => console.log()}
+                        >
+                            Отправить сообщение
+                        </ButtonMain>
+                    </ForumMessageStyled>
+                </ForumWrapperStyled>
+            </Container>
+        </Layout>
     )
 }
 
