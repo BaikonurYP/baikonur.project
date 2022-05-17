@@ -10,7 +10,5 @@ type HeaderProps = {
 type Props = FC<HeaderProps>
 
 export const Header: Props = (props) => (
-    <HeaderStyled>
-        {props.children}
-    </HeaderStyled>
+    <HeaderStyled>{props.children}</HeaderStyled>
 )

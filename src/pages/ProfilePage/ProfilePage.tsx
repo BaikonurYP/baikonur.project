@@ -96,121 +96,119 @@ const ProfilePage: FC = () => {
         <Layout hasMenu>
             <Container direction="column">
                 <Logo />
-                <Container direction="column">
-                  <Header>Профиль</Header>
-                <form onSubmit={formik.handleSubmit} style={{ width: '100%' }}>
-                    <Container direction="column">
-                        <br />
-                        <Container mineAxisAlign="between" width={70}>
-                            <Input
-                                type="text"
-                                name="login"
-                                placeholder="Логин"
-                                value={formik.values.login}
-                                onChange={formik.handleChange}
-                                helper={formik.errors.login}
-                                state={
-                                    formik.errors.login && formik.touched.login
-                                        ? 'danger'
-                                        : 'default'
-                                }
-                                onBlur={formik.handleBlur}
-                                touched={formik.touched.login}
-                            />
-                            <Input
-                                type="text"
-                                name="display_name"
-                                placeholder="Отображаемое имя"
-                                value={formik.values.display_name}
-                                onChange={formik.handleChange}
-                                helper={formik.errors.display_name}
-                                state={
-                                    formik.errors.display_name &&
-                                    formik.touched.display_name
-                                        ? 'danger'
-                                        : 'default'
-                                }
-                                onBlur={formik.handleBlur}
-                                touched={formik.touched.display_name}
-                            />
-                        </Container>
+                <Container direction="row">
+                    <Container direction="column" width={50}>
+                        <Header>Профиль</Header>
+                        <form
+                            onSubmit={formik.handleSubmit}
+                            style={{ width: '100%' }}
+                        >
+                            <Container direction="column">
+                                <br />
+                                    <Input
+                                        type="text"
+                                        name="login"
+                                        placeholder="Логин"
+                                        value={formik.values.login}
+                                        onChange={formik.handleChange}
+                                        helper={formik.errors.login}
+                                        state={
+                                            formik.errors.login &&
+                                            formik.touched.login
+                                                ? 'danger'
+                                                : 'default'
+                                        }
+                                        onBlur={formik.handleBlur}
+                                        touched={formik.touched.login}
+                                    />
+                                    <Input
+                                        type="text"
+                                        name="display_name"
+                                        placeholder="Отображаемое имя"
+                                        value={formik.values.display_name}
+                                        onChange={formik.handleChange}
+                                        helper={formik.errors.display_name}
+                                        state={
+                                            formik.errors.display_name &&
+                                            formik.touched.display_name
+                                                ? 'danger'
+                                                : 'default'
+                                        }
+                                        onBlur={formik.handleBlur}
+                                        touched={formik.touched.display_name}
+                                    />
+                                    <Input
+                                        type="text"
+                                        name="first_name"
+                                        placeholder="Имя"
+                                        value={formik.values.first_name}
+                                        onChange={formik.handleChange}
+                                        helper={formik.errors.first_name}
+                                        state={
+                                            formik.errors.first_name &&
+                                            formik.touched.first_name
+                                                ? 'danger'
+                                                : 'default'
+                                        }
+                                        onBlur={formik.handleBlur}
+                                        touched={formik.touched.first_name}
+                                    />
+                                    <Input
+                                        type="text"
+                                        name="second_name"
+                                        placeholder="Фамилия"
+                                        value={formik.values.second_name}
+                                        onChange={formik.handleChange}
+                                        helper={formik.errors.second_name}
+                                        state={
+                                            formik.errors.second_name &&
+                                            formik.touched.second_name
+                                                ? 'danger'
+                                                : 'default'
+                                        }
+                                        onBlur={formik.handleBlur}
+                                        touched={formik.touched.second_name}
+                                    />
+                                    <Input
+                                        type="text"
+                                        name="phone"
+                                        placeholder="Телефон"
+                                        value={formik.values.phone}
+                                        onChange={formik.handleChange}
+                                        helper={formik.errors.phone}
+                                        state={
+                                            formik.errors.phone &&
+                                            formik.touched.phone
+                                                ? 'danger'
+                                                : 'default'
+                                        }
+                                        onBlur={formik.handleBlur}
+                                        touched={formik.touched.phone}
+                                    />
+                                    <Input
+                                        type="text"
+                                        name="email"
+                                        placeholder="EMail"
+                                        value={formik.values.email}
+                                        onChange={formik.handleChange}
+                                        helper={formik.errors.email}
+                                        state={
+                                            formik.errors.email &&
+                                            formik.touched.email
+                                                ? 'danger'
+                                                : 'default'
+                                        }
+                                        onBlur={formik.handleBlur}
+                                        touched={formik.touched.email}
+                                    />
 
-                        <Container mineAxisAlign="between" width={70}>
-                            <Input
-                                type="text"
-                                name="first_name"
-                                placeholder="Имя"
-                                value={formik.values.first_name}
-                                onChange={formik.handleChange}
-                                helper={formik.errors.first_name}
-                                state={
-                                    formik.errors.first_name &&
-                                    formik.touched.first_name
-                                        ? 'danger'
-                                        : 'default'
-                                }
-                                onBlur={formik.handleBlur}
-                                touched={formik.touched.first_name}
-                            />
-                            <Input
-                                type="text"
-                                name="second_name"
-                                placeholder="Фамилия"
-                                value={formik.values.second_name}
-                                onChange={formik.handleChange}
-                                helper={formik.errors.second_name}
-                                state={
-                                    formik.errors.second_name &&
-                                    formik.touched.second_name
-                                        ? 'danger'
-                                        : 'default'
-                                }
-                                onBlur={formik.handleBlur}
-                                touched={formik.touched.second_name}
-                            />
-                        </Container>
-
-                        <Container mineAxisAlign="between" width={70}>
-                            <Input
-                                type="text"
-                                name="phone"
-                                placeholder="Телефон"
-                                value={formik.values.phone}
-                                onChange={formik.handleChange}
-                                helper={formik.errors.phone}
-                                state={
-                                    formik.errors.phone && formik.touched.phone
-                                        ? 'danger'
-                                        : 'default'
-                                }
-                                onBlur={formik.handleBlur}
-                                touched={formik.touched.phone}
-                            />
-                            <Input
-                                type="text"
-                                name="email"
-                                placeholder="EMail"
-                                value={formik.values.email}
-                                onChange={formik.handleChange}
-                                helper={formik.errors.email}
-                                state={
-                                    formik.errors.email && formik.touched.email
-                                        ? 'danger'
-                                        : 'default'
-                                }
-                                onBlur={formik.handleBlur}
-                                touched={formik.touched.email}
-                            />
-                        </Container>
-
-                        <ButtonForm helper={formError}>
-                            Изменить настройки
-                        </ButtonForm>
+                                <ButtonForm helper={formError}>
+                                    Изменить настройки
+                                </ButtonForm>
+                            </Container>
+                        </form>
                     </Container>
-                </form>
-                </Container>
-                <Container direction="column">
-
+                    <Container direction="column"></Container>
                 </Container>
             </Container>
         </Layout>
