@@ -12,7 +12,7 @@ import { Header } from '../../components/header/header'
 import FileInput from '../../components/inputs/fileInput/fileInput'
 import { emailValidationChain, loginValidationChain, nameValidationChain, passwordValidationChain, phoneValidationChain } from '../../components/inputs/validators'
 
-const userAoi = new UserApi()
+const userApi = new UserApi()
 
 /** Страница регистрации */
 const ProfilePage: FC = () => {
@@ -42,15 +42,15 @@ const ProfilePage: FC = () => {
             phone: phoneValidationChain,
         }),
         onSubmit: (values, { setSubmitting }) => {
-            // setSubmitting(false)
-            // setFormError('')
-            // userAoi.signUp(values).then((result) => {
-            //     if (result.successes) {
-            //         goToGame()
-            //     } else {
-            //         setFormError(result.error)
-            //     }
-            // })
+            setSubmitting(false)
+            setFormError('')
+            userApi.updateUser(values).then((result) => {
+                if (result.successes) {
+                    goToGame()
+                } else {
+                    setFormError(result.error)
+                }
+            })
         },
     })
 
