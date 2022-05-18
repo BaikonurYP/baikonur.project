@@ -1,5 +1,4 @@
 import React, { FC, ReactNode, useState } from 'react'
-import styled from 'styled-components'
 
 import {
     PopupWrapper,
@@ -17,7 +16,7 @@ interface IPopup {
 const Popup: FC<IPopup> = ({ title, isVisible, children }) => {
     const [test, setTest] = useState(1)
     return (
-        <PopupWrapper onVisible={isVisible}>
+        <PopupWrapper isVisible={isVisible}>
             <PopupContainer>
                 <PoputTitle>{title}</PoputTitle>
                 <PopupBar>{children}</PopupBar>

@@ -1,5 +1,6 @@
 import React, { FC, useRef, useEffect, useState, SyntheticEvent } from 'react'
 import { useHistory } from 'react-router-dom'
+import { useAppSelector } from '../../store/hooks/useAppHooks'
 import Game from '../../game/Game'
 
 import ShipImg from '../../images/ships/shipMain.png'
@@ -18,6 +19,7 @@ import {
 } from './GameComponentStyled'
 
 const GameComponent: FC = () => {
+    const image = useAppSelector((state) => state.playerSkin.image)
     const ref = useRef(null)
     const history = useHistory()
     const [currentGame, setCurrentGame] = useState<Game>(null)
@@ -36,7 +38,13 @@ const GameComponent: FC = () => {
 
     useEffect(() => {
         const ctx = ref.current.getContext('2d')
-        const game = new Game(ctx, onChangePoints, onChangeLives, onChangeLevel)
+        const game = new Game(
+            ctx,
+            image,
+            onChangePoints,
+            onChangeLives,
+            onChangeLevel
+        )
         setCurrentGame(game)
         game.start()
     }, [])

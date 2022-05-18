@@ -87,6 +87,7 @@ class Game {
 
     constructor(
         ctx: CanvasRenderingContext2D,
+        playerImage: string,
         onChangePoint: (point: number) => void,
         onChangeLives: (num: number) => void,
         onChangeLevel: (num: number) => void
@@ -96,7 +97,7 @@ class Game {
         this.canvasWidth = ctx.canvas.width
         this.canvasHeight = ctx.canvas.height
         this.complexity = 1
-        this.player = new Player(ShipImg, {
+        this.player = new Player(playerImage, {
             position: {
                 x: this.canvasWidth / 2,
                 y: this.canvasHeight
@@ -687,6 +688,7 @@ class Game {
             x: this.canvasWidth / 2 - this.player.width / 2,
             y: this.canvasHeight - this.player.height - 20
         }
+        this.point = 0
         this.player.lives = 3
         this.firePower = 250
         this.complexity = 1
@@ -698,7 +700,9 @@ class Game {
         this.onChangeLevel(1)
         this.onChangePoint(0)
         this.onChangeLives(3)
-        performance.clearResourceTimings()
+        this.meteorTimeStep = 0
+        this.invaderTimeStep = 0
+        this.perkTimeStep = 0
     }
 }
 

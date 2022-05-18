@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components'
 import { boolean } from 'yup'
 
 interface PopupWrapperProps {
-    onVisible: boolean
+    isVisible: boolean
 }
 
 export const PopupWrapper = styled.div<PopupWrapperProps>`
@@ -19,8 +19,8 @@ export const PopupWrapper = styled.div<PopupWrapperProps>`
     visibility: hidden;
     transition: 0.2s;
 
-    ${({ onVisible }) =>
-        onVisible &&
+    ${({ isVisible }) =>
+        isVisible &&
         css`
             visibility: visible;
             opacity: 1;
