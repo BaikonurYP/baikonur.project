@@ -11,8 +11,7 @@ type Props = FC<LogoProps>
 
 export const Logo: Props = (props) => (
     <LogoStyled>
-        Space
-        <br />
+        <div>Space</div>
         invaders
     </LogoStyled>
 )
