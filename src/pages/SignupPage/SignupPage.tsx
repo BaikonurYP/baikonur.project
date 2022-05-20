@@ -35,7 +35,7 @@ const SignupPage: FC = () => {
             first_name: '',
             second_name: '',
             phone: '',
-            email: '',
+            email: ''
         },
         validationSchema: yup.object({
             login: loginValidationChain,
@@ -55,11 +55,11 @@ const SignupPage: FC = () => {
                     setFormError(result.error)
                 }
             })
-        },
+        }
     })
 
     return (
-        <Layout hasMenu>
+        <Layout hasMenu={false}>
             <Container direction="column">
                 <Logo />
 

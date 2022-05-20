@@ -4,6 +4,7 @@ import { Route, Redirect, Switch } from 'react-router-dom'
 import LoginPage from '../../pages/LoginPage/LoginPage'
 import SignupPage from '../../pages/SignupPage/SignupPage'
 import HomePage from '../../pages/HomePage/HomePage'
+import GamePage from '../../pages/GamePage/GamePage'
 import ProfilePage from '../../pages/ProfilePage/ProfilePage'
 import ForumPage from '../../pages/ForumPage/ForumPage'
 import ForumThemePage from '../../pages/ForumPage/ForumThemePage'
@@ -20,9 +21,11 @@ const App: FC = () => (
             <SignupPage />
         </Route>
         <Redirect exact from="/" to="home" />
-        <Redirect from="/game" to="home" />
         <Route path="/home">
             <HomePage />
+        </Route>
+        <Route path="/game">
+            <GamePage />
         </Route>
         <Route path="/profile">
             <ProfilePage />
@@ -36,11 +39,11 @@ const App: FC = () => (
         <Route path="/leaderboard">
             <LeaderboardPage />
         </Route>
-        <Route path="*">
-            <Page404 />
-        </Route>
         <Route path="/500">
             <Page500 />
+        </Route>
+        <Route path="*">
+            <Page404 />
         </Route>
     </Switch>
 )

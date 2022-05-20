@@ -29,7 +29,7 @@ const LoginPage: FC = () => {
     const formik = useFormik({
         initialValues: {
             login: '',
-            password: '',
+            password: ''
         },
         validationSchema: yup.object({
             login: loginValidationChain,
@@ -46,11 +46,11 @@ const LoginPage: FC = () => {
                     setFormError(result.error)
                 }
             })
-        },
+        }
     })
 
     return (
-        <Layout hasMenu>
+        <Layout hasMenu={false}>
             <Container direction="column">
                 <Logo />
                 <form onSubmit={formik.handleSubmit}>
