@@ -10,7 +10,7 @@ export const AvatarStyled = styled.div<{ url?: string }>`
     border: 3px solid ${getColor('white')};
     overflow: hidden;
 
-    img{
+    img {
         max-width: 100%;
     }
 `

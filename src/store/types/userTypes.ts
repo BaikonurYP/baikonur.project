@@ -11,7 +11,7 @@ export interface UserState {
 export enum UserActionTypes {
     FETCH_USER = 'FETCH_USER',
     FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS',
-    FETCH_USER_ERROR = 'FETCH_USER_ERROR',
+    FETCH_USER_ERROR = 'FETCH_USER_ERROR'
 }
 
 export interface FetchUserAction {

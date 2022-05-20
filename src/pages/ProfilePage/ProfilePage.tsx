@@ -16,7 +16,7 @@ import {
     loginValidationChain,
     nameValidationChain,
     passwordValidationChain,
-    phoneValidationChain,
+    phoneValidationChain
 } from '../../components/inputs/validators'
 import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
 import { fetchUser } from '../../store/actions/userActions'
@@ -42,7 +42,7 @@ const ProfilePage: FC = () => {
     /** Информация формы c данными пользователя */
     const [userDataFormInfo, setUserDataFormInfo] = React.useState({
         helper: '',
-        state: 'default',
+        state: 'default'
     } as { helper: string; state: TooltipState })
 
     const userDataFormik = useFormik({
@@ -52,7 +52,7 @@ const ProfilePage: FC = () => {
             first_name: '',
             second_name: '',
             phone: '',
-            email: '',
+            email: ''
         },
         validationSchema: yup.object({
             login: loginValidationChain,
@@ -60,7 +60,7 @@ const ProfilePage: FC = () => {
             first_name: nameValidationChain,
             second_name: nameValidationChain,
             email: emailValidationChain,
-            phone: phoneValidationChain,
+            phone: phoneValidationChain
         }),
         onSubmit: (values, { setSubmitting }) => {
             setSubmitting(false)
@@ -69,7 +69,7 @@ const ProfilePage: FC = () => {
                 if (result.successes) {
                     setUserDataFormInfo({
                         helper: 'Сохранено!',
-                        state: 'default',
+                        state: 'default'
                     })
                     setTimeout(() => {
                         setUserDataFormInfo({ helper: '', state: 'default' })
@@ -77,11 +77,11 @@ const ProfilePage: FC = () => {
                 } else {
                     setUserDataFormInfo({
                         helper: result.error,
-                        state: 'danger',
+                        state: 'danger'
                     })
                 }
             })
-        },
+        }
     })
 
     useEffect(() => {
@@ -93,56 +93,56 @@ const ProfilePage: FC = () => {
     /** Хелпер формы c аватаркой */
     const [avatarFormError, setAvatarFormError] = React.useState({
         helper: '',
-        state: 'default',
+        state: 'default'
     } as { helper: string; state: TooltipState })
 
-    const avatarRef = useRef<HTMLFormElement>();
+    const avatarRef = useRef<HTMLFormElement>()
 
     const avatarFormik = useFormik({
         initialValues: {
-            avatar: null as File,
+            avatar: null as File
         },
         onSubmit: (values, { setSubmitting, setValues }) => {
             setSubmitting(false)
             setAvatarFormError({ helper: '', state: 'default' })
-            console.log(avatarRef);
-            let formData = new FormData();
+            console.log(avatarRef)
+            let formData = new FormData()
             formData.append('avatar', values.avatar, values.avatar.name)
             userApi.updateAvatar(formData).then((result) => {
                 if (result.successes) {
                     setAvatarFormError({
                         helper: 'Сохранено!',
-                        state: 'default',
+                        state: 'default'
                     })
                     dispatch(fetchUser())
-                    setValues({avatar: null})
+                    setValues({ avatar: null })
                     setTimeout(() => {
                         setAvatarFormError({ helper: '', state: 'default' })
                     }, 3000)
                 } else {
                     setAvatarFormError({
                         helper: result.error,
-                        state: 'danger',
+                        state: 'danger'
                     })
                 }
             })
-        },
+        }
     })
 
     /** Хелпер формы c данными пользователя */
     const [passwordFormError, setPasswordFormError] = React.useState({
         helper: '',
-        state: 'default',
+        state: 'default'
     } as { helper: string; state: TooltipState })
 
     const passwordFormik = useFormik({
         initialValues: {
             oldPassword: '',
-            newPassword: '',
+            newPassword: ''
         },
         validationSchema: yup.object({
             oldPassword: passwordValidationChain,
-            newPassword: passwordValidationChain,
+            newPassword: passwordValidationChain
         }),
         onSubmit: (values, { setSubmitting }) => {
             setSubmitting(false)
@@ -151,7 +151,7 @@ const ProfilePage: FC = () => {
                 if (result.successes) {
                     setPasswordFormError({
                         helper: 'Сохранено!',
-                        state: 'default',
+                        state: 'default'
                     })
                     setTimeout(() => {
                         setPasswordFormError({ helper: '', state: 'default' })
@@ -159,11 +159,11 @@ const ProfilePage: FC = () => {
                 } else {
                     setPasswordFormError({
                         helper: result.error,
-                        state: 'danger',
+                        state: 'danger'
                     })
                 }
             })
-        },
+        }
     })
 
     return (
@@ -299,7 +299,7 @@ const ProfilePage: FC = () => {
                                 <br />
                                 <FileInput
                                     name="avatar"
-                                  value={avatarFormik.values.avatar}
+                                    value={avatarFormik.values.avatar}
                                     accept={'image/jpeg,image/png,image/gif'}
                                     onChange={(event) => {
                                         avatarFormik.setFieldValue(

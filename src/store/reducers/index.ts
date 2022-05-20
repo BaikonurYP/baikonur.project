@@ -5,7 +5,6 @@ import { leadersReducer } from './leaderReducer'
 import { userReducer } from './userReducer'
 import { skinReducer } from './SkinReducer'
 
-
 const persistConfig = {
     key: 'root',
     storage
@@ -18,6 +17,5 @@ export const rootReducer = combineReducers({
     user: userReducer,
     playerSkin: persistedSkinReducer
 })
-
 
 export type RootState = ReturnType<typeof rootReducer>

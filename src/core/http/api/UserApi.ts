@@ -26,7 +26,7 @@ export class UserApi extends BaseApi {
         return this._request<SwaggerUserInfo>(
             'user/profile/avatar',
             HTTPMethod.PUT,
-            file,
+            file
         )
     }
 

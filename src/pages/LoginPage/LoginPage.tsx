@@ -10,7 +10,7 @@ import { useFormik } from 'formik'
 import * as yup from 'yup'
 import {
     loginValidationChain,
-    passwordValidationChain,
+    passwordValidationChain
 } from '../../components/inputs/validators'
 
 const authApi = new AuthApi()
@@ -33,7 +33,7 @@ const LoginPage: FC = () => {
         },
         validationSchema: yup.object({
             login: loginValidationChain,
-            password: passwordValidationChain,
+            password: passwordValidationChain
         }),
         onSubmit: (values, { setSubmitting }) => {
             setSubmitting(false)

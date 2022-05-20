@@ -13,7 +13,7 @@ import {
     loginValidationChain,
     nameValidationChain,
     passwordValidationChain,
-    phoneValidationChain,
+    phoneValidationChain
 } from '../../components/inputs/validators'
 
 const authApi = new AuthApi()
@@ -43,7 +43,7 @@ const SignupPage: FC = () => {
             first_name: nameValidationChain,
             second_name: nameValidationChain,
             email: emailValidationChain,
-            phone: phoneValidationChain,
+            phone: phoneValidationChain
         }),
         onSubmit: (values, { setSubmitting }) => {
             setSubmitting(false)

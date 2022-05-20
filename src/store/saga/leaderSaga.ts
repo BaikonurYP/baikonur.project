@@ -11,6 +11,6 @@ function* getLeadersSaga(): Generator<StrictEffect, void, LeadersState> {
 
 export default function* rootSaga(): Generator<StrictEffect, void, any> {
     yield all([
-        yield takeLatest(LeadersActionTypes.FETCH_LEADERS, getLeadersSaga),
+        yield takeLatest(LeadersActionTypes.FETCH_LEADERS, getLeadersSaga)
     ])
 }

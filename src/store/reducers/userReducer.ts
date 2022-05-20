@@ -1,13 +1,13 @@
 import {
     UserAction,
     UserActionTypes,
-    UserState as UserState,
+    UserState as UserState
 } from '../types/userTypes'
 
 const initialState: UserState = {
     user: null,
     loading: false,
-    error: null,
+    error: null
 }
 
 export const userReducer = (

@@ -37,13 +37,11 @@ export class BaseApi {
         data?: Record<string, string | number> | FormData,
         options?: RequestOptions
     ): Promise<RequestResult<T>> {
-        
-        
         let config: AxiosRequestConfig = {
             url: url,
             baseURL: this.BASE_URL,
             method: method,
-            withCredentials: true,
+            withCredentials: true
         }
         if (data) config.data = data
         if (options) {
