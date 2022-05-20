@@ -3,13 +3,13 @@ import { colors, getColor } from '../../../styles/GlobalStyle/colors'
 
 export const FileInputLabelStyled = styled.label`
     padding: 0 0 5px 0;
-    width: 300px;
-    height: 37px;
+    width: 200px;
+    height: 22px;
     background: ${getColor('purple')};
     border: 1px solid ${getColor('white')};
     border-radius: 8px;
     font-family: 'SpaceFont';
-    font-size: 16px;
+    font-size: 12px;
     text-transform: uppercase;
     color: ${getColor('white')};
     cursor: pointer;

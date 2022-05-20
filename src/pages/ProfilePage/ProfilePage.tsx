@@ -1,5 +1,5 @@
 import { Formik, useFormik } from 'formik'
-import React, { FC } from 'react'
+import React, { FC, useEffect, useRef } from 'react'
 import { useHistory } from 'react-router-dom'
 import ButtonForm from '../../components/buttons/buttonForm/buttonForm'
 import Container from '../../components/container/container'
@@ -10,21 +10,42 @@ import * as yup from 'yup'
 import { UserApi } from '../../core/http/api/UserApi'
 import { Header } from '../../components/header/header'
 import FileInput from '../../components/inputs/fileInput/fileInput'
-import { emailValidationChain, loginValidationChain, nameValidationChain, passwordValidationChain, phoneValidationChain } from '../../components/inputs/validators'
+import {
+    displayNameValidationChain,
+    emailValidationChain,
+    loginValidationChain,
+    nameValidationChain,
+    passwordValidationChain,
+    phoneValidationChain,
+} from '../../components/inputs/validators'
+import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
+import { fetchUser } from '../../store/actions/userActions'
+import { TooltipState } from '../../components/tooltip/tooltipStyled'
+import { Avatar } from '../../components/avatar/avatar'
 
 const userApi = new UserApi()
 
 /** Страница регистрации */
 const ProfilePage: FC = () => {
+    const user = useAppSelector((state) => state.user.user)
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(fetchUser())
+    }, [])
+
     const history = useHistory()
     const goToGame = () => {
         history.push(`/game`)
     }
 
-    /** Ошибка формы */
-    const [formError, setFormError] = React.useState('')
+    /** Информация формы c данными пользователя */
+    const [userDataFormInfo, setUserDataFormInfo] = React.useState({
+        helper: '',
+        state: 'default',
+    } as { helper: string; state: TooltipState })
 
-    const formik = useFormik({
+    const userDataFormik = useFormik({
         initialValues: {
             login: '',
             display_name: '',
@@ -35,7 +56,7 @@ const ProfilePage: FC = () => {
         },
         validationSchema: yup.object({
             login: loginValidationChain,
-            display_name: nameValidationChain,
+            display_name: displayNameValidationChain,
             first_name: nameValidationChain,
             second_name: nameValidationChain,
             email: emailValidationChain,
@@ -43,18 +64,78 @@ const ProfilePage: FC = () => {
         }),
         onSubmit: (values, { setSubmitting }) => {
             setSubmitting(false)
-            setFormError('')
+            setUserDataFormInfo({ helper: '', state: 'default' })
             userApi.updateUser(values).then((result) => {
                 if (result.successes) {
-                    goToGame()
+                    setUserDataFormInfo({
+                        helper: 'Сохранено!',
+                        state: 'default',
+                    })
+                    setTimeout(() => {
+                        setUserDataFormInfo({ helper: '', state: 'default' })
+                    }, 3000)
                 } else {
-                    setFormError(result.error)
+                    setUserDataFormInfo({
+                        helper: result.error,
+                        state: 'danger',
+                    })
                 }
             })
         },
     })
 
-    const formikPassword = useFormik({
+    useEffect(() => {
+        if (user) {
+            userDataFormik.setValues(user)
+        }
+    }, [user])
+
+    /** Хелпер формы c аватаркой */
+    const [avatarFormError, setAvatarFormError] = React.useState({
+        helper: '',
+        state: 'default',
+    } as { helper: string; state: TooltipState })
+
+    const avatarRef = useRef<HTMLFormElement>();
+
+    const avatarFormik = useFormik({
+        initialValues: {
+            avatar: null as File,
+        },
+        onSubmit: (values, { setSubmitting, setValues }) => {
+            setSubmitting(false)
+            setAvatarFormError({ helper: '', state: 'default' })
+            console.log(avatarRef);
+            let formData = new FormData();
+            formData.append('avatar', values.avatar, values.avatar.name)
+            userApi.updateAvatar(formData).then((result) => {
+                if (result.successes) {
+                    setAvatarFormError({
+                        helper: 'Сохранено!',
+                        state: 'default',
+                    })
+                    dispatch(fetchUser())
+                    setValues({avatar: null})
+                    setTimeout(() => {
+                        setAvatarFormError({ helper: '', state: 'default' })
+                    }, 3000)
+                } else {
+                    setAvatarFormError({
+                        helper: result.error,
+                        state: 'danger',
+                    })
+                }
+            })
+        },
+    })
+
+    /** Хелпер формы c данными пользователя */
+    const [passwordFormError, setPasswordFormError] = React.useState({
+        helper: '',
+        state: 'default',
+    } as { helper: string; state: TooltipState })
+
+    const passwordFormik = useFormik({
         initialValues: {
             oldPassword: '',
             newPassword: '',
@@ -64,15 +145,24 @@ const ProfilePage: FC = () => {
             newPassword: passwordValidationChain,
         }),
         onSubmit: (values, { setSubmitting }) => {
-            // setSubmitting(false)
-            // setFormError('')
-            // userAoi.signUp(values).then((result) => {
-            //     if (result.successes) {
-            //         goToGame()
-            //     } else {
-            //         setFormError(result.error)
-            //     }
-            // })
+            setSubmitting(false)
+            setPasswordFormError({ helper: '', state: 'default' })
+            userApi.updatePassword(values).then((result) => {
+                if (result.successes) {
+                    setPasswordFormError({
+                        helper: 'Сохранено!',
+                        state: 'default',
+                    })
+                    setTimeout(() => {
+                        setPasswordFormError({ helper: '', state: 'default' })
+                    }, 3000)
+                } else {
+                    setPasswordFormError({
+                        helper: result.error,
+                        state: 'danger',
+                    })
+                }
+            })
         },
     })
 
@@ -84,7 +174,7 @@ const ProfilePage: FC = () => {
                     <Container direction="column">
                         <Header>Профиль</Header>
                         <form
-                            onSubmit={formik.handleSubmit}
+                            onSubmit={userDataFormik.handleSubmit}
                             style={{ width: '100%' }}
                         >
                             <Container direction="column">
@@ -93,117 +183,150 @@ const ProfilePage: FC = () => {
                                     type="text"
                                     name="login"
                                     placeholder="Логин"
-                                    value={formik.values.login}
-                                    onChange={formik.handleChange}
-                                    helper={formik.errors.login}
+                                    value={userDataFormik.values.login}
+                                    onChange={userDataFormik.handleChange}
+                                    helper={userDataFormik.errors.login}
                                     state={
-                                        formik.errors.login &&
-                                        formik.touched.login
+                                        userDataFormik.errors.login &&
+                                        userDataFormik.touched.login
                                             ? 'danger'
                                             : 'default'
                                     }
-                                    onBlur={formik.handleBlur}
-                                    touched={formik.touched.login}
+                                    onBlur={userDataFormik.handleBlur}
+                                    touched={userDataFormik.touched.login}
                                 />
                                 <Input
                                     type="text"
                                     name="display_name"
                                     placeholder="Отображаемое имя"
-                                    value={formik.values.display_name}
-                                    onChange={formik.handleChange}
-                                    helper={formik.errors.display_name}
+                                    value={userDataFormik.values.display_name}
+                                    onChange={userDataFormik.handleChange}
+                                    helper={userDataFormik.errors.display_name}
                                     state={
-                                        formik.errors.display_name &&
-                                        formik.touched.display_name
+                                        userDataFormik.errors.display_name &&
+                                        userDataFormik.touched.display_name
                                             ? 'danger'
                                             : 'default'
                                     }
-                                    onBlur={formik.handleBlur}
-                                    touched={formik.touched.display_name}
+                                    onBlur={userDataFormik.handleBlur}
+                                    touched={
+                                        userDataFormik.touched.display_name
+                                    }
                                 />
                                 <Input
                                     type="text"
                                     name="first_name"
                                     placeholder="Имя"
-                                    value={formik.values.first_name}
-                                    onChange={formik.handleChange}
-                                    helper={formik.errors.first_name}
+                                    value={userDataFormik.values.first_name}
+                                    onChange={userDataFormik.handleChange}
+                                    helper={userDataFormik.errors.first_name}
                                     state={
-                                        formik.errors.first_name &&
-                                        formik.touched.first_name
+                                        userDataFormik.errors.first_name &&
+                                        userDataFormik.touched.first_name
                                             ? 'danger'
                                             : 'default'
                                     }
-                                    onBlur={formik.handleBlur}
-                                    touched={formik.touched.first_name}
+                                    onBlur={userDataFormik.handleBlur}
+                                    touched={userDataFormik.touched.first_name}
                                 />
                                 <Input
                                     type="text"
                                     name="second_name"
                                     placeholder="Фамилия"
-                                    value={formik.values.second_name}
-                                    onChange={formik.handleChange}
-                                    helper={formik.errors.second_name}
+                                    value={userDataFormik.values.second_name}
+                                    onChange={userDataFormik.handleChange}
+                                    helper={userDataFormik.errors.second_name}
                                     state={
-                                        formik.errors.second_name &&
-                                        formik.touched.second_name
+                                        userDataFormik.errors.second_name &&
+                                        userDataFormik.touched.second_name
                                             ? 'danger'
                                             : 'default'
                                     }
-                                    onBlur={formik.handleBlur}
-                                    touched={formik.touched.second_name}
+                                    onBlur={userDataFormik.handleBlur}
+                                    touched={userDataFormik.touched.second_name}
                                 />
                                 <Input
                                     type="text"
                                     name="phone"
                                     placeholder="Телефон"
-                                    value={formik.values.phone}
-                                    onChange={formik.handleChange}
-                                    helper={formik.errors.phone}
+                                    value={userDataFormik.values.phone}
+                                    onChange={userDataFormik.handleChange}
+                                    helper={userDataFormik.errors.phone}
                                     state={
-                                        formik.errors.phone &&
-                                        formik.touched.phone
+                                        userDataFormik.errors.phone &&
+                                        userDataFormik.touched.phone
                                             ? 'danger'
                                             : 'default'
                                     }
-                                    onBlur={formik.handleBlur}
-                                    touched={formik.touched.phone}
+                                    onBlur={userDataFormik.handleBlur}
+                                    touched={userDataFormik.touched.phone}
                                 />
                                 <Input
                                     type="text"
                                     name="email"
                                     placeholder="EMail"
-                                    value={formik.values.email}
-                                    onChange={formik.handleChange}
-                                    helper={formik.errors.email}
+                                    value={userDataFormik.values.email}
+                                    onChange={userDataFormik.handleChange}
+                                    helper={userDataFormik.errors.email}
                                     state={
-                                        formik.errors.email &&
-                                        formik.touched.email
+                                        userDataFormik.errors.email &&
+                                        userDataFormik.touched.email
                                             ? 'danger'
                                             : 'default'
                                     }
-                                    onBlur={formik.handleBlur}
-                                    touched={formik.touched.email}
+                                    onBlur={userDataFormik.handleBlur}
+                                    touched={userDataFormik.touched.email}
                                 />
 
-                                <ButtonForm helper={formError}>
+                                <ButtonForm helper={userDataFormInfo.helper}>
                                     Сохранить
                                 </ButtonForm>
+                                <br />
                             </Container>
                         </form>
                     </Container>
                     <Container direction="column">
                         <Header>Аватар</Header>
-                        <Container direction="column">
-                            <FileInput name="avatar" value={[]}>
-                                Выберите файл
-                            </FileInput>
-                        </Container>
+                        <form
+                            onSubmit={avatarFormik.handleSubmit}
+                            style={{ width: '100%' }}
+                            ref={avatarRef}
+                        >
+                            <Container direction="column">
+                                <div style={{ width: '50%' }}>
+                                    <Avatar url={user?.avatar} />
+                                </div>
+                                <br />
+                                <FileInput
+                                    name="avatar"
+                                  value={avatarFormik.values.avatar}
+                                    accept={'image/jpeg,image/png,image/gif'}
+                                    onChange={(event) => {
+                                        avatarFormik.setFieldValue(
+                                            'avatar',
+                                            event.currentTarget.files[0]
+                                        )
+                                    }}
+                                >
+                                    Выберите файл
+                                </FileInput>
+                                <br />
+                                {avatarFormik.values.avatar && (
+                                    <ButtonForm
+                                        helper={avatarFormError.helper}
+                                        helperState={passwordFormError.state}
+                                        helperPosition={'bottom'}
+                                    >
+                                        Сохранить
+                                    </ButtonForm>
+                                )}
+                            </Container>
+                        </form>
                     </Container>
                     <Container direction="column">
                         <Header>Пароль</Header>
                         <form
-                            onSubmit={formikPassword.handleSubmit}
+                            onSubmit={passwordFormik.handleSubmit}
                             style={{ width: '100%' }}
                         >
                             <Container direction="column">
@@ -211,35 +334,39 @@ const ProfilePage: FC = () => {
                                     type="password"
                                     name="oldPassword"
                                     placeholder="Старый пароль"
-                                    value={formikPassword.values.oldPassword}
-                                    onChange={formikPassword.handleChange}
-                                    helper={formikPassword.errors.oldPassword}
+                                    value={passwordFormik.values.oldPassword}
+                                    onChange={passwordFormik.handleChange}
+                                    helper={passwordFormik.errors.oldPassword}
                                     state={
-                                        formikPassword.errors.oldPassword &&
-                                        formikPassword.touched.oldPassword
+                                        passwordFormik.errors.oldPassword &&
+                                        passwordFormik.touched.oldPassword
                                             ? 'danger'
                                             : 'default'
                                     }
-                                    onBlur={formikPassword.handleBlur}
-                                    touched={formikPassword.touched.oldPassword}
+                                    onBlur={passwordFormik.handleBlur}
+                                    touched={passwordFormik.touched.oldPassword}
                                 />
                                 <Input
                                     type="password"
                                     name="newPassword"
                                     placeholder="Новый пароль"
-                                    value={formikPassword.values.newPassword}
-                                    onChange={formikPassword.handleChange}
-                                    helper={formikPassword.errors.newPassword}
+                                    value={passwordFormik.values.newPassword}
+                                    onChange={passwordFormik.handleChange}
+                                    helper={passwordFormik.errors.newPassword}
                                     state={
-                                        formikPassword.errors.newPassword &&
-                                        formikPassword.touched.newPassword
+                                        passwordFormik.errors.newPassword &&
+                                        passwordFormik.touched.newPassword
                                             ? 'danger'
                                             : 'default'
                                     }
-                                    onBlur={formikPassword.handleBlur}
-                                    touched={formikPassword.touched.newPassword}
+                                    onBlur={passwordFormik.handleBlur}
+                                    touched={passwordFormik.touched.newPassword}
                                 />
-                                <ButtonForm helper={formError}>
+                                <ButtonForm
+                                    helper={passwordFormError.helper}
+                                    helperState={passwordFormError.state}
+                                    helperPosition={'bottom'}
+                                >
                                     Сохранить
                                 </ButtonForm>
                             </Container>

@@ -6,12 +6,13 @@ import { FileInputInputStyled, FileInputLabelStyled } from './fileInputStyled'
 interface InputProps {
     children: string
     name: string
-    value: []
+    value?: File | null
     onChange?: (e: React.ChangeEvent<any>) => void
     onBlur?: (e: any) => void
     touched?: boolean
     helperPosition?: TooltipPosition
     helper?: string
+    accept?: string
 }
 
 const FileInput: FC<InputProps> = (props) => {
@@ -22,7 +23,13 @@ const FileInput: FC<InputProps> = (props) => {
             <FileInputLabelStyled htmlFor={uuid}>
                 {props.children}
             </FileInputLabelStyled>
-            <FileInputInputStyled type="file" id={uuid} />
+            <FileInputInputStyled
+                accept={props.accept}
+                onChange={props.onChange}
+                type="file"
+                name={props.name}
+                id={uuid}
+            />
             {props.touched && props.helper && (
                 <InpurErrorStyle>{props.helper}</InpurErrorStyle>
             )}

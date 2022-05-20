@@ -37,6 +37,8 @@ export class BaseApi {
         data?: Record<string, string | number> | FormData,
         options?: RequestOptions
     ): Promise<RequestResult<T>> {
+        
+        
         let config: AxiosRequestConfig = {
             url: url,
             baseURL: this.BASE_URL,
@@ -49,8 +51,9 @@ export class BaseApi {
         }
         if (data instanceof FormData) {
             if (!config.headers) config.headers = {}
-            config.headers['Content-Type'] = 'multipart/form-data'
+            config.headers['Content-Type'] = `multipart/form-data`
         }
+
         let result: RequestResult<T> = {}
         return axios(config)
             .then((response) => {

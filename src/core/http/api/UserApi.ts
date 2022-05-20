@@ -1,4 +1,3 @@
-import { string } from 'yup'
 import { BaseApi } from './BaseApi'
 import { HTTPMethod } from './types/HTTPTypes'
 import { RequestResult } from './types/RequestResult'
@@ -17,7 +16,7 @@ export class UserApi extends BaseApi {
     }): Promise<RequestResult<SwaggerUserInfo>> {
         return this._request<SwaggerUserInfo>(
             'user/profile',
-            HTTPMethod.POST,
+            HTTPMethod.PUT,
             data
         )
     }
@@ -27,7 +26,7 @@ export class UserApi extends BaseApi {
         return this._request<SwaggerUserInfo>(
             'user/profile/avatar',
             HTTPMethod.PUT,
-            file
+            file,
         )
     }
 

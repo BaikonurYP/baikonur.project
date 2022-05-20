@@ -118,14 +118,13 @@ export const TooltipStyled = styled.span<{
     border-radius: 6px;
     position: absolute;
     z-index: 1;
-    visibility: ${(props) => (props.visibile ? 'visible' : 'hidden')}
+    visibility: ${(props) => (props.visibile ? 'visible' : 'hidden')};
     color: ${(props) => getColor(getTooltipColor(props.state ?? 'default'))};
     text-align: ${(props) => getTextAlign(props.position ?? 'right')};
     ${(props) => getMinePosition(props.position ?? 'right')};
 
-
-    &::after{
-        content: " ";
+    &::after {
+        content: ' ';
         position: absolute;
         border-width: 5px;
         border-style: solid;

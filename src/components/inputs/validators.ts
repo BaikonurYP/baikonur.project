@@ -51,11 +51,18 @@ const passwordValidationChain = yup
 /** Цепочка валидации для имен */
 const nameValidationChain = yup
     .string()
+    .nullable()
     .required(requiredError)
     .matches(
         /^[A-ZА-ЯЁ][A-zА-яЁё-]+$/,
         'Допускается только кириллица, латиница и нижнее подчеркивание (_)'
     )
+
+/**  Цепочка для валидации отображаемого имени */
+const displayNameValidationChain = yup
+    .string()
+    .nullable()
+    .required(requiredError)
 
 /** Цепочка валидации для почты */
 const emailValidationChain = yup
@@ -75,6 +82,7 @@ export {
     loginValidationChain,
     passwordValidationChain,
     nameValidationChain,
+    displayNameValidationChain,
     emailValidationChain,
     phoneValidationChain,
 }
