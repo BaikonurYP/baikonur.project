@@ -1,4 +1,6 @@
 import { applyMiddleware, createStore, compose } from 'redux'
+import { persistStore } from 'redux-persist'
+
 import logger from 'redux-logger'
 import createSagaMiddleware from 'redux-saga'
 import { StrictEffect } from '@redux-saga/types'
@@ -15,6 +17,8 @@ const sagaConnect = (
 }
 
 const store = createStore(rootReducer, applyMiddleware(logger, sagaMiddleware))
+
+export const persistor = persistStore(store)
 
 sagaConnect(...saga)
 

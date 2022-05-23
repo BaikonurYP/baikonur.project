@@ -28,7 +28,7 @@ const SignupPage: FC = () => {
             first_name: '',
             second_name: '',
             phone: '',
-            email: '',
+            email: ''
         },
         validationSchema: yup.object({
             login: yup
@@ -76,7 +76,7 @@ const SignupPage: FC = () => {
                 .matches(
                     /^\+?\d{8,15}$/,
                     'Допускаются только цифры и знак плюса в начале'
-                ),
+                )
         }),
         onSubmit: (values, { setSubmitting }) => {
             setSubmitting(false)
@@ -88,11 +88,11 @@ const SignupPage: FC = () => {
                     setFormError(result.error)
                 }
             })
-        },
+        }
     })
 
     return (
-        <Layout hasMenu>
+        <Layout hasMenu={false}>
             <Container direction="column">
                 <Logo />
 
