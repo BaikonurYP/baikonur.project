@@ -12,7 +12,6 @@ type Props = FC<LayoutProps>
 
 export const Layout: Props = (props) => (
     <LayoutStyled>
-        <ButtonFullScreen />
         {props.hasMenu && <Menu />}
         {props.children}
     </LayoutStyled>

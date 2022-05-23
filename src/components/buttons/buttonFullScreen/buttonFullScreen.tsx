@@ -11,15 +11,17 @@ const ButtonFullScreen: FC<ButtonFullScreenProps> = (props) => {
 
     const deactivateFullscreen = () => {
         if (document.exitFullscreen) {
-            document.exitFullscreen()
-            setFullScreen(false)
+            document.exitFullscreen().then(() => {
+                setFullScreen(false)
+            })
         }
     }
 
     const activateFullscreen = () => {
         if (document.documentElement.requestFullscreen) {
-            document.documentElement.requestFullscreen()
-            setFullScreen(true)
+            document.documentElement.requestFullscreen().then(() => {
+                setFullScreen(true)
+            })
         }
     }
 
@@ -32,13 +34,10 @@ const ButtonFullScreen: FC<ButtonFullScreenProps> = (props) => {
     }
 
     return (
-        <ButtonFullScreenStyled
-            type="button"
-            onClick={toggleFullScreen}>
+        <ButtonFullScreenStyled type="button" onClick={toggleFullScreen}>
             {isFullScreen ? 'Свернуть' : 'Развернуть'}
         </ButtonFullScreenStyled>
     )
 }
-
 
 export default ButtonFullScreen
