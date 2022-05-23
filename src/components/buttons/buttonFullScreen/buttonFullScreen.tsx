@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { FC, useState } from 'react'
+import {FC, useState} from 'react'
 import { ButtonFullScreenStyled } from './ButtonFullScreenStyled'
 
 export interface ButtonFullScreenProps {
@@ -34,7 +34,7 @@ const ButtonFullScreen: FC<ButtonFullScreenProps> = (props) => {
     }
 
     return (
-        <ButtonFullScreenStyled type="button" onClick={toggleFullScreen}>
+        <ButtonFullScreenStyled onClick={toggleFullScreen}>
             {isFullScreen ? 'Свернуть' : 'Развернуть'}
         </ButtonFullScreenStyled>
     )

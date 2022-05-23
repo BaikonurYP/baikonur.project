@@ -1,6 +1,5 @@
 import React, { FC } from 'react'
 import Menu from '../menu/menu'
-import ButtonFullScreen from '../buttons/buttonFullScreen/buttonFullScreen'
 import { LayoutStyled } from './layoutStyled'
 
 type LayoutProps = {
