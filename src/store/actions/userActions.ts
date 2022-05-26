@@ -12,8 +12,6 @@ export const fetchUserError = (payload: string) => ({
     payload
 })
 
-
-
 export const login = (payload: { login: string; password: string }) => ({
     type: UserActionTypes.LOGIN_REQUEST,
     payload
@@ -26,10 +24,8 @@ export const loginError = (payload: string) => ({
     payload
 })
 export const loginComlete = () => ({
-    type: UserActionTypes.LOGIN_REQUEST_COMLETE,
+    type: UserActionTypes.LOGIN_REQUEST_COMLETE
 })
-
-
 
 export const signUp = (payload: {
     first_name: string
@@ -50,10 +46,8 @@ export const signUpError = (payload: string) => ({
     payload
 })
 export const signUpComlete = () => ({
-    type: UserActionTypes.SIGNUP_REQUEST_COMPLETE,
+    type: UserActionTypes.SIGNUP_REQUEST_COMPLETE
 })
-
-
 
 export const changeData = (payload: Omit<User, 'id' | 'avatar'>) => ({
     type: UserActionTypes.CHANGE_DATA_REQUEST,
@@ -68,10 +62,8 @@ export const changeDataError = (payload: string) => ({
     payload
 })
 export const changeDataComlete = () => ({
-    type: UserActionTypes.CHANGE_DATA_REQUEST_COMPLETE,
+    type: UserActionTypes.CHANGE_DATA_REQUEST_COMPLETE
 })
-
-
 
 export const changePasswords = (payload: {
     oldPassword: string
@@ -88,10 +80,8 @@ export const changePasswordsError = (payload: string) => ({
     payload
 })
 export const changePasswordsComlete = () => ({
-    type: UserActionTypes.CHANGE_PASSWORDS_REQUEST_COMPLETE,
+    type: UserActionTypes.CHANGE_PASSWORDS_REQUEST_COMPLETE
 })
-
-
 
 export const changeAvatar = (payload: FormData) => ({
     type: UserActionTypes.CHANGE_AVATAR_REQUEST,
@@ -106,5 +96,5 @@ export const changeAvatarError = (payload: string) => ({
     payload
 })
 export const changeAvatarComlete = () => ({
-    type: UserActionTypes.CHANGE_AVATAR_REQUEST_COMPLETE,
+    type: UserActionTypes.CHANGE_AVATAR_REQUEST_COMPLETE
 })

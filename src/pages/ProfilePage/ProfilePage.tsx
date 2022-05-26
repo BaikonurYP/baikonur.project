@@ -1,4 +1,4 @@
-import {  useFormik } from 'formik'
+import { useFormik } from 'formik'
 import React, { FC, useEffect, useRef } from 'react'
 import ButtonForm from '../../components/buttons/buttonForm/buttonForm'
 import Container from '../../components/container/container'
@@ -83,8 +83,11 @@ const ProfilePage: FC = () => {
     })
 
     useEffect(() => {
-        if (change_passwords_message && change_passwords_message.type == 'default') {
-            passwordFormik.resetForm();
+        if (
+            change_passwords_message &&
+            change_passwords_message.type == 'default'
+        ) {
+            passwordFormik.resetForm()
         }
     }, [change_passwords_message])
 
@@ -254,7 +257,9 @@ const ProfilePage: FC = () => {
                                 {avatarFormik.values.avatar && (
                                     <ButtonForm
                                         helper={change_avatar_message?.text}
-                                        helperState={change_avatar_message?.type}
+                                        helperState={
+                                            change_avatar_message?.type
+                                        }
                                         helperPosition={'bottom'}
                                     >
                                         Сохранить

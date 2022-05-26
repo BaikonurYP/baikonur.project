@@ -43,4 +43,4 @@ class UserApi extends BaseApi {
     }
 }
 
-export const userApi = new UserApi();
+export const userApi = new UserApi()

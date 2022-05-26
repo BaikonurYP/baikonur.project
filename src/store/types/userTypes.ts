@@ -2,7 +2,7 @@ import { SwaggerUserInfo } from '../../core/http/api/types/SwaggerTypes'
 
 export type User = SwaggerUserInfo
 
-export type UserMessage = {text: string, type: 'default'| 'danger'}
+export type UserMessage = { text: string; type: 'default' | 'danger' }
 
 export interface UserState {
     user: User

@@ -1,4 +1,11 @@
-import { all, call, put, StrictEffect, takeLatest, delay } from 'redux-saga/effects'
+import {
+    all,
+    call,
+    put,
+    StrictEffect,
+    takeLatest,
+    delay
+} from 'redux-saga/effects'
 import {
     ChangeAvatarAction,
     ChangeDataAction,
@@ -32,7 +39,6 @@ import { RequestResult } from '../../core/http/api/types/RequestResult'
 import { authApi } from '../../core/http/api/AuthApi'
 import { userApi } from '../../core/http/api/UserApi'
 
-
 function* getUserSaga(): Generator<
     StrictEffect,
     void,
@@ -53,17 +59,18 @@ function* loginUserSaga(
     action: LoginAction
 ): Generator<StrictEffect, void, string> {
     try {
-        const res = (yield call(authApi.signIn.bind(authApi),
-        action.payload)) as RequestResult<string>
+        const res = (yield call(
+            authApi.signIn.bind(authApi),
+            action.payload
+        )) as RequestResult<string>
         if (res.successes) {
             yield put(loginSuccess())
             yield put({ type: UserActionTypes.FETCH_USER })
         } else throw res.error
     } catch (e) {
         yield put(loginError(e))
-    }
-    finally{
-        yield delay(3000);
+    } finally {
+        yield delay(3000)
         yield put(loginComlete())
     }
 }
@@ -72,18 +79,18 @@ function* registerUserSaga(
     action: SignUpAction
 ): Generator<StrictEffect, void, string> {
     try {
-        const res = (yield call(authApi.signUp.bind(authApi),
-        action.payload))as RequestResult<string>
+        const res = (yield call(
+            authApi.signUp.bind(authApi),
+            action.payload
+        )) as RequestResult<string>
         if (res.successes) {
             yield put(signUpSuccess())
-            yield put({ type: UserActionTypes.FETCH_USER });
-            
+            yield put({ type: UserActionTypes.FETCH_USER })
         } else throw res.error
     } catch (e) {
         yield put(signUpError(e))
-    }
-    finally{
-        yield delay(3000);
+    } finally {
+        yield delay(3000)
         yield put(signUpComlete())
     }
 }
@@ -102,9 +109,8 @@ function* changeUserSaga(
         } else throw data.error
     } catch (e) {
         yield put(changeDataError(e))
-    }
-    finally{
-        yield delay(3000);
+    } finally {
+        yield delay(3000)
         yield put(changeDataComlete())
     }
 }
@@ -123,9 +129,8 @@ function* changeUserPasswordSaga(
         } else throw data.error
     } catch (e) {
         yield put(changePasswordsError(e))
-    }
-    finally{
-        yield delay(3000);
+    } finally {
+        yield delay(3000)
         yield put(changePasswordsComlete())
     }
 }
@@ -144,9 +149,8 @@ function* changeUserAvatarSaga(
         } else throw data.error
     } catch (e) {
         yield put(changeAvatarError(e))
-    }
-    finally{
-        yield delay(3000);
+    } finally {
+        yield delay(3000)
         yield put(changeAvatarComlete())
     }
 }
