@@ -4,7 +4,7 @@ import { RequestResult } from './types/RequestResult'
 import { SwaggerUserInfo } from './types/SwaggerTypes'
 
 /** АПИ работы с профилем пользователя */
-export class UserApi extends BaseApi {
+class UserApi extends BaseApi {
     /** Обновить данные юзера */
     updateUser(data: {
         first_name: string
@@ -42,3 +42,5 @@ export class UserApi extends BaseApi {
         )
     }
 }
+
+export const userApi = new UserApi();

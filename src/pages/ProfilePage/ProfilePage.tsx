@@ -1,13 +1,11 @@
-import { Formik, useFormik } from 'formik'
+import {  useFormik } from 'formik'
 import React, { FC, useEffect, useRef } from 'react'
-import { useHistory } from 'react-router-dom'
 import ButtonForm from '../../components/buttons/buttonForm/buttonForm'
 import Container from '../../components/container/container'
 import Input from '../../components/inputs/input/input'
 import { Layout } from '../../components/layout/layout'
 import { Logo } from '../../components/logo/logo'
 import * as yup from 'yup'
-import { UserApi } from '../../core/http/api/UserApi'
 import { Header } from '../../components/header/header'
 import FileInput from '../../components/inputs/fileInput/fileInput'
 import {
@@ -19,31 +17,33 @@ import {
     phoneValidationChain
 } from '../../components/inputs/validators'
 import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
-import { fetchUser } from '../../store/actions/userActions'
-import { TooltipState } from '../../components/tooltip/tooltipStyled'
+import {
+    changeAvatar,
+    changeData,
+    changePasswords,
+    fetchUser
+} from '../../store/actions/userActions'
 import { Avatar } from '../../components/avatar/avatar'
-
-const userApi = new UserApi()
 
 /** Страница регистрации */
 const ProfilePage: FC = () => {
-    const user = useAppSelector((state) => state.user.user)
+    const {
+        user,
+        change_data_message,
+        change_passwords_message,
+        change_avatar_message
+    } = useAppSelector((state) => state.user)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
         dispatch(fetchUser())
     }, [])
 
-    const history = useHistory()
-    const goToGame = () => {
-        history.push(`/game`)
-    }
-
-    /** Информация формы c данными пользователя */
-    const [userDataFormInfo, setUserDataFormInfo] = React.useState({
-        helper: '',
-        state: 'default'
-    } as { helper: string; state: TooltipState })
+    useEffect(() => {
+        if (user) {
+            userDataFormik.setValues(user)
+        }
+    }, [user])
 
     const userDataFormik = useFormik({
         initialValues: {
@@ -64,37 +64,9 @@ const ProfilePage: FC = () => {
         }),
         onSubmit: (values, { setSubmitting }) => {
             setSubmitting(false)
-            setUserDataFormInfo({ helper: '', state: 'default' })
-            userApi.updateUser(values).then((result) => {
-                if (result.successes) {
-                    setUserDataFormInfo({
-                        helper: 'Сохранено!',
-                        state: 'default'
-                    })
-                    setTimeout(() => {
-                        setUserDataFormInfo({ helper: '', state: 'default' })
-                    }, 3000)
-                } else {
-                    setUserDataFormInfo({
-                        helper: result.error,
-                        state: 'danger'
-                    })
-                }
-            })
+            dispatch(changeData(values))
         }
     })
-
-    useEffect(() => {
-        if (user) {
-            userDataFormik.setValues(user)
-        }
-    }, [user])
-
-    /** Хелпер формы c аватаркой */
-    const [avatarFormError, setAvatarFormError] = React.useState({
-        helper: '',
-        state: 'default'
-    } as { helper: string; state: TooltipState })
 
     const avatarRef = useRef<HTMLFormElement>()
 
@@ -104,36 +76,17 @@ const ProfilePage: FC = () => {
         },
         onSubmit: (values, { setSubmitting, setValues }) => {
             setSubmitting(false)
-            setAvatarFormError({ helper: '', state: 'default' })
-            console.log(avatarRef)
             let formData = new FormData()
             formData.append('avatar', values.avatar, values.avatar.name)
-            userApi.updateAvatar(formData).then((result) => {
-                if (result.successes) {
-                    setAvatarFormError({
-                        helper: 'Сохранено!',
-                        state: 'default'
-                    })
-                    dispatch(fetchUser())
-                    setValues({ avatar: null })
-                    setTimeout(() => {
-                        setAvatarFormError({ helper: '', state: 'default' })
-                    }, 3000)
-                } else {
-                    setAvatarFormError({
-                        helper: result.error,
-                        state: 'danger'
-                    })
-                }
-            })
+            dispatch(changeAvatar(formData))
         }
     })
 
-    /** Хелпер формы c данными пользователя */
-    const [passwordFormError, setPasswordFormError] = React.useState({
-        helper: '',
-        state: 'default'
-    } as { helper: string; state: TooltipState })
+    useEffect(() => {
+        if (change_passwords_message && change_passwords_message.type == 'default') {
+            passwordFormik.resetForm();
+        }
+    }, [change_passwords_message])
 
     const passwordFormik = useFormik({
         initialValues: {
@@ -146,23 +99,7 @@ const ProfilePage: FC = () => {
         }),
         onSubmit: (values, { setSubmitting }) => {
             setSubmitting(false)
-            setPasswordFormError({ helper: '', state: 'default' })
-            userApi.updatePassword(values).then((result) => {
-                if (result.successes) {
-                    setPasswordFormError({
-                        helper: 'Сохранено!',
-                        state: 'default'
-                    })
-                    setTimeout(() => {
-                        setPasswordFormError({ helper: '', state: 'default' })
-                    }, 3000)
-                } else {
-                    setPasswordFormError({
-                        helper: result.error,
-                        state: 'danger'
-                    })
-                }
-            })
+            dispatch(changePasswords(values))
         }
     })
 
@@ -278,7 +215,10 @@ const ProfilePage: FC = () => {
                                     touched={userDataFormik.touched.email}
                                 />
 
-                                <ButtonForm helper={userDataFormInfo.helper}>
+                                <ButtonForm
+                                    helper={change_data_message?.text}
+                                    helperState={change_data_message?.type}
+                                >
                                     Сохранить
                                 </ButtonForm>
                                 <br />
@@ -313,8 +253,8 @@ const ProfilePage: FC = () => {
                                 <br />
                                 {avatarFormik.values.avatar && (
                                     <ButtonForm
-                                        helper={avatarFormError.helper}
-                                        helperState={passwordFormError.state}
+                                        helper={change_avatar_message?.text}
+                                        helperState={change_avatar_message?.type}
                                         helperPosition={'bottom'}
                                     >
                                         Сохранить
@@ -363,8 +303,8 @@ const ProfilePage: FC = () => {
                                     touched={passwordFormik.touched.newPassword}
                                 />
                                 <ButtonForm
-                                    helper={passwordFormError.helper}
-                                    helperState={passwordFormError.state}
+                                    helper={change_passwords_message?.text}
+                                    helperState={change_passwords_message?.type}
                                     helperPosition={'bottom'}
                                 >
                                     Сохранить

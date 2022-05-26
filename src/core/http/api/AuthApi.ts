@@ -4,7 +4,7 @@ import { RequestResult } from './types/RequestResult'
 import { SwaggerUserInfo } from './types/SwaggerTypes'
 
 /** АПИ для работы с авторизацией */
-export class AuthApi extends BaseApi {
+class AuthApi extends BaseApi {
     /**
      * Регистрация
      * @param data Регистрационные данные
@@ -45,3 +45,5 @@ export class AuthApi extends BaseApi {
         return this._request<string>('auth/logout', HTTPMethod.POST)
     }
 }
+
+export const authApi = new AuthApi();

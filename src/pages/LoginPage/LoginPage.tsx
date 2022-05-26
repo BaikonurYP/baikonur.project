@@ -1,8 +1,7 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import ButtonForm from '../../components/buttons/buttonForm/buttonForm'
 import Container from '../../components/container/container'
 import Input from '../../components/inputs/input/input'
-import { AuthApi } from '../../core/http/api/AuthApi'
 import { useHistory } from 'react-router-dom'
 import { Layout } from '../../components/layout/layout'
 import { Logo } from '../../components/logo/logo'
@@ -12,8 +11,8 @@ import {
     loginValidationChain,
     passwordValidationChain
 } from '../../components/inputs/validators'
-
-const authApi = new AuthApi()
+import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
+import { fetchUser, login } from '../../store/actions/userActions'
 
 /** Страница логина */
 const LoginPage: FC = () => {
@@ -23,8 +22,18 @@ const LoginPage: FC = () => {
         history.push(`/game`)
     }
 
-    /** Ошибка формы */
-    const [formError, setFormError] = React.useState('')
+    const { user,login_message } = useAppSelector((state) => state.user)
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(fetchUser())
+    }, [])
+
+    useEffect(() => {
+        if (user) {
+            goToGame()
+        }
+    }, [user])
 
     const formik = useFormik({
         initialValues: {
@@ -37,15 +46,7 @@ const LoginPage: FC = () => {
         }),
         onSubmit: (values, { setSubmitting }) => {
             setSubmitting(false)
-            setFormError('')
-
-            authApi.signIn(values).then((result) => {
-                if (result.successes) {
-                    goToGame()
-                } else {
-                    setFormError(result.error)
-                }
-            })
+            dispatch(login(values))
         }
     })
 
@@ -87,7 +88,7 @@ const LoginPage: FC = () => {
                             onBlur={formik.handleBlur}
                             touched={formik.touched.password}
                         />
-                        <ButtonForm helper={formError}>Войти</ButtonForm>
+                        <ButtonForm helper={login_message?.text} helperState={login_message?.type}>Войти</ButtonForm>
                     </Container>
                 </form>
             </Container>

@@ -1,12 +1,11 @@
 import { Formik, useFormik } from 'formik'
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import ButtonForm from '../../components/buttons/buttonForm/buttonForm'
 import Container from '../../components/container/container'
 import Input from '../../components/inputs/input/input'
 import { Layout } from '../../components/layout/layout'
 import { Logo } from '../../components/logo/logo'
-import { AuthApi } from '../../core/http/api/AuthApi'
 import * as yup from 'yup'
 import {
     emailValidationChain,
@@ -15,8 +14,8 @@ import {
     passwordValidationChain,
     phoneValidationChain
 } from '../../components/inputs/validators'
-
-const authApi = new AuthApi()
+import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
+import { fetchUser, signUp } from '../../store/actions/userActions'
 
 /** Страница регистрации */
 const SignupPage: FC = () => {
@@ -25,8 +24,18 @@ const SignupPage: FC = () => {
         history.push(`/game`)
     }
 
-    /** Ошибка формы */
-    const [formError, setFormError] = React.useState('')
+    const { user,register_message } = useAppSelector((state) => state.user)
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(fetchUser())
+    }, [])
+
+    useEffect(() => {
+        if (user) {
+            goToGame()
+        }
+    }, [user])
 
     const formik = useFormik({
         initialValues: {
@@ -47,14 +56,7 @@ const SignupPage: FC = () => {
         }),
         onSubmit: (values, { setSubmitting }) => {
             setSubmitting(false)
-            setFormError('')
-            authApi.signUp(values).then((result) => {
-                if (result.successes) {
-                    goToGame()
-                } else {
-                    setFormError(result.error)
-                }
-            })
+            dispatch(signUp(values))
         }
     })
 
@@ -168,7 +170,7 @@ const SignupPage: FC = () => {
                             />
                         </Container>
 
-                        <ButtonForm helper={formError}>
+                        <ButtonForm helper={register_message?.text} helperState={register_message?.type}>
                             Зарегистрироваться
                         </ButtonForm>
                     </Container>
