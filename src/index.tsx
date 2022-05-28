@@ -5,6 +5,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { BrowserRouter } from 'react-router-dom'
 import { App } from './components/App/App'
 import Global from './styles/GlobalStyle/GlobalStyle'
+import 'babel-polyfill'
 
 import store, { persistor } from './store'
 

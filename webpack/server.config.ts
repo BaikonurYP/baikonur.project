@@ -16,10 +16,6 @@ const config: Configuration = {
     module: {
         rules: [
             {
-                test: /\.(html)$/,
-                use: ['html-loader']
-            },
-            {
                 test: /\.(png|jpe?g|gif|svg|webp|ico)$/i,
                 type: 'asset'
             },
@@ -38,23 +34,13 @@ const config: Configuration = {
                 test: /\.(ts|tsx)$/,
                 exclude: /(node_modules)/,
                 use: { loader: 'babel-loader' },
-            },
-            {
-                test: /\.(s[ac]|c)ss$/i,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    'css-loader',
-                    'postcss-loader',
-                    'sass-loader'
-                ]
             }
         ]
     },
     output: {
         filename: 'server.js',
         libraryTarget: 'commonjs2',
-        path: DIST_DIR,
-        publicPath: '/static/'
+        path: DIST_DIR
     },
     resolve: {
         modules: ['src', 'node_modules'],

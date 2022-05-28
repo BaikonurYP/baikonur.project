@@ -52,4 +52,3 @@ const App: FC = () => (
 const Component = hot(App)
 
 export { Component as App }
-
