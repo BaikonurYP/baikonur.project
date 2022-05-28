@@ -1,5 +1,6 @@
 import React, { FC } from 'react'
 import { Route, Redirect, Switch } from 'react-router-dom'
+import { hot } from 'react-hot-loader/root'
 
 import LoginPage from '../../pages/LoginPage/LoginPage'
 import SignupPage from '../../pages/SignupPage/SignupPage'
@@ -48,4 +49,7 @@ const App: FC = () => (
     </Switch>
 )
 
-export default App
+const Component = hot(App)
+
+export { Component as App }
+
