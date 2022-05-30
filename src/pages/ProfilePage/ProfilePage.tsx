@@ -243,7 +243,7 @@ const ProfilePage: FC = () => {
                                 <FileInput
                                     name="avatar"
                                     value={avatarFormik.values.avatar}
-                                    accept={'image/jpeg,image/png,image/gif'}
+                                    accept="image/jpeg,image/png,image/gif"
                                     onChange={(event) => {
                                         avatarFormik.setFieldValue(
                                             'avatar',
