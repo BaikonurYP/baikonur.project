@@ -25,7 +25,7 @@ const LoginPage: FC = () => {
     const formik = useFormik({
         initialValues: {
             login: '',
-            password: '',
+            password: ''
         },
         validationSchema: yup.object({
             login: yup
@@ -46,7 +46,7 @@ const LoginPage: FC = () => {
                     /^.*[A-ZА-ЯЁ]{1}.*$/,
                     'Должна быть как минимум одна заглавная буква'
                 )
-                .matches(/^.*[0-9].*$/i, 'Должна быть как минимум одна цифра'),
+                .matches(/^.*[0-9].*$/i, 'Должна быть как минимум одна цифра')
         }),
         onSubmit: (values, { setSubmitting }) => {
             setSubmitting(false)
@@ -59,11 +59,11 @@ const LoginPage: FC = () => {
                     setFormError(result.error)
                 }
             })
-        },
+        }
     })
 
     return (
-        <Layout hasMenu>
+        <Layout hasMenu={false}>
             <Container direction="column">
                 <Logo />
                 <form onSubmit={formik.handleSubmit}>

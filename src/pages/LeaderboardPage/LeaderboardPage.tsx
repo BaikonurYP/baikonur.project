@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import Container from '../../components/container/container'
 import {
     BoardAvaStyled,
@@ -16,7 +16,10 @@ import Skin3 from '../../images/skins/plain_3.svg'
 import { Layout } from '../../components/layout/layout'
 import { Logo } from '../../components/logo/logo'
 
-const leaders = [
+import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
+import { fetchLeaders } from '../../store/actions/leadersAction'
+
+const leadersMock = [
     { id: 1, name: 'Уничтожитель 1', avatar: Skin1, value: 7896540 },
     { id: 2, name: 'Разрушитель', avatar: Skin2, value: 7896540 },
     { id: 3, name: 'Уничтожитель 2', avatar: Skin3, value: 7896540 },
@@ -24,29 +27,41 @@ const leaders = [
     { id: 5, name: 'Уничтожитель', avatar: Skin1, value: 7896540 },
 ]
 
-const LeaderboardPage: FC = () => (
-    <Layout hasMenu>
-        <Container direction="column">
-            <Logo />
-            <TitleStyled>Лидеры</TitleStyled>
-            <BoardStyled>
-                {leaders.map((leader, i) => (
-                    <BoardItemStyled key={leader.id}>
-                        <BoardUserInfoStyled>
-                            <BoardAvaStyled>
-                                <img src={leader.avatar} alt={leader.name} />
-                            </BoardAvaStyled>
-                            <span>{leader.name}</span>
-                        </BoardUserInfoStyled>
-                        <BoardUserValueStyled>
-                            {i <= 2 && <img src={Star} alt="star" />}
-                            {leader.value.toLocaleString('ru-Ru')}
-                        </BoardUserValueStyled>
-                    </BoardItemStyled>
-                ))}
-            </BoardStyled>
-        </Container>
-    </Layout>
-)
+const LeaderboardPage: FC = () => {
+    const leaders = useAppSelector((state) => state.leaders.leaders)
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(fetchLeaders())
+    }, [])
+
+    return (
+        <Layout hasMenu>
+            <Container direction="column">
+                <Logo />
+                <TitleStyled>Лидеры</TitleStyled>
+                <BoardStyled>
+                    {leaders.map((leader, i) => (
+                        <BoardItemStyled key={leader.id}>
+                            <BoardUserInfoStyled>
+                                <BoardAvaStyled>
+                                    <img
+                                        src={leader.avatar}
+                                        alt={leader.name}
+                                    />
+                                </BoardAvaStyled>
+                                <span>{leader.name}</span>
+                            </BoardUserInfoStyled>
+                            <BoardUserValueStyled>
+                                {i <= 2 && <img src={Star} alt="star" />}
+                                {leader.cost?.toLocaleString('ru-Ru')}
+                            </BoardUserValueStyled>
+                        </BoardItemStyled>
+                    ))}
+                </BoardStyled>
+            </Container>
+        </Layout>
+    )
+}
 
 export default LeaderboardPage
