@@ -110,7 +110,7 @@ const ProfilePage: FC = () => {
         <Layout hasMenu>
             <Container direction="column">
                 <Logo />
-                <Container direction="row" crossAxisAlign={'start'}>
+                <Container direction="row" crossAxisAlign="start">
                     <Container direction="column">
                         <Header>Профиль</Header>
                         <form
