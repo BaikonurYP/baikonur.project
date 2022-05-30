@@ -2,6 +2,7 @@ import React, { FC, useState } from 'react'
 import { TooltipPosition } from '../../tooltip/tooltipStyled'
 import { InpurErrorStyle } from '../input/inputStyled'
 import { FileInputInputStyled, FileInputLabelStyled } from './fileInputStyled'
+import { v4 as uuidv4 } from 'uuid';
 
 interface InputProps {
     children: string
@@ -16,7 +17,7 @@ interface InputProps {
 }
 
 const FileInput: FC<InputProps> = (props) => {
-    const [uuid, setUUid] = useState('111')
+    const [uuid, setUUid] = useState(uuidv4())
 
     return (
         <>

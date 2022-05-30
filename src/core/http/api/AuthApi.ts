@@ -17,7 +17,7 @@ class AuthApi extends BaseApi {
         password: string
         phone: string
     }): Promise<RequestResult<{ id: number }>> {
-        return this._request<{ id: number }>(
+        return this.request<{ id: number }>(
             'auth/signup',
             HTTPMethod.POST,
             data
@@ -32,17 +32,17 @@ class AuthApi extends BaseApi {
         login: string
         password: string
     }): Promise<RequestResult<string>> {
-        return this._request<string>('auth/signin', HTTPMethod.POST, data)
+        return this.request<string>('auth/signin', HTTPMethod.POST, data)
     }
 
     /** Получить текущего юзера */
     user(): Promise<RequestResult<SwaggerUserInfo>> {
-        return this._request<SwaggerUserInfo>('auth/user', HTTPMethod.GET)
+        return this.request<SwaggerUserInfo>('auth/user', HTTPMethod.GET)
     }
 
     /** Выход */
     logout(): Promise<RequestResult<any>> {
-        return this._request<string>('auth/logout', HTTPMethod.POST)
+        return this.request<string>('auth/logout', HTTPMethod.POST)
     }
 }
 

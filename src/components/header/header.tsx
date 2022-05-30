@@ -1,6 +1,5 @@
 import React from 'react'
 import { FC } from 'react'
-import Menu from '../menu/menu'
 import { HeaderStyled } from './headerStyled'
 
 type HeaderProps = {

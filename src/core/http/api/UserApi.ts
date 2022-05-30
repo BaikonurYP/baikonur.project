@@ -14,7 +14,7 @@ class UserApi extends BaseApi {
         email: string
         phone: string
     }): Promise<RequestResult<SwaggerUserInfo>> {
-        return this._request<SwaggerUserInfo>(
+        return this.request<SwaggerUserInfo>(
             'user/profile',
             HTTPMethod.PUT,
             data
@@ -23,7 +23,7 @@ class UserApi extends BaseApi {
 
     /** Обновить аватар */
     updateAvatar(file: FormData): Promise<RequestResult<SwaggerUserInfo>> {
-        return this._request<SwaggerUserInfo>(
+        return this.request<SwaggerUserInfo>(
             'user/profile/avatar',
             HTTPMethod.PUT,
             file
@@ -35,7 +35,7 @@ class UserApi extends BaseApi {
         oldPassword: string
         newPassword: string
     }): Promise<RequestResult<any>> {
-        return this._request<SwaggerUserInfo>(
+        return this.request<SwaggerUserInfo>(
             'user/password',
             HTTPMethod.PUT,
             data

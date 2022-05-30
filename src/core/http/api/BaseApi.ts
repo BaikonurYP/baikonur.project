@@ -31,7 +31,7 @@ export class BaseApi {
      * @param options Параметры запроса
      * @returns Промис с данными
      */
-    protected _request<T>(
+    protected request<T>(
         url: string,
         method: HTTPMethod,
         data?: Record<string, string | number> | FormData,

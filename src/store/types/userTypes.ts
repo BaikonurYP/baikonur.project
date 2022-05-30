@@ -7,12 +7,12 @@ export type UserMessage = { text: string; type: 'default' | 'danger' }
 export interface UserState {
     user: User
     loading: boolean
-    get_message: UserMessage
-    login_message: UserMessage
-    register_message: UserMessage
-    change_data_message: UserMessage
-    change_passwords_message: UserMessage
-    change_avatar_message: UserMessage
+    getMessage: UserMessage
+    loginMessage: UserMessage
+    registerMessage: UserMessage
+    changeDataMessage: UserMessage
+    changePasswordsMessage: UserMessage
+    changeAvatarMessage: UserMessage
 }
 
 export enum UserActionTypes {

@@ -24,14 +24,15 @@ import {
     fetchUser
 } from '../../store/actions/userActions'
 import { Avatar } from '../../components/avatar/avatar'
+import { Form } from '../../components/form/form'
 
 /** Страница регистрации */
 const ProfilePage: FC = () => {
     const {
         user,
-        change_data_message,
-        change_passwords_message,
-        change_avatar_message
+        changeDataMessage,
+        changePasswordsMessage,
+        changeAvatarMessage
     } = useAppSelector((state) => state.user)
     const dispatch = useAppDispatch()
 
@@ -84,12 +85,12 @@ const ProfilePage: FC = () => {
 
     useEffect(() => {
         if (
-            change_passwords_message &&
-            change_passwords_message.type == 'default'
+            changePasswordsMessage &&
+            changePasswordsMessage.type == 'default'
         ) {
             passwordFormik.resetForm()
         }
-    }, [change_passwords_message])
+    }, [changePasswordsMessage])
 
     const passwordFormik = useFormik({
         initialValues: {
@@ -113,9 +114,8 @@ const ProfilePage: FC = () => {
                 <Container direction="row" crossAxisAlign={'start'}>
                     <Container direction="column">
                         <Header>Профиль</Header>
-                        <form
+                        <Form
                             onSubmit={userDataFormik.handleSubmit}
-                            style={{ width: '100%' }}
                         >
                             <Container direction="column">
                                 <br />
@@ -219,20 +219,19 @@ const ProfilePage: FC = () => {
                                 />
 
                                 <ButtonForm
-                                    helper={change_data_message?.text}
-                                    helperState={change_data_message?.type}
+                                    helper={changeDataMessage?.text}
+                                    helperState={changeDataMessage?.type}
                                 >
                                     Сохранить
                                 </ButtonForm>
                                 <br />
                             </Container>
-                        </form>
+                        </Form>
                     </Container>
                     <Container direction="column">
                         <Header>Аватар</Header>
-                        <form
+                        <Form
                             onSubmit={avatarFormik.handleSubmit}
-                            style={{ width: '100%' }}
                             ref={avatarRef}
                         >
                             <Container direction="column">
@@ -256,23 +255,22 @@ const ProfilePage: FC = () => {
                                 <br />
                                 {avatarFormik.values.avatar && (
                                     <ButtonForm
-                                        helper={change_avatar_message?.text}
+                                        helper={changeAvatarMessage?.text}
                                         helperState={
-                                            change_avatar_message?.type
+                                            changeAvatarMessage?.type
                                         }
-                                        helperPosition={'bottom'}
+                                        helperPosition='bottom'
                                     >
                                         Сохранить
                                     </ButtonForm>
                                 )}
                             </Container>
-                        </form>
+                        </Form>
                     </Container>
                     <Container direction="column">
                         <Header>Пароль</Header>
-                        <form
+                        <Form
                             onSubmit={passwordFormik.handleSubmit}
-                            style={{ width: '100%' }}
                         >
                             <Container direction="column">
                                 <Input
@@ -308,14 +306,14 @@ const ProfilePage: FC = () => {
                                     touched={passwordFormik.touched.newPassword}
                                 />
                                 <ButtonForm
-                                    helper={change_passwords_message?.text}
-                                    helperState={change_passwords_message?.type}
-                                    helperPosition={'bottom'}
+                                    helper={changePasswordsMessage?.text}
+                                    helperState={changePasswordsMessage?.type}
+                                    helperPosition='bottom'
                                 >
                                     Сохранить
                                 </ButtonForm>
                             </Container>
-                        </form>
+                        </Form>
                     </Container>
                 </Container>
             </Container>
