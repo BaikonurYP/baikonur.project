@@ -1,9 +1,11 @@
+import CanvasObject from './CanvasObject'
 import Paint from './Paint'
 import Player from './Player'
 import Projectile from './Projectile'
 import Meteor from './Meteor'
 import Invader from './Invader'
 import Particle from './Particle'
+import Perk from './Perk'
 
 import ShipImg from '../images/player/plain_1.svg'
 import MeteorImg from '../images/Meteors/Meteor.png'
@@ -11,10 +13,11 @@ import InvaderImg from '../images/invaders/enemy_1.svg'
 import Invider2Img from '../images/invaders/enemy_2.svg'
 import PlayerProjectileImg from '../images/projectiles/projectile_blue.svg'
 import InvaderProjectileImg from '../images/projectiles/projectile_green.svg'
+import firePerkImg from '../images/perks/flash.svg'
+import livePerkImg from '../images/perks/heart.svg'
+import timePerkImg from '../images/perks/clock.svg'
 
 import { getRandom } from '../utils/getRandom'
-import { number } from 'yup'
-import CanvasObject from './CanvasObject'
 
 const keyMap = {
     w: false,
@@ -22,6 +25,7 @@ const keyMap = {
     s: false,
     d: false,
     space: false,
+    esc: false
 }
 
 type ShootingObjects = Invader
@@ -30,59 +34,123 @@ type AllObject = CanvasObject | Particle
 
 class Game {
     ctx: CanvasRenderingContext2D
+
     player: Player
+
     projectiles: Projectile[]
+
     enemiesProjectiles: Projectile[]
+
     onChangePoint: (point: number) => void
+
     playerSpeed: number
+
     paint: Paint
+
     canvasWidth: number
+
     canvasHeight: number
+
     point: number
+
     onChangeLives: (num: number) => void
+
+    onChangeLevel: (num: number) => void
+
     particles: Particle[]
+
     invaders: Invader[]
+
     meteors: Meteor[]
+
+    stars: Particle[]
+
+    complexity: number
+
+    shooting: boolean
+
+    per: number
+
+    pause: boolean
+
+    perks: Perk[]
+
+    firePower: number
+
+    meteorTimeStep: number
+
+    invaderTimeStep: number
+
+    perkTimeStep: number
+
+    complexityTimeStep: number
 
     constructor(
         ctx: CanvasRenderingContext2D,
+        playerImage: string,
         onChangePoint: (point: number) => void,
-        onChangeLives: (num: number) => void
+        onChangeLives: (num: number) => void,
+        onChangeLevel: (num: number) => void
     ) {
         this.paint = new Paint(ctx)
         this.ctx = ctx
         this.canvasWidth = ctx.canvas.width
         this.canvasHeight = ctx.canvas.height
-        this.player = new Player(ShipImg, {
+        this.complexity = 1
+        this.player = new Player(playerImage, {
             position: {
                 x: this.canvasWidth / 2,
-                y: this.canvasHeight,
-            },
+                y: this.canvasHeight
+            }
         })
         this.playerSpeed = 7
-        this.invaders = [
-            // new Invader(InvaderImg, {
-            //     position: {
-            //         x: getRandom(0, this.canvasWidth),
-            //         y: -40,
-            //     },
-            // }),
-        ]
+        this.invaders = []
         this.meteors = [
             new Meteor(MeteorImg, {
                 position: {
                     x: getRandom(10, this.canvasWidth - 10),
-                    y: -20,
+                    y: -20
                 },
-                scale: 1,
-            }),
+                scale: 1
+            })
         ]
         this.projectiles = []
         this.enemiesProjectiles = []
         this.particles = []
+        this.stars = []
+
+        this.perks = []
         this.point = 0
+        this.per = 0
+        this.firePower = 250
+        this.pause = false
         this.onChangePoint = onChangePoint
         this.onChangeLives = onChangeLives
+        this.onChangeLevel = onChangeLevel
+        this.meteorTimeStep = 0
+        this.invaderTimeStep = 0
+        this.perkTimeStep = 0
+        this.complexityTimeStep = 0
+    }
+
+    fireUpgrade = () => {
+        if (this.firePower < 100) {
+            return
+        }
+        this.firePower -= 20
+    }
+
+    liveUpgrade = () => {
+        this.player.lives += 1
+        this.onChangeLives(this.player.lives)
+    }
+
+    timeUpgrade = () => {
+        if (this.complexity === 1) {
+            return
+        }
+        this.complexity -= 1
+        this.onChangeLevel(this.complexity)
     }
 
     addListeners() {
@@ -101,20 +169,7 @@ class Game {
                     keyMap.d = true
                     break
                 case ' ':
-                    setTimeout(() => {
-                        this.projectiles.push(
-                            new Projectile(PlayerProjectileImg, {
-                                position: {
-                                    x:
-                                        this.player.position.x +
-                                        this.player.width / 2,
-                                    y: this.player.position.y,
-                                },
-                                velocity: { x: 0, y: -10 },
-                            })
-                        )
-                    }, 0)
-
+                    keyMap.space = true
                     break
             }
         })
@@ -134,30 +189,46 @@ class Game {
                     keyMap.d = false
                     break
                 case ' ':
+                    keyMap.space = false
                     break
             }
         })
     }
 
+    onPause() {
+        if (this.pause) {
+            this.pause = false
+            this.animate()
+        } else {
+            this.pause = true
+        }
+    }
+
     control() {
         if (keyMap.a && this.player.position.x >= 0) {
-            this.player.position.x = this.player.position.x - this.playerSpeed
+            this.player.position.x -= this.playerSpeed
         }
+
         if (
             keyMap.d &&
             this.player.position.x + this.player.width <= this.ctx.canvas.width
         ) {
-            this.player.position.x = this.player.position.x + this.playerSpeed
+            this.player.position.x += this.playerSpeed
         }
+
         if (keyMap.w && this.player.position.y >= 200) {
-            this.player.position.y = this.player.position.y - this.playerSpeed
+            this.player.position.y -= this.playerSpeed
         }
+
         if (
             keyMap.s &&
             this.player.position.y + this.player.height <=
                 this.ctx.canvas.height
         ) {
-            this.player.position.y = this.player.position.y + this.playerSpeed
+            this.player.position.y += this.playerSpeed
+        }
+        if (keyMap.space) {
+            this.shoot()
         }
     }
 
@@ -177,12 +248,40 @@ class Game {
         this.paint.update(this.player)
     }
 
+    shoot() {
+        let per = performance.now()
+        if (per - this.per < this.firePower) {
+            return
+        }
+        this.projectiles.push(
+            new Projectile(PlayerProjectileImg, {
+                position: {
+                    x: this.player.position.x + this.player.width / 2,
+                    y: this.player.position.y
+                },
+                velocity: { x: 0, y: -10 }
+            })
+        )
+        this.per = per
+    }
+
     createPaticles(position: { x: number; y: number }) {
         for (let i = 0; i <= 15; i++) {
             this.particles.push(
                 new Particle({
-                    x: position.x,
-                    y: position.y,
+                    position: {
+                        x: position.x,
+                        y: position.y
+                    },
+                    velocity: {
+                        x: getRandom(-3, 3),
+                        y: getRandom(-3, 3)
+                    },
+                    size: {
+                        min: 0.1,
+                        max: 5
+                    },
+                    color: '#BAA0DE'
                 })
             )
         }
@@ -215,17 +314,11 @@ class Game {
             new Projectile(InvaderProjectileImg, {
                 position: {
                     x: enemy.position.x + enemy.width / 2,
-                    y: enemy.position.y + enemy.height,
+                    y: enemy.position.y + enemy.height
                 },
-                velocity: { x: 0, y: 5 },
+                velocity: { x: 0, y: 5 }
             })
         )
-    }
-
-    remoovebject(arr: any, index: number) {
-        setTimeout(() => {
-            arr.splice(index, 1)
-        }, 0)
     }
 
     transformInvider(position: { x: number; y: number }) {
@@ -235,8 +328,10 @@ class Game {
                 new Invader(Invider2Img, {
                     position: {
                         x: position.x,
-                        y: position.y,
+                        y: position.y
                     },
+                    scale: 1.2,
+                    lives: 3
                 })
             )
         }, 0)
@@ -262,15 +357,15 @@ class Game {
                 ) {
                     this.transformInvider({
                         x: firstInvider.position.x,
-                        y: firstInvider.position.y,
+                        y: firstInvider.position.y
                     })
                 }
             }
         })
     }
 
-    meteorDestraktion(meteor: Meteor) {
-        if (meteor.scale != 0.4) {
+    meteorDestraction(meteor: Meteor) {
+        if (meteor.scale !== 0.6) {
             const meterites = meteor.destruction()
             meterites.forEach((meteorite) => {
                 this.meteors.push(meteorite)
@@ -289,7 +384,7 @@ class Game {
             }
             this.paint.update(meteor, { rotation: true })
             this.hitToObject(meteor, i, this.meteors, () => {
-                this.meteorDestraktion(meteor)
+                this.meteorDestraction(meteor)
             })
         })
     }
@@ -312,11 +407,17 @@ class Game {
                 setTimeout(() => {
                     this.createPaticles({
                         x: projectile.position.x,
-                        y: projectile.position.y,
+                        y: projectile.position.y
                     })
 
-                    enemiesArr.splice(index, 1)
-                    this.projectiles.splice(j, 1)
+                    if (enemy.lives === 1) {
+                        enemiesArr.splice(index, 1)
+                        this.projectiles.splice(j, 1)
+                    }
+                    if (enemy.lives > 1) {
+                        enemy.lives -= 1
+                        this.projectiles.splice(j, 1)
+                    }
 
                     if (action) {
                         action()
@@ -334,9 +435,9 @@ class Game {
         objectsArr: CanvasObject[]
     ) {
         if (
-            object.position.y + object.width <=
+            object.position.y + object.height >= this.player.position.y &&
+            object.position.y + object.height <=
                 this.player.position.y + this.player.height &&
-            object.position.y + object.width > this.player.position.y &&
             object.position.x + object.width >= this.player.position.x &&
             object.position.x + object.width <=
                 this.player.position.x + this.player.width
@@ -344,11 +445,11 @@ class Game {
             objectsArr.splice(index, 1)
             this.createPaticles({
                 x: object.position.x,
-                y: object.position.y,
+                y: object.position.y
             })
+
             this.player.lives -= 1
             this.onChangeLives(this.player.lives)
-            console.log('В вас попали')
         }
     }
 
@@ -379,58 +480,229 @@ class Game {
         })
     }
 
+    createStars() {
+        for (let i = 0; i <= 100; i++) {
+            this.particles.push(
+                new Particle({
+                    position: {
+                        x: getRandom(0, this.canvasWidth),
+                        y: getRandom(0, this.canvasHeight)
+                    },
+                    velocity: {
+                        x: 0,
+                        y: 0.3
+                    },
+                    size: {
+                        min: 0.1,
+                        max: 3
+                    },
+                    fades: true,
+                    color: 'white'
+                })
+            )
+        }
+    }
+
     particlesUpdate() {
         this.particles.forEach((particle, i) => {
+            if (particle.fades) {
+                if (this.complexity <= 20) {
+                    particle.velocity.y = this.complexity
+                }
+            }
             if (particle.opacity <= 0) {
                 setTimeout(() => {
                     this.particles.splice(i, 1)
                 }, 0)
                 return
             }
+            if (particle.position.y >= this.canvasHeight) {
+                particle.position.y = -1
+            }
             this.paint.updateParticle(particle)
         })
     }
 
+    perksUpdate() {
+        this.perks.forEach((perk, i) => {
+            if (
+                perk.position.y + perk.height >= this.player.position.y &&
+                perk.position.y + perk.height > this.player.position.y &&
+                perk.position.x + perk.width >= this.player.position.x &&
+                perk.position.x + perk.width <=
+                    this.player.position.x + this.player.width
+            ) {
+                this.perks.splice(i, 1)
+                perk.upgrade()
+            }
+            if (perk.position.y >= this.canvasWidth) {
+                this.perks.splice(i, 1)
+            }
+            this.paint.update(perk)
+        })
+    }
+
+    addPerk = () => {
+        const perkStep = performance.now()
+        if (perkStep - this.perkTimeStep > 15000) {
+            let perkNum
+            if (this.complexity > 1) {
+                perkNum = getRandom(1, 4)
+            } else {
+                perkNum = getRandom(1, 3)
+            }
+            switch (perkNum) {
+                case 1:
+                    this.perks.push(
+                        new Perk(
+                            firePerkImg,
+                            {
+                                x: getRandom(
+                                    this.player.width,
+                                    this.canvasWidth - this.player.width
+                                ),
+                                y: -30
+                            },
+                            this.fireUpgrade
+                        )
+                    )
+                    break
+                case 2:
+                    this.perks.push(
+                        new Perk(
+                            livePerkImg,
+                            {
+                                x: getRandom(
+                                    this.player.width,
+                                    this.canvasWidth - this.player.width
+                                ),
+                                y: -30
+                            },
+                            this.liveUpgrade
+                        )
+                    )
+                    break
+                case 3:
+                    this.perks.push(
+                        new Perk(
+                            timePerkImg,
+                            {
+                                x: getRandom(
+                                    this.player.width,
+                                    this.canvasWidth - this.player.width
+                                ),
+                                y: -30
+                            },
+                            this.timeUpgrade
+                        )
+                    )
+                    break
+            }
+            this.perkTimeStep = perkStep
+        }
+        return
+    }
+
+    addMeteor() {
+        const meteorStep = performance.now()
+        if (meteorStep - this.meteorTimeStep > (5000 / this.complexity) * 1.2) {
+            this.meteors.push(
+                new Meteor(MeteorImg, {
+                    position: {
+                        x: getRandom(60, this.canvasWidth - 60),
+                        y: -60
+                    },
+                    scale: 1
+                })
+            )
+            this.meteorTimeStep = meteorStep
+        }
+        return
+    }
+
+    addInvader() {
+        const invaderStep = performance.now()
+        if (
+            invaderStep - this.invaderTimeStep >
+            (3000 / this.complexity) * 1.5
+        ) {
+            if (this.invaders.length >= 2) {
+                return
+            }
+            if (this.invaders.length > 0 && this.invaders[0].scale > 1) {
+                return
+            }
+            this.invaders.push(
+                new Invader(InvaderImg, {
+                    position: {
+                        x: getRandom(0, this.canvasWidth),
+                        y: -40
+                    },
+                    scale: 1,
+                    lives: 1
+                })
+            )
+            this.invaderTimeStep = invaderStep
+        }
+        return
+    }
+
+    increaseComplexity() {
+        const complexityTimeStep = performance.now()
+        if (complexityTimeStep - this.complexityTimeStep > 20000) {
+            this.complexity += 1
+            this.onChangeLevel(this.complexity)
+            this.complexityTimeStep = complexityTimeStep
+        }
+    }
+
     animate = () => {
-        requestAnimationFrame(this.animate)
+        if (!this.pause) {
+            requestAnimationFrame(this.animate)
+        }
         this.drawBackground()
-        this.control()
-        this.playerUpdate()
-        this.invidersUpdate()
-        this.meteorsUpdate()
-        this.projectilesUpdate()
-        this.enemiesProjectilesUpdate()
         this.particlesUpdate()
+        this.projectilesUpdate()
+        this.meteorsUpdate()
+        if (this.player.lives > 0) {
+            this.control()
+            this.enemiesProjectilesUpdate()
+            this.playerUpdate()
+        }
+        this.invidersUpdate()
+        this.perksUpdate()
+        this.addMeteor()
+        this.addInvader()
+        this.addPerk()
+        this.increaseComplexity()
     }
 
     start() {
         this.addListeners()
         this.animate()
-        setInterval(() => {
-            this.meteors.push(
-                new Meteor(MeteorImg, {
-                    position: {
-                        x: 0,
-                        y: 0,
-                    },
-                    scale: 1,
-                })
-            )
-        }, 4000)
+        this.createStars()
+    }
 
-        setInterval(() => {
-            if (this.invaders.length < 2) {
-                this.invaders.push(
-                    new Invader(InvaderImg, {
-                        position: {
-                            x: getRandom(0, this.canvasWidth),
-                            y: -40,
-                        },
-                    })
-                )
-            }
-            return
-        }, 1000)
+    restart() {
+        this.player.position = {
+            x: this.canvasWidth / 2 - this.player.width / 2,
+            y: this.canvasHeight - this.player.height - 20
+        }
+        this.point = 0
+        this.player.lives = 3
+        this.firePower = 250
+        this.complexity = 1
+        this.meteors = []
+        this.invaders = []
+        this.projectiles = []
+        this.enemiesProjectiles = []
+        this.perks = []
+        this.onChangeLevel(1)
+        this.onChangePoint(0)
+        this.onChangeLives(3)
+        this.meteorTimeStep = 0
+        this.invaderTimeStep = 0
+        this.perkTimeStep = 0
     }
 }
 

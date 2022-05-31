@@ -2,21 +2,24 @@ import CanvasObject from './CanvasObject'
 import Particle from './Particle'
 
 import { getRandom } from '../utils/getRandom'
+<<<<<<< HEAD
 import Invader from './Invader'
+=======
+import Meteor from './Meteor'
+>>>>>>> main
 
 export default class Paint {
     ctx: CanvasRenderingContext2D
-    rotation: number = 0.45
 
     constructor(ctx: CanvasRenderingContext2D) {
         this.ctx = ctx
     }
 
-    rotate(object: CanvasObject) {
+    rotate(object: Meteor) {
         const x = object.position.x + object.width / 2
         const y = object.position.y + object.height / 2
         this.ctx.translate(x, y)
-        this.ctx.rotate(Math.PI / this.rotation)
+        this.ctx.rotate(Math.PI / object.rotation)
         this.ctx.translate(-x, -y)
     }
 
@@ -30,18 +33,18 @@ export default class Paint {
         )
     }
 
-    drawParticle(object: Particle) {
+    drawParticle(particle: Particle) {
         this.ctx.save()
-        this.ctx.globalAlpha = object.opacity
+        this.ctx.globalAlpha = particle.opacity
         this.ctx.beginPath()
         this.ctx.arc(
-            object.position.x,
-            object.position.y,
-            getRandom(0.1, 7),
+            particle.position.x,
+            particle.position.y,
+            getRandom(particle.size.min, particle.size.max),
             0,
             Math.PI * 2
         )
-        this.ctx.fillStyle = '#BAA0DE'
+        this.ctx.fillStyle = particle.color
         this.ctx.fill()
         this.ctx.closePath()
         this.ctx.restore()
@@ -54,8 +57,8 @@ export default class Paint {
 
     update(object: CanvasObject, option?: { rotation?: boolean }) {
         if (option) {
-            if (option.rotation && object instanceof CanvasObject) {
-                this.rotation += 0.001
+            if (option.rotation && object instanceof Meteor) {
+                object.rotation += 0.001
                 this.ctx.save()
                 this.rotate(object)
                 this.draw(object)
@@ -72,7 +75,10 @@ export default class Paint {
 
     updateParticle(object: Particle) {
         this.drawParticle(object)
-        object.opacity -= 0.02
+        if (!object.fades) {
+            object.opacity -= 0.02
+        }
+
         this.mooveObject(object)
     }
 }

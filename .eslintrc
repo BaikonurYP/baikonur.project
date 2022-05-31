@@ -16,12 +16,14 @@
         "project": ["./tsconfig.json"]
     },
     "rules": {
+        "no-undef": ["none"],
         "import/named": ["off"],
         "import/extensions": ["off"],
         "import/no-unresolved": ["off"],
         "arrow-parens": ["off"],
         "camelcase": ["off"],
         "comma-dangle": ["error", { "functions": "ignore" }],
+        "default-param-last": ["off"],
         "eol-last": ["off"],
         "func-names": ["error", "never"],
         "function-paren-newline": ["error", "consistent"],
@@ -53,6 +55,7 @@
         "no-underscore-dangle": ["warn"],
         "no-unneeded-ternary": ["warn"],
         "no-unused-expressions": ["off"],
+        "no-undef": ["off"],
         "no-unused-vars": ["off"],
         "no-use-before-define": ["warn"],
         "object-shorthand": ["warn"],

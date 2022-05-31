@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components'
+import { getColor } from '../../../styles/GlobalStyle/colors'
 
 export const Wrapper = styled.div`
     display: flex;
@@ -8,7 +9,7 @@ export const Wrapper = styled.div`
     cursor: pointer;
 
     &:hover div {
-        box-shadow: 0px 0px 10px 0px var(--blue-light);
+        box-shadow: 0px 0px 10px 0px ${getColor('blue-light')};
     }
 `
 export const Title = styled.p`
@@ -16,7 +17,7 @@ export const Title = styled.p`
     padding: 0;
     font-family: 'Roboto';
     font-size: 8px;
-    color: var(--white);
+    color: ${getColor('white')};
     text-transform: uppercase;
 `
 
@@ -28,7 +29,7 @@ export const Container = styled.div<ContainerProps>`
     margin: 4px 0 0 0;
     width: 33px;
     height: 33px;
-    border: 2px solid var(--blue-light);
+    border: 2px solid ${getColor('blue-light')};
     border-radius: 3px;
     background-size: 60%;
     background-position: center center;

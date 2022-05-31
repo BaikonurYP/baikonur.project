@@ -11,6 +11,7 @@ import {
 
 import ButtonMain from '../../components/buttons/buttonMain/buttonMain'
 import { Column, DataList } from './ForumTypes'
+import { Layout } from '../../components/layout/layout'
 
 const ForumPage: React.FC = () => {
     const history = useHistory()
@@ -90,37 +91,44 @@ const ForumPage: React.FC = () => {
         []
     )
     return (
-        <Container>
-            <ForumWrapperStyled>
-                <ForumTitleWrapStyled>
-                    <ForumTitleStyled>Список форумов</ForumTitleStyled>
-                    <ButtonMain color="yellow" onClick={() => console.log()}>
-                        + Новый форум
-                    </ButtonMain>
-                </ForumTitleWrapStyled>
-                <ForumTableStyled>
-                    <thead>
-                        <tr>
-                            {columns.map((column) => (
-                                <th key={column.key}>{column.header}</th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data.map((item, i) => (
-                            <tr
-                                onClick={() => goToTheme(item.id)}
-                                key={item.id}
-                            >
-                                <td>{item.theme}</td>
-                                <td>{item.count.toLocaleString('ru-Ru')}</td>
-                                <td>{item.date}</td>
+        <Layout hasMenu>
+            <Container direction="column">
+                <ForumWrapperStyled>
+                    <ForumTitleWrapStyled>
+                        <ForumTitleStyled>Список форумов</ForumTitleStyled>
+                        <ButtonMain
+                            color="yellow"
+                            onClick={() => console.log()}
+                        >
+                            + Новый форум
+                        </ButtonMain>
+                    </ForumTitleWrapStyled>
+                    <ForumTableStyled>
+                        <thead>
+                            <tr>
+                                {columns.map((column) => (
+                                    <th key={column.key}>{column.header}</th>
+                                ))}
                             </tr>
-                        ))}
-                    </tbody>
-                </ForumTableStyled>
-            </ForumWrapperStyled>
-        </Container>
+                        </thead>
+                        <tbody>
+                            {data.map((item, i) => (
+                                <tr
+                                    onClick={() => goToTheme(item.id)}
+                                    key={item.id}
+                                >
+                                    <td>{item.theme}</td>
+                                    <td>
+                                        {item.count.toLocaleString('ru-Ru')}
+                                    </td>
+                                    <td>{item.date}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </ForumTableStyled>
+                </ForumWrapperStyled>
+            </Container>
+        </Layout>
     )
 }
 

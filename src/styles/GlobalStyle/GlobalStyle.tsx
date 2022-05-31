@@ -1,34 +1,100 @@
 import { createGlobalStyle } from 'styled-components'
 
 import SpaceFont from '../../vendor/fonts/spaceagecyrillic/spaceagecyrillic_regular.ttf'
+import RobotoThin from '../../vendor/fonts/roboto/Roboto-Thin.ttf'
+import RobotoThinItalic from '../../vendor/fonts/roboto/Roboto-ThinItalic.ttf'
+import RobotoLight from '../../vendor/fonts/roboto/Roboto-Light.ttf'
+import RobotoRegular from '../../vendor/fonts/roboto/Roboto-Regular.ttf'
+import RobotoMedium from '../../vendor/fonts/roboto/Roboto-Medium.ttf'
+import RobotoItalic from '../../vendor/fonts/roboto/Roboto-Italic.ttf'
+import RobotoMediumItalic from '../../vendor/fonts/roboto/Roboto-MediumItalic.ttf'
+import RobotoBold from '../../vendor/fonts/roboto/Roboto-Bold.ttf'
+import RobotoBlack from '../../vendor/fonts/roboto/Roboto-Black.ttf'
+import RobotoBlackItalic from '../../vendor/fonts/roboto/Roboto-BlackItalic.ttf'
 import BGImage from '../../images/bg.jpg'
+import { colors, getColor } from './colors'
 
 const Global = createGlobalStyle`
   @font-face {
     font-family: 'SpaceFont';
     src: url(${SpaceFont}) format('woff2');
-  } 
+  }
 
   @font-face {
-    font-family: 'Roboto', sans-serif;
-    src: url('https://fonts.googleapis.com/css2?family=Roboto:ital@1&display=swap');
-  } 
+    font-family: 'Roboto';
+    src: url(${RobotoThin}) format('woff2');
+    font-weight: 100;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Roboto';
+    src: url(${RobotoThinItalic}) format('woff2');
+    font-weight: 100;
+    font-style: italic;
+  }
+
+  @font-face {
+    font-family: 'Roboto';
+    src: url(${RobotoLight}) format('woff2');
+    font-weight: 300;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Roboto';
+    src: url(${RobotoRegular}) format('woff2');
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Roboto';
+    src: url(${RobotoItalic}) format('woff2');
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  @font-face {
+    font-family: 'Roboto';
+    src: url(${RobotoMedium}) format('woff2');
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Roboto';
+    src: url(${RobotoMediumItalic}) format('woff2');
+    font-weight: 500;
+    font-style: italic;
+  }
+
+  @font-face {
+    font-family: 'Roboto';
+    src: url(${RobotoBold}) format('woff2');
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Roboto';
+    src: url(${RobotoBlack}) format('woff2');
+    font-weight: 900;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Roboto';
+    src: url(${RobotoBlackItalic}) format('woff2');
+    font-weight: 900;
+    font-style: italic;
+  }
 
   :root {
-    --yellow: #ffcc00;
-    --yellow-dark: #d1a700;
-    --purple: #4a3c55;
-    --purple-dark: #2b2331;
-    --purple-light: #8E7D9C;
-    --purple-grey: #63596D;
-    --white: #ffffff;
-    --white-30: rgba(255, 255, 255, 0.3);
-    --grey: #CBCBCB;
-    --light-grey: #EEEEEE;
-    --blue-light: #1884b4;
-    --red-light: #e76969;
-    --clear: #ffffff00;
-}
+    ${Object.keys(colors).map((k: keyof typeof colors) => {
+        return `--${k}: ${colors[k]};`
+    })}
+  }
 
   * {
     box-sizing: border-box;
