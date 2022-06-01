@@ -5,17 +5,17 @@ import { TooltipPosition } from '../../tooltip/tooltipStyled'
 import { Label, InputStyled, InputState, InpurErrorStyle } from './inputStyled'
 
 interface InputProps {
-    type: string
-    name: string
+    type?: string
+    name?: string
     placeholder?: string
-    value: string
+    value?: string
     state?: InputState
     onChange?: (e: React.ChangeEvent<any>) => void
     onBlur?: (e: any) => void
     onFocus?: (e: any) => void
-    touched: boolean
+    touched?: boolean
     helperPosition?: TooltipPosition
-    helper: string
+    helper?: string
 }
 
 const Input: FC<InputProps> = (props) => {

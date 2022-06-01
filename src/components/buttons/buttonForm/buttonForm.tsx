@@ -3,7 +3,7 @@ import React, { FC } from 'react'
 import { ButtonContainerStyled, ButtonFormStyled } from './buttonFormStyled'
 
 interface ButtonFormProps {
-    children: string
+    children?: string
     disabled?: boolean
     onClick?: () => void
 }
