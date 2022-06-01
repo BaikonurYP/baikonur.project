@@ -24,7 +24,7 @@ const SignupPage: FC = () => {
         history.push(`/game`)
     }
 
-    const { user,registerMessage } = useAppSelector((state) => state.user)
+    const { user } = useAppSelector((state) => state.user)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
@@ -170,12 +170,7 @@ const SignupPage: FC = () => {
                             />
                         </Container>
 
-                        <ButtonForm
-                            helper={registerMessage?.text}
-                            helperState={registerMessage?.type}
-                        >
-                            Зарегистрироваться
-                        </ButtonForm>
+                        <ButtonForm>Зарегистрироваться</ButtonForm>
                     </Container>
                 </form>
             </Container>

@@ -3,7 +3,7 @@ import { FC } from 'react'
 import { FormStyled } from './formStyled'
 
 type FormProps = {
-    children?: React.ReactNode,
+    children?: React.ReactNode
     onSubmit: (e?: React.FormEvent<HTMLFormElement>) => void
     ref?: React.MutableRefObject<HTMLFormElement>
 }

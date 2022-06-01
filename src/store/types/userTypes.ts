@@ -7,12 +7,6 @@ export type UserMessage = { text: string; type: 'default' | 'danger' }
 export interface UserState {
     user: User
     loading: boolean
-    getMessage: UserMessage
-    loginMessage: UserMessage
-    registerMessage: UserMessage
-    changeDataMessage: UserMessage
-    changePasswordsMessage: UserMessage
-    changeAvatarMessage: UserMessage
 }
 
 export enum UserActionTypes {
@@ -23,27 +17,22 @@ export enum UserActionTypes {
     LOGIN_REQUEST = 'LOGIN_REQUEST',
     LOGIN_REQUEST_SUCCESS = 'LOGIN_REQUEST_SUCCESS',
     LOGIN_REQUEST_ERROR = 'LOGIN_REQUEST_ERROR',
-    LOGIN_REQUEST_COMLETE = 'LOGIN_REQUEST_COMLETE',
 
     SIGNUP_REQUEST = 'SIGNUP_REQUEST',
     SIGNUP_REQUEST_SUCCESS = 'SIGNUP_REQUEST_SUCCESS',
     SIGNUP_REQUEST_ERROR = 'SIGNUP_REQUEST_ERROR',
-    SIGNUP_REQUEST_COMPLETE = 'SIGNUP_REQUEST_COMPLETE',
 
     CHANGE_DATA_REQUEST = 'CHANGE_DATA_REQUEST',
     CHANGE_DATA_REQUEST_SUCCESS = 'CHANGE_DATA_REQUEST_SUCCESS',
     CHANGE_DATA_REQUEST_ERROR = 'CHANGE_DATA_REQUEST_ERROR',
-    CHANGE_DATA_REQUEST_COMPLETE = 'CHANGE_DATA_REQUEST_COMPLETE',
 
     CHANGE_PASSWORDS_REQUEST = 'CHANGE_PASSWORDS_REQUEST',
     CHANGE_PASSWORDS_REQUEST_SUCCESS = 'CHANGE_PASSWORDS_REQUEST_SUCCESS',
     CHANGE_PASSWORDS_REQUEST_ERROR = 'CHANGE_PASSWORDS_REQUEST_ERROR',
-    CHANGE_PASSWORDS_REQUEST_COMPLETE = 'CHANGE_PASSWORDS_REQUEST_COMPLETE',
 
     CHANGE_AVATAR_REQUEST = 'CHANGE_AVATAR_REQUEST',
     CHANGE_AVATAR_REQUEST_SUCCESS = 'CHANGE_AVATAR_REQUEST_SUCCESS',
-    CHANGE_AVATAR_REQUEST_ERROR = 'CHANGE_AVATAR_REQUEST_ERROR',
-    CHANGE_AVATAR_REQUEST_COMPLETE = 'CHANGE_AVATAR_REQUEST_COMPLETE'
+    CHANGE_AVATAR_REQUEST_ERROR = 'CHANGE_AVATAR_REQUEST_ERROR'
 }
 
 export interface FetchUserAction {
@@ -74,10 +63,6 @@ export interface LoginErrorAction {
     payload: string
 }
 
-export interface LoginCompleteAction {
-    type: UserActionTypes.LOGIN_REQUEST_COMLETE
-}
-
 export interface SignUpAction {
     type: UserActionTypes.SIGNUP_REQUEST
     payload: {
@@ -99,10 +84,6 @@ export interface SignUpErrorAction {
     payload: string
 }
 
-export interface SignUpCompleteAction {
-    type: UserActionTypes.SIGNUP_REQUEST_COMPLETE
-}
-
 export interface ChangeDataAction {
     type: UserActionTypes.CHANGE_DATA_REQUEST
     payload: Omit<User, 'id' | 'avatar'>
@@ -118,10 +99,6 @@ export interface ChangeDataErrorAction {
     payload: string
 }
 
-export interface ChangeDataCompleteAction {
-    type: UserActionTypes.CHANGE_DATA_REQUEST_COMPLETE
-}
-
 export interface ChangePasswordsAction {
     type: UserActionTypes.CHANGE_PASSWORDS_REQUEST
     payload: { oldPassword: string; newPassword: string }
@@ -134,11 +111,6 @@ export interface ChangePasswordsSuccessAction {
 
 export interface ChangePasswordsErrorAction {
     type: UserActionTypes.CHANGE_PASSWORDS_REQUEST_ERROR
-    payload: string
-}
-
-export interface ChangePasswordsCompleteAction {
-    type: UserActionTypes.CHANGE_PASSWORDS_REQUEST_COMPLETE
     payload: string
 }
 
@@ -157,10 +129,6 @@ export interface ChangeAvatarErrorAction {
     payload: string
 }
 
-export interface ChangeAvatarCompleteAction {
-    type: UserActionTypes.CHANGE_AVATAR_REQUEST_COMPLETE
-}
-
 export type UserAction =
     | FetchUserAction
     | FetchUserSuccessAction
@@ -168,20 +136,15 @@ export type UserAction =
     | LoginAction
     | LoginSuccessAction
     | LoginErrorAction
-    | LoginCompleteAction
     | SignUpAction
     | SignUpSuccessAction
     | SignUpErrorAction
-    | SignUpCompleteAction
     | ChangeDataAction
     | ChangeDataSuccessAction
     | ChangeDataErrorAction
-    | ChangeDataCompleteAction
     | ChangePasswordsAction
     | ChangePasswordsSuccessAction
     | ChangePasswordsErrorAction
-    | ChangePasswordsCompleteAction
     | ChangeAvatarAction
     | ChangeAvatarSuccessAction
     | ChangeAvatarErrorAction
-    | ChangeAvatarCompleteAction

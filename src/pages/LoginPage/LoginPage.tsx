@@ -22,7 +22,7 @@ const LoginPage: FC = () => {
         history.push(`/game`)
     }
 
-    const { user,loginMessage } = useAppSelector((state) => state.user)
+    const { user } = useAppSelector((state) => state.user)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
@@ -88,12 +88,7 @@ const LoginPage: FC = () => {
                             onBlur={formik.handleBlur}
                             touched={formik.touched.password}
                         />
-                        <ButtonForm
-                            helper={loginMessage?.text}
-                            helperState={loginMessage?.type}
-                        >
-                            Войти
-                        </ButtonForm>
+                        <ButtonForm>Войти</ButtonForm>
                     </Container>
                 </form>
             </Container>

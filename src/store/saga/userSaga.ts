@@ -17,27 +17,34 @@ import {
     UserState
 } from '../types/userTypes'
 import {
-    changeAvatarComlete,
     changeAvatarError,
     changeAvatarSuccess,
-    changeDataComlete,
     changeDataError,
     changeDataSuccess,
-    changePasswordsComlete,
     changePasswordsError,
     changePasswordsSuccess,
     fetchUserError,
     fetchUserSuccess,
-    loginComlete,
     loginError,
     loginSuccess,
-    signUpComlete,
     signUpError,
     signUpSuccess
 } from '../actions/userActions'
 import { RequestResult } from '../../core/http/api/types/RequestResult'
 import { authApi } from '../../core/http/api/AuthApi'
 import { userApi } from '../../core/http/api/UserApi'
+import { toast, ToastOptions } from 'react-toastify'
+
+const toastConfig: ToastOptions = {
+    position: 'top-right',
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined as any,
+    theme: 'dark'
+}
 
 function* getUserSaga(): Generator<
     StrictEffect,
@@ -52,6 +59,7 @@ function* getUserSaga(): Generator<
         else throw data.error
     } catch (e) {
         yield put(fetchUserError(e))
+        toast.error(`Ошибка: ${e}`, toastConfig)
     }
 }
 
@@ -66,12 +74,11 @@ function* loginUserSaga(
         if (res.successes) {
             yield put(loginSuccess())
             yield put({ type: UserActionTypes.FETCH_USER })
+            toast.success('Вы успешно вошли', toastConfig)
         } else throw res.error
     } catch (e) {
         yield put(loginError(e))
-    } finally {
-        yield delay(3000)
-        yield put(loginComlete())
+        toast.error(`Ошибка: ${e}`, toastConfig)
     }
 }
 
@@ -86,12 +93,11 @@ function* registerUserSaga(
         if (res.successes) {
             yield put(signUpSuccess())
             yield put({ type: UserActionTypes.FETCH_USER })
+            toast.success('Вы успешно зарегестрированы', toastConfig)
         } else throw res.error
     } catch (e) {
         yield put(signUpError(e))
-    } finally {
-        yield delay(3000)
-        yield put(signUpComlete())
+        toast.error(`Ошибка: ${e}`, toastConfig)
     }
 }
 
@@ -106,12 +112,11 @@ function* changeUserSaga(
         if (data.successes) {
             yield put(changeDataSuccess(data.data))
             yield put({ type: UserActionTypes.FETCH_USER })
+            toast.success('Данные пользователя успешно сохранены', toastConfig)
         } else throw data.error
     } catch (e) {
         yield put(changeDataError(e))
-    } finally {
-        yield delay(3000)
-        yield put(changeDataComlete())
+        toast.error(`Ошибка: ${e}`, toastConfig)
     }
 }
 
@@ -126,12 +131,11 @@ function* changeUserPasswordSaga(
         if (data.successes) {
             yield put(changePasswordsSuccess())
             yield put({ type: UserActionTypes.FETCH_USER })
+            toast.success('Новый пароль сохранен', toastConfig)
         } else throw data.error
     } catch (e) {
         yield put(changePasswordsError(e))
-    } finally {
-        yield delay(3000)
-        yield put(changePasswordsComlete())
+        toast.error(`Ошибка: ${e}`, toastConfig)
     }
 }
 
@@ -146,12 +150,11 @@ function* changeUserAvatarSaga(
         if (data.successes) {
             yield put(changeAvatarSuccess(data.data))
             yield put({ type: UserActionTypes.FETCH_USER })
+            toast.success('Аватар обновлен', toastConfig)
         } else throw data.error
     } catch (e) {
         yield put(changeAvatarError(e))
-    } finally {
-        yield delay(3000)
-        yield put(changeAvatarComlete())
+        toast.error(`Ошибка: ${e}`, toastConfig)
     }
 }
 

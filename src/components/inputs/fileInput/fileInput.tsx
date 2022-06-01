@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react'
 import { TooltipPosition } from '../../tooltip/tooltipStyled'
 import { InpurErrorStyle } from '../input/inputStyled'
 import { FileInputInputStyled, FileInputLabelStyled } from './fileInputStyled'
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid'
 
 interface InputProps {
     children: string

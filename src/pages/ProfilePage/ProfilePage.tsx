@@ -28,12 +28,7 @@ import { Form } from '../../components/form/form'
 
 /** Страница регистрации */
 const ProfilePage: FC = () => {
-    const {
-        user,
-        changeDataMessage,
-        changePasswordsMessage,
-        changeAvatarMessage
-    } = useAppSelector((state) => state.user)
+    const { user } = useAppSelector((state) => state.user)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
@@ -43,6 +38,7 @@ const ProfilePage: FC = () => {
     useEffect(() => {
         if (user) {
             userDataFormik.setValues(user)
+            passwordFormik.resetForm()
         }
     }, [user])
 
@@ -83,15 +79,6 @@ const ProfilePage: FC = () => {
         }
     })
 
-    useEffect(() => {
-        if (
-            changePasswordsMessage &&
-            changePasswordsMessage.type == 'default'
-        ) {
-            passwordFormik.resetForm()
-        }
-    }, [changePasswordsMessage])
-
     const passwordFormik = useFormik({
         initialValues: {
             oldPassword: '',
@@ -114,9 +101,7 @@ const ProfilePage: FC = () => {
                 <Container direction="row" crossAxisAlign="start">
                     <Container direction="column">
                         <Header>Профиль</Header>
-                        <Form
-                            onSubmit={userDataFormik.handleSubmit}
-                        >
+                        <Form onSubmit={userDataFormik.handleSubmit}>
                             <Container direction="column">
                                 <br />
                                 <Input
@@ -218,12 +203,7 @@ const ProfilePage: FC = () => {
                                     touched={userDataFormik.touched.email}
                                 />
 
-                                <ButtonForm
-                                    helper={changeDataMessage?.text}
-                                    helperState={changeDataMessage?.type}
-                                >
-                                    Сохранить
-                                </ButtonForm>
+                                <ButtonForm>Сохранить</ButtonForm>
                                 <br />
                             </Container>
                         </Form>
@@ -254,24 +234,14 @@ const ProfilePage: FC = () => {
                                 </FileInput>
                                 <br />
                                 {avatarFormik.values.avatar && (
-                                    <ButtonForm
-                                        helper={changeAvatarMessage?.text}
-                                        helperState={
-                                            changeAvatarMessage?.type
-                                        }
-                                        helperPosition='bottom'
-                                    >
-                                        Сохранить
-                                    </ButtonForm>
+                                    <ButtonForm>Сохранить</ButtonForm>
                                 )}
                             </Container>
                         </Form>
                     </Container>
                     <Container direction="column">
                         <Header>Пароль</Header>
-                        <Form
-                            onSubmit={passwordFormik.handleSubmit}
-                        >
+                        <Form onSubmit={passwordFormik.handleSubmit}>
                             <Container direction="column">
                                 <Input
                                     type="password"
@@ -305,13 +275,7 @@ const ProfilePage: FC = () => {
                                     onBlur={passwordFormik.handleBlur}
                                     touched={passwordFormik.touched.newPassword}
                                 />
-                                <ButtonForm
-                                    helper={changePasswordsMessage?.text}
-                                    helperState={changePasswordsMessage?.type}
-                                    helperPosition='bottom'
-                                >
-                                    Сохранить
-                                </ButtonForm>
+                                <ButtonForm>Сохранить</ButtonForm>
                             </Container>
                         </Form>
                     </Container>
