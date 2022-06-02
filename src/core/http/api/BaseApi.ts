@@ -31,7 +31,7 @@ export class BaseApi {
      * @param options Параметры запроса
      * @returns Промис с данными
      */
-    protected _request<T>(
+    protected request<T>(
         url: string,
         method: HTTPMethod,
         data?: Record<string, string | number> | FormData,
@@ -41,11 +41,15 @@ export class BaseApi {
             url: url,
             baseURL: this.BASE_URL,
             method: method,
-            withCredentials: true,
+            withCredentials: true
         }
         if (data) config.data = data
         if (options) {
             config = { ...config, ...options }
+        }
+        if (data instanceof FormData) {
+            if (!config.headers) config.headers = {}
+            config.headers['Content-Type'] = `multipart/form-data`
         }
 
         let result: RequestResult<T> = {}

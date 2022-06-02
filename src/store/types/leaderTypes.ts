@@ -13,7 +13,7 @@ export interface LeadersState {
 export enum LeadersActionTypes {
     FETCH_LEADERS = 'FETCH_LEADERS',
     FETCH_LEADERS_SUCCESS = 'FETCH_LEADERS_SUCCESS',
-    FETCH_LEADERS_ERROR = 'FETCH_LEADERS_ERROR',
+    FETCH_LEADERS_ERROR = 'FETCH_LEADERS_ERROR'
 }
 interface FetchLeadersAction {
     type: LeadersActionTypes.FETCH_LEADERS
