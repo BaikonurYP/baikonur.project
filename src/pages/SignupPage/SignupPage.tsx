@@ -24,18 +24,7 @@ const SignupPage: FC = () => {
         history.push(`/game`)
     }
 
-    const { user } = useAppSelector((state) => state.user)
     const dispatch = useAppDispatch()
-
-    useEffect(() => {
-        dispatch(fetchUser())
-    }, [])
-
-    useEffect(() => {
-        if (user) {
-            goToGame()
-        }
-    }, [user])
 
     const formik = useFormik({
         initialValues: {
