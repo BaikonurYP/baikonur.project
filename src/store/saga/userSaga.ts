@@ -11,6 +11,7 @@ import {
     ChangeDataAction,
     ChangePasswordsAction,
     LoginAction,
+    OAuthAction,
     SignUpAction,
     User,
     UserActionTypes,
@@ -27,6 +28,7 @@ import {
     fetchUserSuccess,
     loginError,
     loginSuccess,
+    oAuthAccess,
     signUpError,
     signUpSuccess
 } from '../actions/userActions'
@@ -59,7 +61,6 @@ function* getUserSaga(): Generator<
         else throw data.error
     } catch (e) {
         yield put(fetchUserError(e))
-        toast.error(`Ошибка: ${e}`, toastConfig)
     }
 }
 
@@ -97,6 +98,38 @@ function* registerUserSaga(
         } else throw res.error
     } catch (e) {
         yield put(signUpError(e))
+        toast.error(`Ошибка: ${e}`, toastConfig)
+    }
+}
+
+function* oAuthAccessUserSaga(
+    action: OAuthAction
+): Generator<StrictEffect, void, RequestResult<{ service_id: string }>> {
+    try {
+        const res = (yield call(
+            authApi.getOAuthId.bind(authApi)
+        )) as RequestResult<{ service_id: string }>
+        if (res.successes) {
+            const href = window.location.origin
+            const redirect = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${res.data.service_id}&redirect_uri=${href}`
+            document.location.href = redirect
+        } else throw res.error
+    } catch (e) {
+        toast.error(`Ошибка: ${e}`, toastConfig)
+    }
+}
+
+function* oAuthRequestUserSaga(
+    action: OAuthAction
+): Generator<StrictEffect, void, RequestResult<string>> {
+    try {
+        const res = (yield call(authApi.oAuth.bind(authApi), {
+            code: action.payload
+        })) as RequestResult<string>
+        if (res.successes) {
+            yield put({ type: UserActionTypes.FETCH_USER })
+        } else throw res.error
+    } catch (e) {
         toast.error(`Ошибка: ${e}`, toastConfig)
     }
 }
@@ -164,6 +197,13 @@ export default function* rootSaga(): Generator<StrictEffect, void, any> {
     yield all([
         yield takeLatest(UserActionTypes.SIGNUP_REQUEST, registerUserSaga)
     ])
+    yield all([
+        yield takeLatest(UserActionTypes.OAUTH_ACCESS, oAuthAccessUserSaga)
+    ])
+    yield all([
+        yield takeLatest(UserActionTypes.OAUTH_REQUEST, oAuthRequestUserSaga)
+    ])
+
     yield all([
         yield takeLatest(UserActionTypes.CHANGE_DATA_REQUEST, changeUserSaga)
     ])

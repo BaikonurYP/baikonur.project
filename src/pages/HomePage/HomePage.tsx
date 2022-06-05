@@ -18,6 +18,7 @@ import Skin2 from '../../images/skins/plain_2.svg'
 import Skin3 from '../../images/skins/plain_3.svg'
 import Skin4 from '../../images/skins/plain_4.svg'
 import { Layout } from '../../components/layout/layout'
+import { oAuthRequest } from '../../store/actions/userActions'
 
 const skins = [
     { title: 'Зеленый гоблин', image: Skin1 },
@@ -36,6 +37,13 @@ const HomePage: FC = () => {
         dispatch(changeSkinSuccess(image))
         history.push('/game')
     }
+
+    useEffect(() => {
+        const params = new URLSearchParams(document.location.search)
+        if (params.get('code')) {
+            dispatch(oAuthRequest(params.get('code')))
+        }
+    }, [])
 
     return (
         <Layout hasMenu>

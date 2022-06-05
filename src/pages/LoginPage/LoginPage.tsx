@@ -12,7 +12,13 @@ import {
     passwordValidationChain
 } from '../../components/inputs/validators'
 import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
-import { fetchUser, login } from '../../store/actions/userActions'
+import {
+    fetchUser,
+    login,
+    oAuthAccess,
+    oAuthRequest
+} from '../../store/actions/userActions'
+import { Form } from '../../components/form/form'
 
 /** Страница логина */
 const LoginPage: FC = () => {
@@ -34,6 +40,12 @@ const LoginPage: FC = () => {
             goToGame()
         }
     }, [user])
+
+    const oAuthHandler = (e?: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+
+        dispatch(oAuthAccess())
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -91,6 +103,14 @@ const LoginPage: FC = () => {
                         <ButtonForm>Войти</ButtonForm>
                     </Container>
                 </form>
+                <Form onSubmit={oAuthHandler}>
+                    <Container direction="column">
+                        <ButtonForm size="SM">
+                            Войти через <span className="initial red">Я</span>
+                            ндекс
+                        </ButtonForm>
+                    </Container>
+                </Form>
             </Container>
         </Layout>
     )

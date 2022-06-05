@@ -17,7 +17,7 @@ import {
     Points,
     CanvasStyled
 } from './GameComponentStyled'
-import ButtonFullScreen from "../buttons/buttonFullScreen/buttonFullScreen";
+import ButtonFullScreen from '../buttons/buttonFullScreen/buttonFullScreen'
 
 const GameComponent: FC = () => {
     const image = useAppSelector((state) => state.playerSkin.image)

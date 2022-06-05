@@ -20,7 +20,9 @@ const App: FC = () => (
         <Route path="/signup">
             <SignupPage />
         </Route>
-        <Redirect exact from="/" to="home" />
+        <Route exact path="/">
+            <HomePage />
+        </Route>
         <Route path="/home">
             <HomePage />
         </Route>
