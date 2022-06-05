@@ -25,6 +25,16 @@ export const leadersReducer = (
         case LeadersActionTypes.FETCH_LEADERS_ERROR:
             return { loading: false, error: action.payload, leaders: [] }
 
+        case LeadersActionTypes.SAVE_LEADER:
+            return { ...state, loading: true, error: null }
+
+        case LeadersActionTypes.SAVE_LEADER_SUCCESS: {
+            return { ...state, loading: false, error: null }
+        }
+
+        case LeadersActionTypes.SAVE_LEADER_ERROR:
+            return { ...state, loading: false, error: action.payload }
+
         default:
             return state
     }
