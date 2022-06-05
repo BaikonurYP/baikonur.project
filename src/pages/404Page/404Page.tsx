@@ -1,10 +1,6 @@
 import React, { FC } from 'react'
 import Container from '../../components/container/container'
-import {
-    TitleStyled,
-    TextStyled,
-    ImageStyled,
-} from './404PageStyled'
+import { TitleStyled, TextStyled, ImageStyled } from './404PageStyled'
 
 import Image404 from '../../images/image404.png'
 import { Layout } from '../../components/layout/layout'
@@ -16,12 +12,11 @@ const Error404Page: FC = () => (
             <Logo />
             <TitleStyled>404</TitleStyled>
             <TextStyled>
-                ошибка<br/>
-                к сожалению запрашиваемая
-                страница не найдена
+                ошибка
+                <br />к сожалению запрашиваемая страница не найдена
             </TextStyled>
             <ImageStyled>
-                <img src={Image404} alt="404"/>
+                <img src={Image404} alt="404" />
             </ImageStyled>
         </Container>
     </Layout>

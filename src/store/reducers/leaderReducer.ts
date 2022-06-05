@@ -1,13 +1,11 @@
 import {
     LeadersAction,
     LeadersActionTypes,
-    LeadersState,
+    LeadersState
 } from '../types/leaderTypes'
 
 const initialState: LeadersState = {
-    leaders: [],
-    loading: false,
-    error: null,
+    data: [],
 }
 
 export const leadersReducer = (
@@ -16,7 +14,7 @@ export const leadersReducer = (
 ): LeadersState => {
     switch (action.type) {
         case LeadersActionTypes.FETCH_LEADERS:
-            return { loading: true, error: null, leaders: [] }
+            return action.payload
 
         case LeadersActionTypes.FETCH_LEADERS_SUCCESS: {
             return { loading: false, error: null, leaders: [...action.payload] }
@@ -27,7 +25,7 @@ export const leadersReducer = (
 
         case LeadersActionTypes.SAVE_LEADER:
             return { ...state, loading: true, error: null }
-
+ч
         case LeadersActionTypes.SAVE_LEADER_SUCCESS: {
             return { ...state, loading: false, error: null }
         }

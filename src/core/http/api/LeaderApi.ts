@@ -13,7 +13,7 @@ class LeaderApi extends BaseApi {
         baikonurScore: number
         avatar: string
     }): Promise<RequestResult<string>> {
-        return this._request<string>('leaderboard', HTTPMethod.POST, {
+        return this.request<string>('leaderboard', HTTPMethod.POST, {
             data,
             ratingFieldName: 'baikonurScore'
         })
@@ -24,7 +24,7 @@ class LeaderApi extends BaseApi {
      * @param count Количество лидеров
      */
     fetchLeaders(count: number): Promise<RequestResult<string>> {
-        return this._request<string>('leaderboard/all', HTTPMethod.POST, {
+        return this.request<string>('leaderboard/all', HTTPMethod.POST, {
             ratingFieldName: 'baikonurScore',
             cursor: 0,
             limit: count

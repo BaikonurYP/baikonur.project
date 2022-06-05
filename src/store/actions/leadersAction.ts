@@ -3,7 +3,7 @@ import {LeadersState, LeadersActionTypes} from '../types/leaderTypes'
 export const fetchLeaders = () => ({ type: LeadersActionTypes.FETCH_LEADERS })
 export const fetchLeadersSuccess = (payload: LeadersState) => ({
     type: LeadersActionTypes.FETCH_LEADERS_SUCCESS,
-    payload,
+    payload
 })
 export const fetchLeadersError = (payload: string) => ({
     type: LeadersActionTypes.FETCH_LEADERS_ERROR,

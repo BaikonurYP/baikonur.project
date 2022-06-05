@@ -6,7 +6,7 @@ export interface Leader {
 }
 
 export interface LeadersState {
-    data: Leader
+    data: Leader[]
 }
 
 export enum LeadersActionTypes {

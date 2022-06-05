@@ -1,10 +1,6 @@
 import React, { FC } from 'react'
 import Container from '../../components/container/container'
-import {
-    TitleStyled,
-    TextStyled,
-    ImageStyled,
-} from '../404Page/404PageStyled'
+import { TitleStyled, TextStyled, ImageStyled } from '../404Page/404PageStyled'
 
 import Image500 from '../../images/image500.png'
 import { Layout } from '../../components/layout/layout'
@@ -16,11 +12,10 @@ const Error404Page: FC = () => (
             <Logo />
             <TitleStyled>500</TitleStyled>
             <TextStyled>
-                внутрення ошибка сервера
-                мы скоро все исправим
+                внутрення ошибка сервера мы скоро все исправим
             </TextStyled>
             <ImageStyled>
-                <img src={Image500} alt="500"/>
+                <img src={Image500} alt="500" />
             </ImageStyled>
         </Container>
     </Layout>
