@@ -19,6 +19,10 @@ import ProtectedRoute from '../HOC/ProtectedRoute'
 import { boolean } from 'yup'
 
 const App: FC = () => {
+    const dispatch = useAppDispatch()
+    useEffect(() => {
+        dispatch(fetchUser())
+    }, [])
     //  // @ts-ignore
     //  localStorage.setItem('isAuth', true)
     return (
@@ -32,7 +36,10 @@ const App: FC = () => {
             </Route>
             <ProtectedRoute path="/home" wrappedComponent={HomePage} />
             <ProtectedRoute path="/game" wrappedComponent={GamePage} />
-            <ProtectedRoute path="/profile" wrappedComponent={ProfilePage} />
+            <Route path="/profile">
+                <ProfilePage />
+            </Route>
+            {/* <ProtectedRoute path="/profile" wrappedComponent={ProfilePage} /> */}
             <ProtectedRoute
                 path="/forum/:id"
                 wrappedComponent={ForumThemePage}

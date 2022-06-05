@@ -14,7 +14,7 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({
 }) => {
     const dispatch = useAppDispatch()
     let isAuth = localStorage.getItem('isAuth')
-    const { user } = useAppSelector((state) => state.user)
+    const userState = useAppSelector((state) => state.user)
 
     useEffect(() => {
         if (isAuth) {
