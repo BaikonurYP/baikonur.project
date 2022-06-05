@@ -15,33 +15,30 @@ import Page500 from '../../pages/500Page/500Page'
 import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
 import { fetchUser, login } from '../../store/actions/userActions'
 
-import ProtectedRouteMain from '../HOC/ProtectedRouteMain'
-import ProtectedRouteAuth from '../HOC/ProtectedRouteAuth'
+import ProtectedRoute from '../HOC/ProtectedRoute'
+import { boolean } from 'yup'
 
 const App: FC = () => {
-    const dispatch = useAppDispatch()
-
-    useEffect(() => {
-        dispatch(fetchUser())
-    }, [])
-
+    //  // @ts-ignore
+    //  localStorage.setItem('isAuth', true)
     return (
         <Switch>
             {/* <Redirect exact from="/" to="home" /> */}
-            <ProtectedRouteAuth path="/login" wrappedComponent={LoginPage} />
-            <ProtectedRouteAuth path="/signup" wrappedComponent={SignupPage} />
-            <ProtectedRouteMain path="/home" wrappedComponent={HomePage} />
-            <ProtectedRouteMain path="/game" wrappedComponent={GamePage} />
-            <ProtectedRouteMain
-                path="/profile"
-                wrappedComponent={ProfilePage}
-            />
-            <ProtectedRouteMain
+            <Route path="/login">
+                <LoginPage />
+            </Route>
+            <Route path="/signup">
+                <SignupPage />
+            </Route>
+            <ProtectedRoute path="/home" wrappedComponent={HomePage} />
+            <ProtectedRoute path="/game" wrappedComponent={GamePage} />
+            <ProtectedRoute path="/profile" wrappedComponent={ProfilePage} />
+            <ProtectedRoute
                 path="/forum/:id"
                 wrappedComponent={ForumThemePage}
             />
-            <ProtectedRouteMain path="/forum" wrappedComponent={ForumPage} />
-            <ProtectedRouteMain
+            <ProtectedRoute path="/forum" wrappedComponent={ForumPage} />
+            <ProtectedRoute
                 path="/leaderboard"
                 wrappedComponent={LeaderboardPage}
             />
