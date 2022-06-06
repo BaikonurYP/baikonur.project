@@ -19,11 +19,6 @@ import { fetchUser, signUp } from '../../store/actions/userActions'
 
 /** Страница регистрации */
 const SignupPage: FC = () => {
-    const history = useHistory()
-    const goToGame = () => {
-        history.push(`/game`)
-    }
-
     const dispatch = useAppDispatch()
 
     const formik = useFormik({

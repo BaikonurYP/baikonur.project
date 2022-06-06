@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
-import { fetchUser, login } from '../../store/actions/userActions'
+import { fetchUser } from '../../store/actions/userActions'
 
 interface ProtectedRouteProps {
     wrappedComponent: any
@@ -14,7 +14,7 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({
 }) => {
     const dispatch = useAppDispatch()
     let isAuth = localStorage.getItem('isAuth')
-    const userState = useAppSelector((state) => state.user)
+    const user = useAppSelector((state) => state.user)
 
     useEffect(() => {
         if (isAuth) {
@@ -24,7 +24,13 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({
 
     return (
         <Route path={path}>
-            {isAuth ? <Component /> : <Redirect to="./login" />}
+            {!isAuth ? (
+                <Redirect to="./login" />
+            ) : user ? (
+                <Component />
+            ) : (
+                <div>loading</div>
+            )}
         </Route>
     )
 }

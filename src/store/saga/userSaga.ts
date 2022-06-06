@@ -74,6 +74,7 @@ function* loginUserSaga(
         if (res.successes) {
             yield put(loginSuccess())
             yield put({ type: UserActionTypes.FETCH_USER })
+            localStorage.setItem('isAuth', 'true')
             toast.success('Вы успешно вошли', toastConfig)
         } else throw res.error
     } catch (e) {
@@ -93,6 +94,7 @@ function* registerUserSaga(
         if (res.successes) {
             yield put(signUpSuccess())
             yield put({ type: UserActionTypes.FETCH_USER })
+            localStorage.setItem('isAuth', 'true')
             toast.success('Вы успешно зарегестрированы', toastConfig)
         } else throw res.error
     } catch (e) {

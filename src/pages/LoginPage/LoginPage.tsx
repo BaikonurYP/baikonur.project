@@ -16,12 +16,6 @@ import { fetchUser, login } from '../../store/actions/userActions'
 
 /** Страница логина */
 const LoginPage: FC = () => {
-    const history = useHistory()
-
-    const goToGame = () => {
-        history.push(`/game`)
-    }
-
     const dispatch = useAppDispatch()
 
     const formik = useFormik({

@@ -16,30 +16,26 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
 import { fetchUser, login } from '../../store/actions/userActions'
 
 import ProtectedRoute from '../HOC/ProtectedRoute'
+import ProtectedRouteAuth from '../HOC/ProtectedRouteAuth'
+
 import { boolean } from 'yup'
 
 const App: FC = () => {
-    const dispatch = useAppDispatch()
-    useEffect(() => {
-        dispatch(fetchUser())
-    }, [])
-    //  // @ts-ignore
-    //  localStorage.setItem('isAuth', true)
     return (
         <Switch>
-            {/* <Redirect exact from="/" to="home" /> */}
-            <Route path="/login">
-                <LoginPage />
-            </Route>
-            <Route path="/signup">
-                <SignupPage />
-            </Route>
+            <Redirect exact from="/" to="home" />
+            <ProtectedRouteAuth
+                path="/login"
+                wrappedComponent={LoginPage}
+            ></ProtectedRouteAuth>
+            <ProtectedRouteAuth
+                path="/signup"
+                wrappedComponent={SignupPage}
+            ></ProtectedRouteAuth>
             <ProtectedRoute path="/home" wrappedComponent={HomePage} />
             <ProtectedRoute path="/game" wrappedComponent={GamePage} />
-            <Route path="/profile">
-                <ProfilePage />
-            </Route>
-            {/* <ProtectedRoute path="/profile" wrappedComponent={ProfilePage} /> */}
+
+            <ProtectedRoute path="/profile" wrappedComponent={ProfilePage} />
             <ProtectedRoute
                 path="/forum/:id"
                 wrappedComponent={ForumThemePage}
