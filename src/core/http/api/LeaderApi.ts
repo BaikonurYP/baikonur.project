@@ -8,10 +8,11 @@ class LeaderApi extends BaseApi {
      * @param data Данные пользователя
      */
     saveLeaderData(data: {
-        id: number
+        id?: number
         login: string
+        name?: string
         baikonurScore: number
-        avatar: string
+        avatar?: string
     }): Promise<RequestResult<string>> {
         return this.request<string>('leaderboard', HTTPMethod.POST, {
             data,

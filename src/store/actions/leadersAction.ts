@@ -1,4 +1,4 @@
-import {LeadersState, LeadersActionTypes} from '../types/leaderTypes'
+import { LeadersState, LeadersActionTypes, Leader } from '../types/leaderTypes'
 
 export const fetchLeaders = () => ({ type: LeadersActionTypes.FETCH_LEADERS })
 export const fetchLeadersSuccess = (payload: LeadersState) => ({
@@ -7,15 +7,17 @@ export const fetchLeadersSuccess = (payload: LeadersState) => ({
 })
 export const fetchLeadersError = (payload: string) => ({
     type: LeadersActionTypes.FETCH_LEADERS_ERROR,
-    payload,
+    payload
 })
 
-export const saveLeader = () => ({ type: LeadersActionTypes.SAVE_LEADER })
-export const saveLeaderSuccess = (payload: string) => ({
-    type: LeadersActionTypes.SAVE_LEADER_SUCCESS,
-    payload,
+export const saveLeader = (payload: Leader) => ({
+    type: LeadersActionTypes.SAVE_LEADER,
+    payload
 })
-export const saveLeaderError = (payload: string) => ({
-    type: LeadersActionTypes.SAVE_LEADER_ERROR,
-    payload,
+
+export const saveLeaderSuccess = () => ({
+    type: LeadersActionTypes.SAVE_LEADER_SUCCESS
+})
+export const saveLeaderError = () => ({
+    type: LeadersActionTypes.SAVE_LEADER_ERROR
 })

@@ -1,12 +1,18 @@
 export interface Leader {
-    id: number
-    name: string
+    id?: number
+    login: string
+    name?: string
     baikonurScore: number
-    avatar: string
+    avatar?: string
+}
+
+export interface LeaderData {
+    data: Leader
 }
 
 export interface LeadersState {
-    data: Leader[]
+    leaders: LeaderData[]
+    loading: boolean
 }
 
 export enum LeadersActionTypes {
@@ -15,28 +21,30 @@ export enum LeadersActionTypes {
     FETCH_LEADERS_ERROR = 'FETCH_LEADERS_ERROR',
     SAVE_LEADER = 'SAVE_LEADER',
     SAVE_LEADER_SUCCESS = 'SAVE_LEADER_SUCCESS',
-    SAVE_LEADER_ERROR = 'SAVE_LEADER_ERROR',
+    SAVE_LEADER_ERROR = 'SAVE_LEADER_ERROR'
 }
-interface FetchLeadersAction {
+export interface FetchLeadersAction {
     type: LeadersActionTypes.FETCH_LEADERS
+    payload: any
 }
-interface FetchLeadersSuccessAction {
+export interface FetchLeadersSuccessAction {
     type: LeadersActionTypes.FETCH_LEADERS_SUCCESS
     payload: any[]
 }
-interface FetchLeadersErrorAction {
+export interface FetchLeadersErrorAction {
     type: LeadersActionTypes.FETCH_LEADERS_ERROR
     payload: string
 }
 
-interface SaveLeaderAction {
+export interface SaveLeaderAction {
     type: LeadersActionTypes.SAVE_LEADER
+    payload: any
 }
-interface SaveLeaderSuccessAction {
+export interface SaveLeaderSuccessAction {
     type: LeadersActionTypes.SAVE_LEADER_SUCCESS
-    payload: any[]
+    payload: any
 }
-interface SaveLeaderErrorAction {
+export interface SaveLeaderErrorAction {
     type: LeadersActionTypes.SAVE_LEADER_ERROR
     payload: string
 }

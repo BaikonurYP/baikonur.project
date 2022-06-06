@@ -23,7 +23,7 @@ describe('Button test', () => {
     })
 
     it('should render tooltip', () => {
-        const button = render(<ButtonForm helper="Message" />)
+        const button = render(<ButtonForm />)
         expect(button.getByText('Message')).toBeInTheDocument
     })
 })

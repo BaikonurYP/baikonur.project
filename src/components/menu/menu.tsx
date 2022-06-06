@@ -8,11 +8,13 @@ import IconClose from '../../images/icons/menu-close.svg'
 import IconProfile from '../../images/icons/menu-profile.svg'
 import IconForum from '../../images/icons/menu-forum.svg'
 import IconPlay from '../../images/icons/menu-play.svg'
+import IconLeaders from '../../images/icons/menu-leaders.svg'
 
 const menuItems = [
     { title: 'Выход', icon: IconClose, path: '/logout' },
     { title: 'Профиль', icon: IconProfile, path: '/profile' },
     { title: 'Форум', icon: IconForum, path: '/forum' },
+    { title: 'Лидеры', icon: IconLeaders, path: '/leaderboard' },
     { title: 'Игра', icon: IconPlay, path: '/home' }
 ]
 
