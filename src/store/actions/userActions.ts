@@ -24,6 +24,18 @@ export const loginError = (payload: string) => ({
     payload
 })
 
+export const logOut = () => ({
+    type: UserActionTypes.LOGOUT_REQUEST
+})
+export const logOutSuccess = (payload: null) => ({
+    type: UserActionTypes.LOGOUT_REQUEST_SUCCESS,
+    payload
+})
+export const logOutError = (payload: string) => ({
+    type: UserActionTypes.LOGOUT_REQUEST_ERROR,
+    payload
+})
+
 export const signUp = (payload: {
     first_name: string
     second_name: string

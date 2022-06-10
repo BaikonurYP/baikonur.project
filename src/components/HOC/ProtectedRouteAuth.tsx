@@ -1,6 +1,7 @@
 import React, { FC, useEffect } from 'react'
 import { Route, Redirect } from 'react-router-dom'
-import { useAppSelector } from '../../store/hooks/useAppHooks'
+import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
+import { fetchUser } from '../../store/actions/userActions'
 
 interface ProtectedRouteProps {
     wrappedComponent: any
@@ -12,7 +13,7 @@ const ProtectedRouteAuth: FC<ProtectedRouteProps> = ({
     path
 }) => {
     const user = useAppSelector((state) => state.user)
-    let isAuth = localStorage.getItem('isAuth')
+    const isAuth = useAppSelector((state) => state.auth.isAuth)
 
     return (
         <Route path={path}>

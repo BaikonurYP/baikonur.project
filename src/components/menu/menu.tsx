@@ -1,5 +1,7 @@
 import React, { FC } from 'react'
 import { toast, ToastOptions } from 'react-toastify'
+import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
+import { logOut } from '../../store/actions/userActions'
 
 import { useHistory } from 'react-router-dom'
 
@@ -12,7 +14,6 @@ import IconPlay from '../../images/icons/menu-play.svg'
 import { authApi } from '../../core/http/api/AuthApi'
 
 const menuItems = [
-    // { title: 'Выход', icon: IconClose, path: '/logout' },
     { title: 'Профиль', icon: IconProfile, path: '/profile' },
     { title: 'Форум', icon: IconForum, path: '/forum' },
     { title: 'Игра', icon: IconPlay, path: '/home' }
@@ -30,27 +31,29 @@ const toastConfig: ToastOptions = {
 }
 
 const Menu: FC = () => {
+    const dispatch = useAppDispatch()
     const history = useHistory()
 
     const handleClick = (path: string) => {
         history.push(path)
     }
 
-    function logOut() {
-        authApi
-            .logout()
-            .then((res) => {
-                localStorage.removeItem('isAuth')
-                history.push('./login')
-            })
-            .catch((err) => {
-                toast.error(`Ошибка: ${err.message}`, toastConfig)
-            })
+    function logOutHandler() {
+        dispatch(logOut())
+        // authApi
+        //     .logout()
+        //     .then((res) => {
+        //         localStorage.removeItem('isAuth')
+        //         history.push('./login')
+        //     })
+        //     .catch((err) => {
+        //         toast.error(`Ошибка: ${err.message}`, toastConfig)
+        //     })
     }
 
     return (
         <MenuStyled>
-            <ButtonIcon icon={IconClose} onClick={logOut} key="Выход">
+            <ButtonIcon icon={IconClose} onClick={logOutHandler} key="Выход">
                 Выход
             </ButtonIcon>
             {menuItems.map((item) => (

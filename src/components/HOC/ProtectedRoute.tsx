@@ -13,7 +13,7 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({
     path
 }) => {
     const dispatch = useAppDispatch()
-    let isAuth = localStorage.getItem('isAuth')
+    const isAuth = useAppSelector((state) => state.auth.isAuth)
     const user = useAppSelector((state) => state.user)
 
     useEffect(() => {
@@ -26,10 +26,16 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({
         <Route path={path}>
             {!isAuth ? (
                 <Redirect to="./login" />
-            ) : user ? (
+            ) : user.user ? (
                 <Component />
             ) : (
-                <div>loading</div>
+                <div
+                    onClick={() => {
+                        console.log(isAuth)
+                    }}
+                >
+                    loading
+                </div>
             )}
         </Route>
     )
