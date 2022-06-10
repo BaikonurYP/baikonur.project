@@ -3,7 +3,7 @@ export enum HTTPMethod {
     GET = 'get',
     POST = 'post',
     PUT = 'put',
-    DELETE = 'delete',
+    DELETE = 'delete'
 }
 
 /** Код ответа */
@@ -74,5 +74,5 @@ export enum HttpCode {
     NOT_EXTENDED = 510,
     NETWORK_AUTHENTICATION_REQUIRED = 511,
 
-    TIMEOUT = -1,
+    TIMEOUT = -1
 }

@@ -17,6 +17,7 @@ import {
     Points,
     CanvasStyled
 } from './GameComponentStyled'
+import ButtonFullScreen from "../buttons/buttonFullScreen/buttonFullScreen";
 
 const GameComponent: FC = () => {
     const image = useAppSelector((state) => state.playerSkin.image)
@@ -93,6 +94,8 @@ const GameComponent: FC = () => {
 
     return (
         <Wrapper>
+            <ButtonFullScreen />
+
             <Popup title="Пауза" isVisible={pause}>
                 <ButtonText onClick={onPause}>Продолжить игру</ButtonText>
                 <ButtonText onClick={restartHandler}>Начать заново</ButtonText>

@@ -10,17 +10,15 @@ export const TitleStyled = styled.div`
 `
 
 export const TextStyled = styled.div`
-  font-family: 'Roboto';
-  width: 350px;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 24px;
-  line-height: 24px;
-  color: ${getColor('white')};
-  text-align: center;
-  margin: 20px 0 60px;
+    font-family: 'Roboto';
+    width: 350px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 24px;
+    color: ${getColor('white')};
+    text-align: center;
+    margin: 20px 0 60px;
 `
 
-export const ImageStyled = styled.div`
-
-`
+export const ImageStyled = styled.div``

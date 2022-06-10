@@ -11,7 +11,7 @@ export type InputState = 'default' | 'danger'
 function getInputColor(state: InputState) {
     const input_colors: Record<InputState, keyof typeof colors> = {
         default: 'white',
-        danger: 'red-light',
+        danger: 'red-light'
     }
     return input_colors[state] || 'white'
 }

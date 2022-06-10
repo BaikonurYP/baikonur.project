@@ -2,11 +2,8 @@ import CanvasObject from './CanvasObject'
 import Particle from './Particle'
 
 import { getRandom } from '../utils/getRandom'
-<<<<<<< HEAD
-import Invader from './Invader'
-=======
+
 import Meteor from './Meteor'
->>>>>>> main
 
 export default class Paint {
     ctx: CanvasRenderingContext2D
