@@ -2,6 +2,7 @@ import CanvasObject from './CanvasObject'
 import Particle from './Particle'
 
 import { getRandom } from '../utils/getRandom'
+
 import Meteor from './Meteor'
 
 export default class Paint {

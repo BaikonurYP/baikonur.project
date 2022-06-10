@@ -342,7 +342,7 @@ class Game {
             this.aimAtPlayer(invader)
             this.paint.update(invader)
             this.hitToObject(invader, i, this.invaders)
-            if (this.invaders.length > 1) {
+            if (this.invaders.length === 2) {
                 const firstInvider = this.invaders[0]
                 const secondInvider = this.invaders[1]
                 if (

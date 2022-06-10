@@ -12,6 +12,19 @@ import LeaderboardPage from '../../pages/LeaderboardPage/LeaderboardPage'
 import Page404 from '../../pages/404Page/404Page'
 import Page500 from '../../pages/500Page/500Page'
 
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker
+            .register('/service-worker.js')
+            .then((registration) => {
+                console.log('SW registered: ', registration)
+            })
+            .catch((registrationError) => {
+                console.log('SW registration failed: ', registrationError)
+            })
+    })
+}
+
 const App: FC = () => (
     <Switch>
         <Route path="/login">
