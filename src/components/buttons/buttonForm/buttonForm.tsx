@@ -6,6 +6,7 @@ interface ButtonFormProps {
     children?: string
     disabled?: boolean
     onClick?: () => void
+    helper?: string
 }
 
 const ButtonForm: FC<ButtonFormProps> = (props) => {
