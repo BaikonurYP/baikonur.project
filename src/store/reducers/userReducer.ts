@@ -40,6 +40,20 @@ export const userReducer = (
                 loading: false
             }
 
+        case UserActionTypes.LOGOUT_REQUEST:
+            return { ...state, loading: true }
+        case UserActionTypes.LOGOUT_REQUEST_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                user: action.payload
+            }
+        case UserActionTypes.LOGOUT_REQUEST_ERROR:
+            return {
+                ...state,
+                loading: false
+            }
+
         case UserActionTypes.SIGNUP_REQUEST:
             return { ...state, loading: true }
         case UserActionTypes.SIGNUP_REQUEST_SUCCESS:
