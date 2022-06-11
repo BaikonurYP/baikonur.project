@@ -12,8 +12,8 @@ const ProtectedRouteAuth: FC<ProtectedRouteProps> = ({
     wrappedComponent: Component,
     path
 }) => {
-    const user = useAppSelector((state) => state.user)
-    const isAuth = useAppSelector((state) => state.auth.isAuth)
+    const { user } = useAppSelector((state) => state.user)
+    const { isAuth } = useAppSelector((state) => state.auth)
 
     return (
         <Route path={path}>

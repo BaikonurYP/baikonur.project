@@ -13,8 +13,8 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({
     path
 }) => {
     const dispatch = useAppDispatch()
-    const isAuth = useAppSelector((state) => state.auth.isAuth)
-    const user = useAppSelector((state) => state.user)
+    const { isAuth } = useAppSelector((state) => state.auth)
+    const { user } = useAppSelector((state) => state.user)
 
     useEffect(() => {
         if (isAuth) {
@@ -26,16 +26,10 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({
         <Route path={path}>
             {!isAuth ? (
                 <Redirect to="./login" />
-            ) : user.user ? (
+            ) : user ? (
                 <Component />
             ) : (
-                <div
-                    onClick={() => {
-                        console.log(isAuth)
-                    }}
-                >
-                    loading
-                </div>
+                <div>loading</div>
             )}
         </Route>
     )
