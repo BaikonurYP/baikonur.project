@@ -18,6 +18,10 @@ export enum UserActionTypes {
     LOGIN_REQUEST_SUCCESS = 'LOGIN_REQUEST_SUCCESS',
     LOGIN_REQUEST_ERROR = 'LOGIN_REQUEST_ERROR',
 
+    LOGOUT_REQUEST = 'LOGOUT_REQUEST',
+    LOGOUT_REQUEST_SUCCESS = 'LOGOUT_REQUEST_SUCCESS',
+    LOGOUT_REQUEST_ERROR = 'LOGOUT_REQUEST_ERROR',
+
     SIGNUP_REQUEST = 'SIGNUP_REQUEST',
     SIGNUP_REQUEST_SUCCESS = 'SIGNUP_REQUEST_SUCCESS',
     SIGNUP_REQUEST_ERROR = 'SIGNUP_REQUEST_ERROR',
@@ -60,6 +64,20 @@ export interface LoginSuccessAction {
 
 export interface LoginErrorAction {
     type: UserActionTypes.LOGIN_REQUEST_ERROR
+    payload: string
+}
+
+export interface LogOutAction {
+    type: UserActionTypes.LOGOUT_REQUEST
+}
+
+export interface LogOutSuccessAction {
+    type: UserActionTypes.LOGOUT_REQUEST_SUCCESS
+    payload: null
+}
+
+export interface LogOutErrorAction {
+    type: UserActionTypes.LOGOUT_REQUEST_ERROR
     payload: string
 }
 
@@ -136,6 +154,9 @@ export type UserAction =
     | LoginAction
     | LoginSuccessAction
     | LoginErrorAction
+    | LogOutAction
+    | LogOutSuccessAction
+    | LogOutErrorAction
     | SignUpAction
     | SignUpSuccessAction
     | SignUpErrorAction

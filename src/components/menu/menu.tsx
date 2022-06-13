@@ -1,4 +1,6 @@
 import React, { FC } from 'react'
+import { useAppDispatch } from '../../store/hooks/useAppHooks'
+import { logOut } from '../../store/actions/userActions'
 
 import { useHistory } from 'react-router-dom'
 
@@ -11,7 +13,6 @@ import IconPlay from '../../images/icons/menu-play.svg'
 import IconLeaders from '../../images/icons/menu-leaders.svg'
 
 const menuItems = [
-    { title: 'Выход', icon: IconClose, path: '/logout' },
     { title: 'Профиль', icon: IconProfile, path: '/profile' },
     { title: 'Форум', icon: IconForum, path: '/forum' },
     { title: 'Лидеры', icon: IconLeaders, path: '/leaderboard' },
@@ -19,14 +20,22 @@ const menuItems = [
 ]
 
 const Menu: FC = () => {
+    const dispatch = useAppDispatch()
     const history = useHistory()
 
     const handleClick = (path: string) => {
         history.push(path)
     }
 
+    function logOutHandler() {
+        dispatch(logOut())
+    }
+
     return (
         <MenuStyled>
+            <ButtonIcon icon={IconClose} onClick={logOutHandler} key="Выход">
+                Выход
+            </ButtonIcon>
             {menuItems.map((item) => (
                 <ButtonIcon
                     icon={item.icon}

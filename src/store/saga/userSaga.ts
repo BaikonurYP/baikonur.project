@@ -30,6 +30,7 @@ import {
     signUpError,
     signUpSuccess
 } from '../actions/userActions'
+import { changeAuthSuccess } from '../actions/authActions'
 import { RequestResult } from '../../core/http/api/types/RequestResult'
 import { authApi } from '../../core/http/api/AuthApi'
 import { userApi } from '../../core/http/api/UserApi'
@@ -55,8 +56,9 @@ function* getUserSaga(): Generator<
         const data: RequestResult<User> = (yield call(
             authApi.user.bind(authApi)
         )) as RequestResult<User>
-        if (data.successes) yield put(fetchUserSuccess(data.data))
-        else throw data.error
+        if (data.successes) {
+            yield put(fetchUserSuccess(data.data))
+        } else throw data.error
     } catch (e) {
         yield put(fetchUserError(e))
         toast.error(`Ошибка: ${e}`, toastConfig)
@@ -74,10 +76,30 @@ function* loginUserSaga(
         if (res.successes) {
             yield put(loginSuccess())
             yield put({ type: UserActionTypes.FETCH_USER })
+            yield put(changeAuthSuccess(true))
             toast.success('Вы успешно вошли', toastConfig)
         } else throw res.error
     } catch (e) {
         yield put(loginError(e))
+        toast.error(`Ошибка: ${e}`, toastConfig)
+    }
+}
+
+function* logOutUserSaga(): Generator<
+    StrictEffect,
+    void,
+    UserState | RequestResult<User>
+> {
+    try {
+        const data: RequestResult<User> = (yield call(
+            authApi.logout.bind(authApi)
+        )) as RequestResult<User>
+        if (data.successes) {
+            yield put(fetchUserSuccess(null))
+            yield put(changeAuthSuccess(false))
+        } else throw data.error
+    } catch (e) {
+        yield put(fetchUserError(e))
         toast.error(`Ошибка: ${e}`, toastConfig)
     }
 }
@@ -93,6 +115,7 @@ function* registerUserSaga(
         if (res.successes) {
             yield put(signUpSuccess())
             yield put({ type: UserActionTypes.FETCH_USER })
+            yield put(changeAuthSuccess(true))
             toast.success('Вы успешно зарегестрированы', toastConfig)
         } else throw res.error
     } catch (e) {
@@ -160,6 +183,9 @@ function* changeUserAvatarSaga(
 
 export default function* rootSaga(): Generator<StrictEffect, void, any> {
     yield all([yield takeLatest(UserActionTypes.FETCH_USER, getUserSaga)])
+    yield all([
+        yield takeLatest(UserActionTypes.LOGOUT_REQUEST, logOutUserSaga)
+    ])
     yield all([yield takeLatest(UserActionTypes.LOGIN_REQUEST, loginUserSaga)])
     yield all([
         yield takeLatest(UserActionTypes.SIGNUP_REQUEST, registerUserSaga)

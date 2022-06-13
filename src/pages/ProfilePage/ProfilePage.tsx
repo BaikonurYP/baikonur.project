@@ -32,10 +32,6 @@ const ProfilePage: FC = () => {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        dispatch(fetchUser())
-    }, [])
-
-    useEffect(() => {
         if (user) {
             userDataFormik.setValues(user)
             passwordFormik.resetForm()
