@@ -1,6 +1,6 @@
-import { put, call, all, takeLatest, select } from 'redux-saga/effects'
+import { put, call, all, takeLatest } from 'redux-saga/effects'
 import { StrictEffect } from '@redux-saga/types'
-import { toast, ToastOptions } from 'react-toastify'
+import { toast } from 'react-toastify'
 
 import {
     LeadersActionTypes,
@@ -10,17 +10,8 @@ import {
 import LeaderApi from '../../core/http/api/LeaderApi'
 import * as actions from '../actions/leadersAction'
 import { RequestResult } from '../../core/http/api/types/RequestResult'
+import { TOAST_CONFIG } from '../../utils/constants'
 
-const toastConfig: ToastOptions = {
-    position: 'top-right',
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined as any,
-    theme: 'dark'
-}
 function* getLeadersSaga(): Generator<StrictEffect, void, LeadersState> {
     try {
         const data: RequestResult<LeadersState> = (yield call(
@@ -30,7 +21,7 @@ function* getLeadersSaga(): Generator<StrictEffect, void, LeadersState> {
         yield put(actions.fetchLeadersSuccess(data.data))
     } catch (e) {
         yield put(actions.fetchLeadersError(e))
-        toast.error(`Ошибка: ${e}`, toastConfig)
+        toast.error(`Ошибка: ${e}`, TOAST_CONFIG)
     }
 }
 
@@ -42,7 +33,7 @@ function* saveLeadersSaga(
         yield put(actions.saveLeaderSuccess())
     } catch (e) {
         yield put(actions.saveLeaderError())
-        toast.error(`Ошибка: ${e}`, toastConfig)
+        toast.error(`Ошибка: ${e}`, TOAST_CONFIG)
     }
 }
 

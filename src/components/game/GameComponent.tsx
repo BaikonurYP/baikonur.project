@@ -32,6 +32,7 @@ const GameComponent: FC = () => {
     const [level, setLevel] = useState(1)
     const [points, setPoints] = useState(0)
     const [playerLives, setPlayerLives] = useState(3)
+    const [isSaveScope, setSaveScope] = useState(false)
 
     useEffect(() => {
         document.addEventListener('keydown', escClickHandler)
@@ -71,7 +72,7 @@ const GameComponent: FC = () => {
             }
             dispatch(saveLeader(data))
         }
-    }, [playerLives])
+    }, [isSaveScope])
 
     function escClickHandler(e: KeyboardEvent) {
         if (e.key === 'Escape') {
@@ -85,6 +86,9 @@ const GameComponent: FC = () => {
 
     function onChangeLives(lives: number) {
         setPlayerLives(lives > 0 ? lives : 0)
+        if( lives <= 0){
+            setSaveScope(true)
+        }
     }
 
     function onChangeLevel(num: number) {
@@ -118,7 +122,7 @@ const GameComponent: FC = () => {
                 <ButtonText onClick={restartHandler}>Начать заново</ButtonText>
                 <ButtonText onClick={onLeave}>Выйти из игры</ButtonText>
             </Popup>
-            <Popup title="Game over" isVisible={playerLives > 0 ? false : true}>
+            <Popup title="Game over" isVisible={!(playerLives > 0)}>
                 <ButtonText onClick={() => currentGame.restart()}>
                     Начать заново
                 </ButtonText>
@@ -130,10 +134,12 @@ const GameComponent: FC = () => {
             <CanvasStyled
                 ref={ref}
                 width={innerWidth}
-                height={innerHeight}
-            ></CanvasStyled>
+                height={innerHeight} />
             <Container>
-                <LevelTitle>Уровень {level}</LevelTitle>
+                <LevelTitle>
+Уровень
+                    {level}
+                </LevelTitle>
                 <Bar>
                     <LiveContainer>
                         {Array(playerLives)
