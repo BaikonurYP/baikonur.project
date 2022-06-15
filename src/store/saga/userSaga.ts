@@ -198,12 +198,9 @@ export default function* rootSaga(): Generator<StrictEffect, void, any> {
         yield takeLatest(UserActionTypes.SIGNUP_REQUEST, registerUserSaga)
     ])
     yield all([
-        yield takeLatest(UserActionTypes.OAUTH_ACCESS, oAuthAccessUserSaga)
-    ])
-    yield all([
-        yield takeLatest(UserActionTypes.OAUTH_REQUEST, oAuthRequestUserSaga)
-    ])
-
+        takeLatest(UserActionTypes.OAUTH_ACCESS, oAuthAccessUserSaga),
+        takeLatest(UserActionTypes.OAUTH_REQUEST, oAuthRequestUserSaga)
+    ]),
     yield all([
         yield takeLatest(UserActionTypes.CHANGE_DATA_REQUEST, changeUserSaga)
     ])
