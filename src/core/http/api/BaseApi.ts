@@ -44,8 +44,11 @@ export class BaseApi {
             withCredentials: true
         }
         if (data) {
-            if (method == HTTPMethod.GET) config.params = data
-            else config.data = data
+            if (method == HTTPMethod.GET) {
+              config.params = data
+            } else {
+              config.data = data
+            }
         }
         if (options) {
             config = { ...config, ...options }
