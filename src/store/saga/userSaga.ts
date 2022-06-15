@@ -215,31 +215,18 @@ function* changeUserAvatarSaga(
 }
 
 export default function* rootSaga(): Generator<StrictEffect, void, any> {
-    yield all([yield takeLatest(UserActionTypes.FETCH_USER, getUserSaga)])
     yield all([
-        yield takeLatest(UserActionTypes.LOGOUT_REQUEST, logOutUserSaga)
-    ])
-    yield all([yield takeLatest(UserActionTypes.LOGIN_REQUEST, loginUserSaga)])
-    yield all([
-        yield takeLatest(UserActionTypes.SIGNUP_REQUEST, registerUserSaga)
-    ])
-    yield all([
+        takeLatest(UserActionTypes.FETCH_USER, getUserSaga),
+        takeLatest(UserActionTypes.LOGOUT_REQUEST, logOutUserSaga),
+        takeLatest(UserActionTypes.LOGIN_REQUEST, loginUserSaga),
+        takeLatest(UserActionTypes.SIGNUP_REQUEST, registerUserSaga),
         takeLatest(UserActionTypes.OAUTH_ACCESS, oAuthAccessUserSaga),
-        takeLatest(UserActionTypes.OAUTH_REQUEST, oAuthRequestUserSaga)
-    ]),
-    yield all([
-        yield takeLatest(UserActionTypes.CHANGE_DATA_REQUEST, changeUserSaga)
-    ])
-    yield all([
-        yield takeLatest(
+        takeLatest(UserActionTypes.OAUTH_REQUEST, oAuthRequestUserSaga),
+        takeLatest(UserActionTypes.CHANGE_DATA_REQUEST, changeUserSaga),
+        takeLatest(
             UserActionTypes.CHANGE_PASSWORDS_REQUEST,
             changeUserPasswordSaga
-        )
-    ])
-    yield all([
-        yield takeLatest(
-            UserActionTypes.CHANGE_AVATAR_REQUEST,
-            changeUserAvatarSaga
-        )
+        ),
+        takeLatest(UserActionTypes.CHANGE_AVATAR_REQUEST, changeUserAvatarSaga)
     ])
 }

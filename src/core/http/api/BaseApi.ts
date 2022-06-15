@@ -45,9 +45,9 @@ export class BaseApi {
         }
         if (data) {
             if (method == HTTPMethod.GET) {
-              config.params = data
+                config.params = data
             } else {
-              config.data = data
+                config.data = data
             }
         }
         if (options) {
