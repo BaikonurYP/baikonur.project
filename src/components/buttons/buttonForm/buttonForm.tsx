@@ -10,7 +10,11 @@ interface ButtonFormProps {
     children?: React.ReactNode
     disabled?: boolean
     onClick?: () => void
+<<<<<<< HEAD
     size?: ButtonSize
+=======
+    helper?: string
+>>>>>>> origin/main
 }
 
 const ButtonForm: FC<ButtonFormProps> = (props) => {

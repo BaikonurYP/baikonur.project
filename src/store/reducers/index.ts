@@ -4,18 +4,26 @@ import storage from 'redux-persist/lib/storage'
 import { leadersReducer } from './leaderReducer'
 import { userReducer } from './userReducer'
 import { skinReducer } from './SkinReducer'
+import { authReducer } from './authReducer'
 
-const persistConfig = {
-    key: 'root',
+const persistSkinConfig = {
+    key: 'skin',
     storage
 }
 
-const persistedSkinReducer = persistReducer(persistConfig, skinReducer)
+const persistAuthConfig = {
+    key: 'auth',
+    storage
+}
+
+const persistedSkinReducer = persistReducer(persistSkinConfig, skinReducer)
+const persistedAuthReducer = persistReducer(persistAuthConfig, authReducer)
 
 export const rootReducer = combineReducers({
     leaders: leadersReducer,
     user: userReducer,
-    playerSkin: persistedSkinReducer
+    playerSkin: persistedSkinReducer,
+    auth: persistedAuthReducer
 })
 
 export type RootState = ReturnType<typeof rootReducer>

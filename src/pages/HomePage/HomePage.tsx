@@ -30,6 +30,7 @@ const skins = [
 const userName = 'Великий уравнитель'
 
 const HomePage: FC = () => {
+    const { user } = useAppSelector((state) => state.user)
     const dispatch = useAppDispatch()
     const history = useHistory()
 
@@ -48,7 +49,7 @@ const HomePage: FC = () => {
     return (
         <Layout hasMenu>
             <Container direction="column">
-                <HomeTitleStyled>Привет, {userName}</HomeTitleStyled>
+                <HomeTitleStyled>Привет, {user.first_name}</HomeTitleStyled>
                 <HomeTextStyled>
                     выберите корабль, которым будете играть
                 </HomeTextStyled>
