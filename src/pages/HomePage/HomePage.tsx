@@ -41,15 +41,18 @@ const HomePage: FC = () => {
 
     useEffect(() => {
         const params = new URLSearchParams(document.location.search)
-        if (params.get('code')) {
-            dispatch(oAuthRequest(params.get('code')))
+        let code = params.get('code')
+        if (code) {
+            dispatch(oAuthRequest(code))
         }
     }, [])
 
     return (
         <Layout hasMenu>
             <Container direction="column">
-                <HomeTitleStyled>Привет, {user.first_name}</HomeTitleStyled>
+                <HomeTitleStyled>
+                    Привет, {user?.first_name ?? 'коммандор'}
+                </HomeTitleStyled>
                 <HomeTextStyled>
                     выберите корабль, которым будете играть
                 </HomeTextStyled>

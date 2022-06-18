@@ -60,6 +60,7 @@ function* getUserSaga(): Generator<
         )) as RequestResult<User>
         if (data.successes) {
             yield put(fetchUserSuccess(data.data))
+            yield put(changeAuthSuccess(true))
         } else throw data.error
     } catch (e) {
         yield put(fetchUserError(e))

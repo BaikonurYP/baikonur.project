@@ -31,9 +31,18 @@ const ProfilePage: FC = () => {
     const { user } = useAppSelector((state) => state.user)
     const dispatch = useAppDispatch()
 
+    // let {user, setUser}
+
     useEffect(() => {
         if (user) {
-            userDataFormik.setValues(user)
+            userDataFormik.setValues({
+                first_name: user.first_name,
+                second_name: user.second_name,
+                display_name: user.display_name ?? '',
+                login: user.login,
+                email: user.email,
+                phone: user.phone ?? ''
+            })
             passwordFormik.resetForm()
         }
     }, [user])
@@ -206,10 +215,7 @@ const ProfilePage: FC = () => {
                     </Container>
                     <Container direction="column">
                         <Header>Аватар</Header>
-                        <Form
-                            onSubmit={avatarFormik.handleSubmit}
-                            ref={avatarRef}
-                        >
+                        <Form onSubmit={avatarFormik.handleSubmit}>
                             <Container direction="column">
                                 <div style={{ width: '50%' }}>
                                     <Avatar url={user?.avatar} />

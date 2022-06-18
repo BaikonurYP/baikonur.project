@@ -23,7 +23,9 @@ import { boolean } from 'yup'
 const App: FC = () => {
     return (
         <Switch>
-            <Redirect exact from="/" to="home" />
+            <Route exact path="/">
+                <HomePage />
+            </Route>
             <ProtectedRouteAuth
                 path="/login"
                 wrappedComponent={LoginPage}
