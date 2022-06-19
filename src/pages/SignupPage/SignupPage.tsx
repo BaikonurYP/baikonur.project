@@ -1,25 +1,25 @@
 import { Formik, useFormik } from 'formik'
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import ButtonForm from '../../components/buttons/buttonForm/buttonForm'
 import Container from '../../components/container/container'
 import Input from '../../components/inputs/input/input'
 import { Layout } from '../../components/layout/layout'
 import { Logo } from '../../components/logo/logo'
-import { AuthApi } from '../../core/http/api/AuthApi'
 import * as yup from 'yup'
-
-const authApi = new AuthApi()
+import {
+    emailValidationChain,
+    loginValidationChain,
+    nameValidationChain,
+    passwordValidationChain,
+    phoneValidationChain
+} from '../../components/inputs/validators'
+import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
+import { fetchUser, signUp } from '../../store/actions/userActions'
 
 /** Страница регистрации */
 const SignupPage: FC = () => {
-    const history = useHistory()
-    const goToGame = () => {
-        history.push(`/game`)
-    }
-
-    /** Ошибка формы */
-    const [formError, setFormError] = React.useState('')
+    const dispatch = useAppDispatch()
 
     const formik = useFormik({
         initialValues: {
@@ -31,63 +31,16 @@ const SignupPage: FC = () => {
             email: ''
         },
         validationSchema: yup.object({
-            login: yup
-                .string()
-                .required('Поле обязательно для заполнения')
-                .min(3, 'Минимальная длина - 3 символа')
-                .matches(
-                    /^[A-z0-9_-]{3,20}$/,
-                    'Допускается латиница, цифры, дефис (-) и нижнее подчеркивание(_)'
-                )
-                .matches(/^.*[A-z]{1}.*$/, 'Должна быть как миним одна буква'),
-            password: yup
-                .string()
-                .required('Поле обязательно для заполнения')
-                .min(8, 'Минимальная длина - 8 символов')
-                .max(40, 'Максимальная длина - 40 символов')
-                .matches(
-                    /^.*[A-ZА-ЯЁ]{1}.*$/,
-                    'Должна быть как минимум одна заглавная буква'
-                )
-                .matches(/^.*[0-9].*$/i, 'Должна быть как минимум одна цифра'),
-            first_name: yup
-                .string()
-                .required('Поле обязательно для заполнения')
-                .matches(
-                    /^[A-ZА-ЯЁ][A-zА-яЁё-]+$/,
-                    'Допускается только кириллица, латиница и нижнее подчеркивание (_)'
-                ),
-            second_name: yup
-                .string()
-                .required('Поле обязательно для заполнения')
-                .matches(
-                    /^[A-ZА-ЯЁ][A-zА-яЁё-]+$/,
-                    'Допускается только кириллица, латиница и нижнее подчеркивание (_)'
-                ),
-            email: yup
-                .string()
-                .required('Поле обязательно для заполнения')
-                .email('Адрес электроной почты должен быь введен корректно'),
-            phone: yup
-                .string()
-                .required('Поле обязательно для заполнения')
-                .min(8, 'Минимальная длина - 8 символов')
-                .max(15, 'Максимальная длина - 15 символов')
-                .matches(
-                    /^\+?\d{8,15}$/,
-                    'Допускаются только цифры и знак плюса в начале'
-                )
+            login: loginValidationChain,
+            password: passwordValidationChain,
+            first_name: nameValidationChain,
+            second_name: nameValidationChain,
+            email: emailValidationChain,
+            phone: phoneValidationChain
         }),
         onSubmit: (values, { setSubmitting }) => {
             setSubmitting(false)
-            setFormError('')
-            authApi.signUp(values).then((result) => {
-                if (result.successes) {
-                    goToGame()
-                } else {
-                    setFormError(result.error)
-                }
-            })
+            dispatch(signUp(values))
         }
     })
 
@@ -201,9 +154,7 @@ const SignupPage: FC = () => {
                             />
                         </Container>
 
-                        <ButtonForm helper={formError}>
-                            Зарегистрироваться
-                        </ButtonForm>
+                        <ButtonForm>Зарегистрироваться</ButtonForm>
                     </Container>
                 </form>
             </Container>

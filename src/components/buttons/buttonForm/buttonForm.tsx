@@ -1,31 +1,22 @@
 import React, { FC } from 'react'
-import Tooltip from '../../tooltip/tooltip'
-import { TooltipPosition, TooltipState } from '../../tooltip/tooltipStyled'
 
-import { ButtonContainerStyled, ButtonFormStyled } from './buttonFormStyled'
+import {
+    ButtonContainerStyled,
+    ButtonFormStyled,
+    ButtonSize
+} from './buttonFormStyled'
 
 interface ButtonFormProps {
-    children: string
+    children?: React.ReactNode
     disabled?: boolean
     onClick?: () => void
-    helper?: string
-    helperPosition?: TooltipPosition
-    helperState?: TooltipState
+    size?: ButtonSize
 }
 
 const ButtonForm: FC<ButtonFormProps> = (props) => {
     return (
         <ButtonContainerStyled>
             <ButtonFormStyled type="submit" {...props}></ButtonFormStyled>
-            {props.helper && (
-                <Tooltip
-                    visible={props.helper.length != 0}
-                    position={props.helperPosition}
-                    state={props.helperState}
-                >
-                    {props.helper}
-                </Tooltip>
-            )}
         </ButtonContainerStyled>
     )
 }

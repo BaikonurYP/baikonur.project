@@ -13,6 +13,7 @@ import RobotoBlack from '../../vendor/fonts/roboto/Roboto-Black.ttf'
 import RobotoBlackItalic from '../../vendor/fonts/roboto/Roboto-BlackItalic.ttf'
 import BGImage from '../../images/bg.jpg'
 import { colors, getColor } from './colors'
+import 'react-toastify/dist/ReactToastify.css'
 
 const Global = createGlobalStyle`
   @font-face {
@@ -94,6 +95,7 @@ const Global = createGlobalStyle`
     ${Object.keys(colors).map((k: keyof typeof colors) => {
         return `--${k}: ${colors[k]};`
     })}
+    --toastify-font-family: 'Roboto', sans-serif;
   }
 
   * {

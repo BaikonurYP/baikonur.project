@@ -14,7 +14,7 @@ export default class Player extends CanvasObject {
         this.lives = 3
         this.position = {
             x: options.position.x - this.width / 2,
-            y: options.position.y - this.height - 20,
+            y: options.position.y - this.height - 20
         }
     }
 }

@@ -31,24 +31,36 @@ export class BaseApi {
      * @param options Параметры запроса
      * @returns Промис с данными
      */
-    protected _request<T>(
+    protected request<T>(
         url: string,
         method: HTTPMethod,
-        data?: Record<string, string | number> | FormData,
+        data?:
+            | Record<string, string | number | Record<string, string | number>>
+            | FormData,
         options?: RequestOptions
     ): Promise<RequestResult<T>> {
         let config: AxiosRequestConfig = {
             url: url,
             baseURL: this.BASE_URL,
             method: method,
-            withCredentials: true,
+            withCredentials: true
         }
-        if (data) config.data = data
+        if (data) {
+            if (method == HTTPMethod.GET) {
+                config.params = data
+            } else {
+                config.data = data
+            }
+        }
         if (options) {
             config = { ...config, ...options }
         }
+        if (data instanceof FormData) {
+            if (!config.headers) config.headers = {}
+            config.headers['Content-Type'] = `multipart/form-data`
+        }
 
-        let result: RequestResult<T> = {}
+        const result: RequestResult<T> = {}
         return axios(config)
             .then((response) => {
                 result.successes = true

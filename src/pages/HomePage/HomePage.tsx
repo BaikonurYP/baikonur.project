@@ -18,6 +18,7 @@ import Skin2 from '../../images/skins/plain_2.svg'
 import Skin3 from '../../images/skins/plain_3.svg'
 import Skin4 from '../../images/skins/plain_4.svg'
 import { Layout } from '../../components/layout/layout'
+import { oAuthRequest } from '../../store/actions/userActions'
 
 const skins = [
     { title: 'Зеленый гоблин', image: Skin1 },
@@ -29,10 +30,7 @@ const skins = [
 const userName = 'Великий уравнитель'
 
 const HomePage: FC = () => {
-    // эта строчка, чтобы показать, что SSR работает!
-    // как заглушка, чтобы не настраивать redux и не отбирать чужие задачи :)
-    return <div>Hello SSR</div>
-
+    const { user } = useAppSelector((state) => state.user)
     const dispatch = useAppDispatch()
     const history = useHistory()
 
@@ -41,10 +39,20 @@ const HomePage: FC = () => {
         history.push('/game')
     }
 
+    useEffect(() => {
+        const params = new URLSearchParams(document.location.search)
+        let code = params.get('code')
+        if (code) {
+            dispatch(oAuthRequest(code))
+        }
+    }, [])
+
     return (
         <Layout hasMenu>
             <Container direction="column">
-                <HomeTitleStyled>Привет, {userName}</HomeTitleStyled>
+                <HomeTitleStyled>
+                    Привет, {user?.first_name ?? 'коммандор'}
+                </HomeTitleStyled>
                 <HomeTextStyled>
                     выберите корабль, которым будете играть
                 </HomeTextStyled>

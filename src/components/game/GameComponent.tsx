@@ -1,6 +1,6 @@
 import React, { FC, useRef, useEffect, useState, SyntheticEvent } from 'react'
 import { useHistory } from 'react-router-dom'
-import { useAppSelector } from '../../store/hooks/useAppHooks'
+import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
 import Game from '../../game/Game'
 
 import ShipImg from '../../images/ships/shipMain.png'
@@ -17,16 +17,22 @@ import {
     Points,
     CanvasStyled
 } from './GameComponentStyled'
+import ButtonFullScreen from '../buttons/buttonFullScreen/buttonFullScreen'
+import { saveLeader } from '../../store/actions/leadersAction'
+import { Leader } from '../../store/types/leaderTypes'
 
 const GameComponent: FC = () => {
     const image = useAppSelector((state) => state.playerSkin.image)
+    const user = useAppSelector((state) => state.user.user)
     const ref = useRef(null)
     const history = useHistory()
+    const dispatch = useAppDispatch()
     const [currentGame, setCurrentGame] = useState<Game>(null)
     const [pause, setPause] = useState(false)
     const [level, setLevel] = useState(1)
     const [points, setPoints] = useState(0)
     const [playerLives, setPlayerLives] = useState(3)
+    const [isSaveScope, setSaveScope] = useState(false)
 
     useEffect(() => {
         document.addEventListener('keydown', escClickHandler)
@@ -55,6 +61,19 @@ const GameComponent: FC = () => {
         }
     }, [document.hidden])
 
+    useEffect(() => {
+        if (!playerLives && user?.id) {
+            const data: Leader = {
+                id: user.id,
+                login: user.login,
+                name: user.display_name,
+                baikonurScore: points,
+                avatar: user.avatar
+            }
+            dispatch(saveLeader(data))
+        }
+    }, [isSaveScope])
+
     function escClickHandler(e: KeyboardEvent) {
         if (e.key === 'Escape') {
             onPause()
@@ -67,6 +86,9 @@ const GameComponent: FC = () => {
 
     function onChangeLives(lives: number) {
         setPlayerLives(lives > 0 ? lives : 0)
+        if (lives <= 0) {
+            setSaveScope(true)
+        }
     }
 
     function onChangeLevel(num: number) {
@@ -82,8 +104,8 @@ const GameComponent: FC = () => {
         history.push('/home')
     }
 
-    function onLookLiders() {
-        history.push('/forum')
+    function onLookLeaders() {
+        history.push('/leaderboard')
     }
 
     function restartHandler() {
@@ -93,27 +115,28 @@ const GameComponent: FC = () => {
 
     return (
         <Wrapper>
+            <ButtonFullScreen />
+
             <Popup title="Пауза" isVisible={pause}>
                 <ButtonText onClick={onPause}>Продолжить игру</ButtonText>
                 <ButtonText onClick={restartHandler}>Начать заново</ButtonText>
                 <ButtonText onClick={onLeave}>Выйти из игры</ButtonText>
             </Popup>
-            <Popup title="Game over" isVisible={playerLives > 0 ? false : true}>
+            <Popup title="Game over" isVisible={!(playerLives > 0)}>
                 <ButtonText onClick={() => currentGame.restart()}>
                     Начать заново
                 </ButtonText>
-                <ButtonText onClick={onLookLiders}>
+                <ButtonText onClick={onLookLeaders}>
                     Посмотреть лидеров
                 </ButtonText>
                 <ButtonText onClick={onLeave}>Выйти из игры</ButtonText>
             </Popup>
-            <CanvasStyled
-                ref={ref}
-                width={innerWidth}
-                height={innerHeight}
-            ></CanvasStyled>
+            <CanvasStyled ref={ref} width={innerWidth} height={innerHeight} />
             <Container>
-                <LevelTitle>Уровень {level}</LevelTitle>
+                <LevelTitle>
+                    Уровень
+                    {level}
+                </LevelTitle>
                 <Bar>
                     <LiveContainer>
                         {Array(playerLives)

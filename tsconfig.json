@@ -9,9 +9,12 @@
     "allowJs": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "lib": [
       "es2021",
       "dom"
     ],
-  }
+    "types": ["@testing-library/jest-dom"]
+  },
+  "exclude": ["node_modules"],
 }

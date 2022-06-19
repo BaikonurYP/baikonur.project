@@ -5,7 +5,7 @@ import {
     ContainerCrossAxisAlign,
     ContainerDirection,
     ContainerMineAxisAlign,
-    ContainerStyled,
+    ContainerStyled
 } from './containerStyled'
 
 type ContainerProps = {
