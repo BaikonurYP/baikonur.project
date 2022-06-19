@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { useAppDispatch } from '../../store/hooks/useAppHooks'
+import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
 import { logOut } from '../../store/actions/userActions'
 
 import { useHistory } from 'react-router-dom'
@@ -20,6 +20,8 @@ const menuItems = [
 ]
 
 const Menu: FC = () => {
+    const { user } = useAppSelector((state) => state.user)
+
     const dispatch = useAppDispatch()
     const history = useHistory()
 
@@ -33,18 +35,35 @@ const Menu: FC = () => {
 
     return (
         <MenuStyled>
-            <ButtonIcon icon={IconClose} onClick={logOutHandler} key="Выход">
-                Выход
-            </ButtonIcon>
-            {menuItems.map((item) => (
+            {user && (
+                <>
+                    <ButtonIcon
+                        icon={IconClose}
+                        onClick={logOutHandler}
+                        key="Выход"
+                    >
+                        Выход
+                    </ButtonIcon>
+                    {menuItems.map((item) => (
+                        <ButtonIcon
+                            icon={item.icon}
+                            onClick={() => handleClick(item.path)}
+                            key={item.title}
+                        >
+                            {item.title}
+                        </ButtonIcon>
+                    ))}
+                </>
+            )}
+            {!user && (
                 <ButtonIcon
-                    icon={item.icon}
-                    onClick={() => handleClick(item.path)}
-                    key={item.title}
+                    icon={IconProfile}
+                    onClick={() => handleClick('/login')}
+                    key="Вход"
                 >
-                    {item.title}
+                    Войти
                 </ButtonIcon>
-            ))}
+            )}
         </MenuStyled>
     )
 }

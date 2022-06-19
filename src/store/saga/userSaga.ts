@@ -6,6 +6,7 @@ import {
     ChangeDataAction,
     ChangePasswordsAction,
     LoginAction,
+    OAuthAction,
     SignUpAction,
     User,
     UserActionTypes,
@@ -22,6 +23,7 @@ import {
     fetchUserSuccess,
     loginError,
     loginSuccess,
+    oAuthAccess,
     signUpError,
     signUpSuccess
 } from '../actions/userActions'
@@ -42,10 +44,10 @@ function* getUserSaga(): Generator<
         )) as RequestResult<User>
         if (data.successes) {
             yield put(fetchUserSuccess(data.data))
+            yield put(changeAuthSuccess(true))
         } else throw data.error
     } catch (e) {
         yield put(fetchUserError(e))
-        toast.error(`Ошибка: ${e}`, TOAST_CONFIG)
     }
 }
 
@@ -108,6 +110,38 @@ function* registerUserSaga(
     }
 }
 
+function* oAuthAccessUserSaga(
+    action: OAuthAction
+): Generator<StrictEffect, void, RequestResult<{ service_id: string }>> {
+    try {
+        const res = (yield call(
+            authApi.getOAuthId.bind(authApi)
+        )) as RequestResult<{ service_id: string }>
+        if (res.successes) {
+            const href = window.location.origin
+            const redirect = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${res.data.service_id}&redirect_uri=${href}`
+            document.location.href = redirect
+        } else throw res.error
+    } catch (e) {
+        toast.error(`Ошибка: ${e}`, TOAST_CONFIG)
+    }
+}
+
+function* oAuthRequestUserSaga(
+    action: OAuthAction
+): Generator<StrictEffect, void, RequestResult<string>> {
+    try {
+        const res = (yield call(authApi.oAuth.bind(authApi), {
+            code: action.payload
+        })) as RequestResult<string>
+        if (res.successes) {
+            yield put({ type: UserActionTypes.FETCH_USER })
+        } else throw res.error
+    } catch (e) {
+        toast.error(`Ошибка: ${e}`, TOAST_CONFIG)
+    }
+}
+
 function* changeUserSaga(
     action: ChangeDataAction
 ): Generator<StrictEffect, void, UserState | RequestResult<User>> {
@@ -166,27 +200,18 @@ function* changeUserAvatarSaga(
 }
 
 export default function* rootSaga(): Generator<StrictEffect, void, any> {
-    yield all([yield takeLatest(UserActionTypes.FETCH_USER, getUserSaga)])
     yield all([
-        yield takeLatest(UserActionTypes.LOGOUT_REQUEST, logOutUserSaga)
-    ])
-    yield all([yield takeLatest(UserActionTypes.LOGIN_REQUEST, loginUserSaga)])
-    yield all([
-        yield takeLatest(UserActionTypes.SIGNUP_REQUEST, registerUserSaga)
-    ])
-    yield all([
-        yield takeLatest(UserActionTypes.CHANGE_DATA_REQUEST, changeUserSaga)
-    ])
-    yield all([
-        yield takeLatest(
+        takeLatest(UserActionTypes.FETCH_USER, getUserSaga),
+        takeLatest(UserActionTypes.LOGOUT_REQUEST, logOutUserSaga),
+        takeLatest(UserActionTypes.LOGIN_REQUEST, loginUserSaga),
+        takeLatest(UserActionTypes.SIGNUP_REQUEST, registerUserSaga),
+        takeLatest(UserActionTypes.OAUTH_ACCESS, oAuthAccessUserSaga),
+        takeLatest(UserActionTypes.OAUTH_REQUEST, oAuthRequestUserSaga),
+        takeLatest(UserActionTypes.CHANGE_DATA_REQUEST, changeUserSaga),
+        takeLatest(
             UserActionTypes.CHANGE_PASSWORDS_REQUEST,
             changeUserPasswordSaga
-        )
-    ])
-    yield all([
-        yield takeLatest(
-            UserActionTypes.CHANGE_AVATAR_REQUEST,
-            changeUserAvatarSaga
-        )
+        ),
+        takeLatest(UserActionTypes.CHANGE_AVATAR_REQUEST, changeUserAvatarSaga)
     ])
 }

@@ -55,6 +55,14 @@ export const signUpError = (payload: string) => ({
     payload
 })
 
+export const oAuthAccess = () => ({
+    type: UserActionTypes.OAUTH_ACCESS
+})
+export const oAuthRequest = (payload: string) => ({
+    type: UserActionTypes.OAUTH_REQUEST,
+    payload
+})
+
 export const changeData = (payload: Omit<User, 'id' | 'avatar'>) => ({
     type: UserActionTypes.CHANGE_DATA_REQUEST,
     payload

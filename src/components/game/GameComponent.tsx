@@ -86,7 +86,7 @@ const GameComponent: FC = () => {
 
     function onChangeLives(lives: number) {
         setPlayerLives(lives > 0 ? lives : 0)
-        if( lives <= 0){
+        if (lives <= 0) {
             setSaveScope(true)
         }
     }
@@ -131,13 +131,10 @@ const GameComponent: FC = () => {
                 </ButtonText>
                 <ButtonText onClick={onLeave}>Выйти из игры</ButtonText>
             </Popup>
-            <CanvasStyled
-                ref={ref}
-                width={innerWidth}
-                height={innerHeight} />
+            <CanvasStyled ref={ref} width={innerWidth} height={innerHeight} />
             <Container>
                 <LevelTitle>
-Уровень
+                    Уровень
                     {level}
                 </LevelTitle>
                 <Bar>

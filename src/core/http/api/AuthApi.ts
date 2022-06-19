@@ -44,6 +44,23 @@ class AuthApi extends BaseApi {
     logout(): Promise<RequestResult<any>> {
         return this.request<string>('auth/logout', HTTPMethod.POST)
     }
+
+    /** Получить service_id для OAuth от яндекса */
+    getOAuthId(): Promise<RequestResult<{ service_id: string }>> {
+        return this.request<{ service_id: string }>(
+            `oauth/yandex/service-id`,
+            HTTPMethod.GET,
+            { redirect_uri: window.location.origin }
+        )
+    }
+
+    /** Получить access_token для авторизации на яндексе */
+    oAuth(data: { code: string }): Promise<RequestResult<string>> {
+        return this.request<string>('oauth/yandex', HTTPMethod.POST, {
+            code: data.code,
+            redirect_uri: window.location.origin
+        })
+    }
 }
 
 export const authApi = new AuthApi()

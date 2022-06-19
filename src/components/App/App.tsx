@@ -17,20 +17,21 @@ import ProtectedRouteAuth from '../HOC/ProtectedRouteAuth'
 
 const App: FC = () => (
     <Switch>
-        <Redirect exact from="/" to="home" />
+        <Route exact path="/">
+            <HomePage />
+        </Route>
         <ProtectedRouteAuth path="/login" wrappedComponent={LoginPage} />
         <ProtectedRouteAuth path="/signup" wrappedComponent={SignupPage} />
         <ProtectedRoute path="/home" wrappedComponent={HomePage} />
         <ProtectedRoute path="/game" wrappedComponent={GamePage} />
 
         <ProtectedRoute path="/profile" wrappedComponent={ProfilePage} />
-        <ProtectedRoute
-            path="/forum/:id"
-            wrappedComponent={ForumThemePage}/>
+        <ProtectedRoute path="/forum/:id" wrappedComponent={ForumThemePage} />
         <ProtectedRoute path="/forum" wrappedComponent={ForumPage} />
         <ProtectedRoute
             path="/leaderboard"
-            wrappedComponent={LeaderboardPage}/>
+            wrappedComponent={LeaderboardPage}
+        />
         <Route path="/500">
             <Page500 />
         </Route>

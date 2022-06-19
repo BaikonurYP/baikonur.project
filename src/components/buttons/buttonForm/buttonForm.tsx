@@ -1,12 +1,16 @@
 import React, { FC } from 'react'
 
-import { ButtonContainerStyled, ButtonFormStyled } from './buttonFormStyled'
+import {
+    ButtonContainerStyled,
+    ButtonFormStyled,
+    ButtonSize
+} from './buttonFormStyled'
 
 interface ButtonFormProps {
-    children?: string
+    children?: React.ReactNode
     disabled?: boolean
     onClick?: () => void
-    helper?: string
+    size?: ButtonSize
 }
 
 const ButtonForm: FC<ButtonFormProps> = (props) => {

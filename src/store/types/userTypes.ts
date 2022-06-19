@@ -26,6 +26,9 @@ export enum UserActionTypes {
     SIGNUP_REQUEST_SUCCESS = 'SIGNUP_REQUEST_SUCCESS',
     SIGNUP_REQUEST_ERROR = 'SIGNUP_REQUEST_ERROR',
 
+    OAUTH_ACCESS = 'OAUTH_ACCESS',
+    OAUTH_REQUEST = 'OAUTH_REQUEST',
+
     CHANGE_DATA_REQUEST = 'CHANGE_DATA_REQUEST',
     CHANGE_DATA_REQUEST_SUCCESS = 'CHANGE_DATA_REQUEST_SUCCESS',
     CHANGE_DATA_REQUEST_ERROR = 'CHANGE_DATA_REQUEST_ERROR',
@@ -102,6 +105,11 @@ export interface SignUpErrorAction {
     payload: string
 }
 
+export interface OAuthAction {
+    type: UserActionTypes.OAUTH_ACCESS
+    payload: string
+}
+
 export interface ChangeDataAction {
     type: UserActionTypes.CHANGE_DATA_REQUEST
     payload: Omit<User, 'id' | 'avatar'>
@@ -160,6 +168,7 @@ export type UserAction =
     | SignUpAction
     | SignUpSuccessAction
     | SignUpErrorAction
+    | OAuthAction
     | ChangeDataAction
     | ChangeDataSuccessAction
     | ChangeDataErrorAction

@@ -4,16 +4,28 @@ import { getColor } from '../../../styles/GlobalStyle/colors'
 export const ButtonContainerStyled = styled.div`
     position: relative;
 `
+export type ButtonSize = 'XS' | 'SM' | 'MD' | 'LG'
 
-export const ButtonFormStyled = styled.button`
+function getParamSize(init: number, size: ButtonSize): number {
+    const sizesDict: Record<ButtonSize, number> = {
+        XS: 0.5,
+        SM: 0.75,
+        MD: 1,
+        LG: 2
+    }
+
+    return sizesDict[size ?? 'MD'] * init
+}
+
+export const ButtonFormStyled = styled.button<{ size?: ButtonSize }>`
     padding: 0 0 5px 0;
-    width: 300px;
-    height: 37px;
+    width: ${(props) => getParamSize(300, props.size)}px;
+    height: ${(props) => getParamSize(37, props.size)}px;
     background: ${getColor('purple')};
     border: 1px solid ${getColor('white')};
-    border-radius: 8px;
+    border-radius: ${(props) => getParamSize(8, props.size)}px;
     font-family: 'SpaceFont';
-    font-size: 16px;
+    font-size: ${(props) => getParamSize(16, props.size)}px;
     text-transform: uppercase;
     color: ${getColor('white')};
     cursor: pointer;
@@ -30,5 +42,12 @@ export const ButtonFormStyled = styled.button`
     &:disabled {
         opacity: 0.5;
         background: ${getColor('purple')};
+    }
+
+    .initial {
+        font-weight: bolder;
+        &.red {
+            color: ${getColor('red-light')};
+        }
     }
 `
