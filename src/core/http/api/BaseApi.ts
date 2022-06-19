@@ -34,7 +34,9 @@ export class BaseApi {
     protected request<T>(
         url: string,
         method: HTTPMethod,
-        data?: Record<string, string | number> | FormData,
+        data?:
+            | Record<string, string | number | Record<string, string | number>>
+            | FormData,
         options?: RequestOptions
     ): Promise<RequestResult<T>> {
         let config: AxiosRequestConfig = {
@@ -52,7 +54,7 @@ export class BaseApi {
             config.headers['Content-Type'] = `multipart/form-data`
         }
 
-        let result: RequestResult<T> = {}
+        const result: RequestResult<T> = {}
         return axios(config)
             .then((response) => {
                 result.successes = true

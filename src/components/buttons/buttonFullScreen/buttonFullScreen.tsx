@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {FC, useState} from 'react'
+import { FC, useState } from 'react'
 import { ButtonFullScreenStyled } from './ButtonFullScreenStyled'
 
 export interface ButtonFullScreenProps {

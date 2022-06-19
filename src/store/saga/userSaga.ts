@@ -1,11 +1,6 @@
-import {
-    all,
-    call,
-    put,
-    StrictEffect,
-    takeLatest,
-    delay
-} from 'redux-saga/effects'
+import { all, call, put, StrictEffect, takeLatest } from 'redux-saga/effects'
+import { toast } from 'react-toastify'
+
 import {
     ChangeAvatarAction,
     ChangeDataAction,
@@ -34,18 +29,7 @@ import { changeAuthSuccess } from '../actions/authActions'
 import { RequestResult } from '../../core/http/api/types/RequestResult'
 import { authApi } from '../../core/http/api/AuthApi'
 import { userApi } from '../../core/http/api/UserApi'
-import { toast, ToastOptions } from 'react-toastify'
-
-const toastConfig: ToastOptions = {
-    position: 'top-right',
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined as any,
-    theme: 'dark'
-}
+import { TOAST_CONFIG } from '../../utils/constants'
 
 function* getUserSaga(): Generator<
     StrictEffect,
@@ -61,7 +45,7 @@ function* getUserSaga(): Generator<
         } else throw data.error
     } catch (e) {
         yield put(fetchUserError(e))
-        toast.error(`Ошибка: ${e}`, toastConfig)
+        toast.error(`Ошибка: ${e}`, TOAST_CONFIG)
     }
 }
 
@@ -77,11 +61,11 @@ function* loginUserSaga(
             yield put(loginSuccess())
             yield put({ type: UserActionTypes.FETCH_USER })
             yield put(changeAuthSuccess(true))
-            toast.success('Вы успешно вошли', toastConfig)
+            toast.success('Вы успешно вошли', TOAST_CONFIG)
         } else throw res.error
     } catch (e) {
         yield put(loginError(e))
-        toast.error(`Ошибка: ${e}`, toastConfig)
+        toast.error(`Ошибка: ${e}`, TOAST_CONFIG)
     }
 }
 
@@ -100,7 +84,7 @@ function* logOutUserSaga(): Generator<
         } else throw data.error
     } catch (e) {
         yield put(fetchUserError(e))
-        toast.error(`Ошибка: ${e}`, toastConfig)
+        toast.error(`Ошибка: ${e}`, TOAST_CONFIG)
     }
 }
 
@@ -116,11 +100,11 @@ function* registerUserSaga(
             yield put(signUpSuccess())
             yield put({ type: UserActionTypes.FETCH_USER })
             yield put(changeAuthSuccess(true))
-            toast.success('Вы успешно зарегестрированы', toastConfig)
+            toast.success('Вы успешно зарегестрированы', TOAST_CONFIG)
         } else throw res.error
     } catch (e) {
         yield put(signUpError(e))
-        toast.error(`Ошибка: ${e}`, toastConfig)
+        toast.error(`Ошибка: ${e}`, TOAST_CONFIG)
     }
 }
 
@@ -135,11 +119,11 @@ function* changeUserSaga(
         if (data.successes) {
             yield put(changeDataSuccess(data.data))
             yield put({ type: UserActionTypes.FETCH_USER })
-            toast.success('Данные пользователя успешно сохранены', toastConfig)
+            toast.success('Данные пользователя успешно сохранены', TOAST_CONFIG)
         } else throw data.error
     } catch (e) {
         yield put(changeDataError(e))
-        toast.error(`Ошибка: ${e}`, toastConfig)
+        toast.error(`Ошибка: ${e}`, TOAST_CONFIG)
     }
 }
 
@@ -154,11 +138,11 @@ function* changeUserPasswordSaga(
         if (data.successes) {
             yield put(changePasswordsSuccess())
             yield put({ type: UserActionTypes.FETCH_USER })
-            toast.success('Новый пароль сохранен', toastConfig)
+            toast.success('Новый пароль сохранен', TOAST_CONFIG)
         } else throw data.error
     } catch (e) {
         yield put(changePasswordsError(e))
-        toast.error(`Ошибка: ${e}`, toastConfig)
+        toast.error(`Ошибка: ${e}`, TOAST_CONFIG)
     }
 }
 
@@ -173,11 +157,11 @@ function* changeUserAvatarSaga(
         if (data.successes) {
             yield put(changeAvatarSuccess(data.data))
             yield put({ type: UserActionTypes.FETCH_USER })
-            toast.success('Аватар обновлен', toastConfig)
+            toast.success('Аватар обновлен', TOAST_CONFIG)
         } else throw data.error
     } catch (e) {
         yield put(changeAvatarError(e))
-        toast.error(`Ошибка: ${e}`, toastConfig)
+        toast.error(`Ошибка: ${e}`, TOAST_CONFIG)
     }
 }
 

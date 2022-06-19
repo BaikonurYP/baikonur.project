@@ -10,22 +10,13 @@ import {
 } from './LeaderboardPageStyled'
 
 import Star from '../../images/icons/star.svg'
-import Skin1 from '../../images/skins/plain_1.svg'
-import Skin2 from '../../images/skins/plain_2.svg'
-import Skin3 from '../../images/skins/plain_3.svg'
 import { Layout } from '../../components/layout/layout'
 import { Logo } from '../../components/logo/logo'
 
 import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
 import { fetchLeaders } from '../../store/actions/leadersAction'
-
-const leadersMock = [
-    { id: 1, name: 'Уничтожитель 1', avatar: Skin1, value: 7896540 },
-    { id: 2, name: 'Разрушитель', avatar: Skin2, value: 7896540 },
-    { id: 3, name: 'Уничтожитель 2', avatar: Skin3, value: 7896540 },
-    { id: 4, name: 'Уничтожитель', avatar: Skin1, value: 7896540 },
-    { id: 5, name: 'Уничтожитель', avatar: Skin1, value: 7896540 }
-]
+import defaultAvatar from '../../images/avatars/default.svg'
+import { BASE_IMG_URL } from '../../utils/constants'
 
 const LeaderboardPage: FC = () => {
     const leaders = useAppSelector((state) => state.leaders.leaders)
@@ -42,19 +33,26 @@ const LeaderboardPage: FC = () => {
                 <TitleStyled>Лидеры</TitleStyled>
                 <BoardStyled>
                     {leaders.map((leader, i) => (
-                        <BoardItemStyled key={leader.id}>
+                        <BoardItemStyled key={leader.data?.id}>
                             <BoardUserInfoStyled>
                                 <BoardAvaStyled>
                                     <img
-                                        src={leader.avatar}
-                                        alt={leader.name}
+                                        src={
+                                            leader.data?.avatar
+                                                ? `${BASE_IMG_URL}/${leader.data?.avatar}`
+                                                : defaultAvatar
+                                        }
                                     />
                                 </BoardAvaStyled>
-                                <span>{leader.name}</span>
+                                <span>
+                                    {leader.data?.name || leader.data?.login}
+                                </span>
                             </BoardUserInfoStyled>
                             <BoardUserValueStyled>
                                 {i <= 2 && <img src={Star} alt="star" />}
-                                {leader.cost?.toLocaleString('ru-Ru')}
+                                {leader.data?.baikonurScore?.toLocaleString(
+                                    'ru-Ru'
+                                )}
                             </BoardUserValueStyled>
                         </BoardItemStyled>
                     ))}
