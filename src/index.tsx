@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { BrowserRouter } from 'react-router-dom'
-import App from './components/App/App'
+import { App } from './components/App/App'
 import Global from './styles/GlobalStyle/GlobalStyle'
+import 'babel-polyfill'
 
 import store, { persistor } from './store'
 
-ReactDOM.render(
+ReactDOM.hydrate(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
             <BrowserRouter>
