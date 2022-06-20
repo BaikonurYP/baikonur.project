@@ -16,7 +16,7 @@ class LeaderApi extends BaseApi {
     }): Promise<RequestResult<string>> {
         return this.request<string>('leaderboard', HTTPMethod.POST, {
             data,
-            ratingFieldName: 'baikonurScore'
+            ratingFieldName: 'baikonurScore',
         })
     }
 
@@ -28,7 +28,7 @@ class LeaderApi extends BaseApi {
         return this.request<string>('leaderboard/all', HTTPMethod.POST, {
             ratingFieldName: 'baikonurScore',
             cursor: 0,
-            limit: count
+            limit: count,
         })
     }
 }

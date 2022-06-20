@@ -22,7 +22,7 @@ export default class Invader extends CanvasObject {
         }
         this.velocity = {
             x: 0,
-            y: 3
+            y: 3,
         }
     }
 }

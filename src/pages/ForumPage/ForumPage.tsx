@@ -6,7 +6,7 @@ import {
     ForumTitleWrapStyled,
     ForumWrapperStyled,
     ForumTitleStyled,
-    ForumTableStyled
+    ForumTableStyled,
 } from './ForumPageStyled'
 
 import ButtonMain from '../../components/buttons/buttonMain/buttonMain'
@@ -24,16 +24,16 @@ const ForumPage: React.FC = () => {
         () => [
             {
                 header: 'Тема',
-                key: 'theme'
+                key: 'theme',
             },
             {
                 header: 'Ответы',
-                key: 'answers'
+                key: 'answers',
             },
             {
                 header: 'Дата создания',
-                key: 'date'
-            }
+                key: 'date',
+            },
         ],
         []
     )
@@ -43,50 +43,50 @@ const ForumPage: React.FC = () => {
                 id: 1,
                 theme: 'Vel cras auctor at tortor imperdiet amet id sed rhoncus.',
                 count: 23,
-                date: '2022-12-12'
+                date: '2022-12-12',
             },
             {
                 id: 2,
                 theme: 'Quam aliquam odio ullamcorper ornare eleifend ipsum ',
                 count: 456,
-                date: '2022-12-12'
+                date: '2022-12-12',
             },
             {
                 id: 3,
                 theme: 'Mauris quam tristique et parturient sapien.',
                 count: 67,
-                date: '2022-12-12'
+                date: '2022-12-12',
             },
             {
                 id: 4,
                 theme: 'Fermentum porttitor amet, vulputate ornare tortor nisi',
                 count: 2345,
-                date: '2022-12-12'
+                date: '2022-12-12',
             },
             {
                 id: 5,
                 theme: 'Sed at ornare scelerisque in facilisis tincidunt',
                 count: 80000,
-                date: '2022-12-12'
+                date: '2022-12-12',
             },
             {
                 id: 6,
                 theme: 'Molestie est pharetra eu congue velit felis ipsum velit.',
                 count: 345,
-                date: '2022-12-12'
+                date: '2022-12-12',
             },
             {
                 id: 7,
                 theme: 'Et adipiscing vitae amet mauris eget vel.',
                 count: 234,
-                date: '2022-12-12'
+                date: '2022-12-12',
             },
             {
                 id: 8,
                 theme: 'Leo maecenas quis sapien morbi nunc, porta nibh.',
                 count: 678,
-                date: '2022-12-12'
-            }
+                date: '2022-12-12',
+            },
         ],
         []
     )

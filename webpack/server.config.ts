@@ -21,11 +21,11 @@ const config: Configuration = {
             },
             {
                 test: /\.(png|jpe?g|gif|svg|webp|ico)$/i,
-                use: 'null-loader',
+                type: 'asset',
             },
             {
                 test: /\.(woff2?|eot|ttf|otf)$/i,
-                use: 'null-loader',
+                type: 'asset/resource',
             },
             {
                 test: /\.(js|jsx)$/,

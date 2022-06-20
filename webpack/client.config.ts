@@ -3,7 +3,6 @@ const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const ConfigPaths = require('tsconfig-paths-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const IS_DEV = process.env.NODE_ENV !== 'production'
 const SRC_DIR = path.join(__dirname, '../src')
@@ -64,7 +63,6 @@ const config: Configuration = {
         ],
     },
     plugins: [
-        new HtmlWebpackPlugin({ template: './www/index.html' }),
         new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' }),
         !IS_DEV && new CompressionPlugin(),
     ].filter(Boolean) as SingleEntryPlugin[],

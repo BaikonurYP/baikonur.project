@@ -6,7 +6,7 @@ import {
     BoardUserValueStyled,
     BoardStyled,
     TitleStyled,
-    BoardUserInfoStyled
+    BoardUserInfoStyled,
 } from './LeaderboardPageStyled'
 
 import Star from '../../images/icons/star.svg'

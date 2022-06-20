@@ -9,14 +9,14 @@ import { useFormik } from 'formik'
 import * as yup from 'yup'
 import {
     loginValidationChain,
-    passwordValidationChain
+    passwordValidationChain,
 } from '../../components/inputs/validators'
 import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
 import {
     fetchUser,
     login,
     oAuthAccess,
-    oAuthRequest
+    oAuthRequest,
 } from '../../store/actions/userActions'
 import { Form } from '../../components/form/form'
 
@@ -50,16 +50,16 @@ const LoginPage: FC = () => {
     const formik = useFormik({
         initialValues: {
             login: '',
-            password: ''
+            password: '',
         },
         validationSchema: yup.object({
             login: loginValidationChain,
-            password: passwordValidationChain
+            password: passwordValidationChain,
         }),
         onSubmit: (values, { setSubmitting }) => {
             setSubmitting(false)
             dispatch(login(values))
-        }
+        },
     })
 
     return (
