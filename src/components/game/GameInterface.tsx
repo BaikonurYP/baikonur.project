@@ -9,7 +9,7 @@ import {
     Bar,
     LiveContainer,
     Live,
-    Points
+    Points,
 } from './GameComponentStyled'
 
 interface GameInterfaceProps {

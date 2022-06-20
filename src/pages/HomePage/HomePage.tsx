@@ -30,13 +30,7 @@ const skins = [
 const userName = 'Великий уравнитель'
 
 const HomePage: FC = () => {
-    // эта строчка, чтобы показать, что SSR работает!
-    // как заглушка, чтобы не настраивать redux и не отбирать чужие задачи :)
-    return <div>Hello SSR</div>
-
     const { user } = useAppSelector((state) => state.user)
-
-
     const dispatch = useAppDispatch()
     const history = useHistory()
 

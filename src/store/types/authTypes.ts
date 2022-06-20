@@ -7,7 +7,7 @@ export interface AuthState {
 export enum AuthActionTypes {
     CHANGE_AUTH = 'CHANGE_AUTH',
     CHANGE_AUTH_SUCCESS = 'CHANGE_AUTH_SUCCESS',
-    CHANGE_AUTH_ERROR = 'CHANGE_AUTH_ERROR'
+    CHANGE_AUTH_ERROR = 'CHANGE_AUTH_ERROR',
 }
 
 interface ChangeAuthAction {

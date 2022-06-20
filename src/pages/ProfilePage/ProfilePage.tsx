@@ -14,14 +14,14 @@ import {
     loginValidationChain,
     nameValidationChain,
     passwordValidationChain,
-    phoneValidationChain
+    phoneValidationChain,
 } from '../../components/inputs/validators'
 import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
 import {
     changeAvatar,
     changeData,
     changePasswords,
-    fetchUser
+    fetchUser,
 } from '../../store/actions/userActions'
 import { Avatar } from '../../components/avatar/avatar'
 import { Form } from '../../components/form/form'
@@ -41,7 +41,7 @@ const ProfilePage: FC = () => {
                 display_name: user.display_name ?? '',
                 login: user.login,
                 email: user.email,
-                phone: user.phone ?? ''
+                phone: user.phone ?? '',
             })
             passwordFormik.resetForm()
         }
@@ -54,7 +54,7 @@ const ProfilePage: FC = () => {
             first_name: '',
             second_name: '',
             phone: '',
-            email: ''
+            email: '',
         },
         validationSchema: yup.object({
             login: loginValidationChain,
@@ -62,41 +62,41 @@ const ProfilePage: FC = () => {
             first_name: nameValidationChain,
             second_name: nameValidationChain,
             email: emailValidationChain,
-            phone: phoneValidationChain
+            phone: phoneValidationChain,
         }),
         onSubmit: (values, { setSubmitting }) => {
             setSubmitting(false)
             dispatch(changeData(values))
-        }
+        },
     })
 
     const avatarRef = useRef<HTMLFormElement>()
 
     const avatarFormik = useFormik({
         initialValues: {
-            avatar: null as File
+            avatar: null as File,
         },
         onSubmit: (values, { setSubmitting, setValues }) => {
             setSubmitting(false)
             let formData = new FormData()
             formData.append('avatar', values.avatar, values.avatar.name)
             dispatch(changeAvatar(formData))
-        }
+        },
     })
 
     const passwordFormik = useFormik({
         initialValues: {
             oldPassword: '',
-            newPassword: ''
+            newPassword: '',
         },
         validationSchema: yup.object({
             oldPassword: passwordValidationChain,
-            newPassword: passwordValidationChain
+            newPassword: passwordValidationChain,
         }),
         onSubmit: (values, { setSubmitting }) => {
             setSubmitting(false)
             dispatch(changePasswords(values))
-        }
+        },
     })
 
     return (

@@ -25,7 +25,7 @@ const keyMap = {
     s: false,
     d: false,
     space: false,
-    esc: false
+    esc: false,
 }
 
 type ShootingObjects = Invader
@@ -100,8 +100,8 @@ class Game {
         this.player = new Player(playerImage, {
             position: {
                 x: this.canvasWidth / 2,
-                y: this.canvasHeight
-            }
+                y: this.canvasHeight,
+            },
         })
         this.playerSpeed = 7
         this.invaders = []
@@ -109,10 +109,10 @@ class Game {
             new Meteor(MeteorImg, {
                 position: {
                     x: getRandom(10, this.canvasWidth - 10),
-                    y: -20
+                    y: -20,
                 },
-                scale: 1
-            })
+                scale: 1,
+            }),
         ]
         this.projectiles = []
         this.enemiesProjectiles = []
@@ -257,9 +257,9 @@ class Game {
             new Projectile(PlayerProjectileImg, {
                 position: {
                     x: this.player.position.x + this.player.width / 2,
-                    y: this.player.position.y
+                    y: this.player.position.y,
                 },
-                velocity: { x: 0, y: -10 }
+                velocity: { x: 0, y: -10 },
             })
         )
         this.per = per
@@ -271,17 +271,17 @@ class Game {
                 new Particle({
                     position: {
                         x: position.x,
-                        y: position.y
+                        y: position.y,
                     },
                     velocity: {
                         x: getRandom(-3, 3),
-                        y: getRandom(-3, 3)
+                        y: getRandom(-3, 3),
                     },
                     size: {
                         min: 0.1,
-                        max: 5
+                        max: 5,
                     },
-                    color: '#BAA0DE'
+                    color: '#BAA0DE',
                 })
             )
         }
@@ -314,9 +314,9 @@ class Game {
             new Projectile(InvaderProjectileImg, {
                 position: {
                     x: enemy.position.x + enemy.width / 2,
-                    y: enemy.position.y + enemy.height
+                    y: enemy.position.y + enemy.height,
                 },
-                velocity: { x: 0, y: 5 }
+                velocity: { x: 0, y: 5 },
             })
         )
     }
@@ -328,10 +328,10 @@ class Game {
                 new Invader(Invider2Img, {
                     position: {
                         x: position.x,
-                        y: position.y
+                        y: position.y,
                     },
                     scale: 1.2,
-                    lives: 3
+                    lives: 3,
                 })
             )
         }, 0)
@@ -357,7 +357,7 @@ class Game {
                 ) {
                     this.transformInvider({
                         x: firstInvider.position.x,
-                        y: firstInvider.position.y
+                        y: firstInvider.position.y,
                     })
                 }
             }
@@ -407,7 +407,7 @@ class Game {
                 setTimeout(() => {
                     this.createPaticles({
                         x: projectile.position.x,
-                        y: projectile.position.y
+                        y: projectile.position.y,
                     })
 
                     if (enemy.lives === 1) {
@@ -445,7 +445,7 @@ class Game {
             objectsArr.splice(index, 1)
             this.createPaticles({
                 x: object.position.x,
-                y: object.position.y
+                y: object.position.y,
             })
 
             this.player.lives -= 1
@@ -486,18 +486,18 @@ class Game {
                 new Particle({
                     position: {
                         x: getRandom(0, this.canvasWidth),
-                        y: getRandom(0, this.canvasHeight)
+                        y: getRandom(0, this.canvasHeight),
                     },
                     velocity: {
                         x: 0,
-                        y: 0.3
+                        y: 0.3,
                     },
                     size: {
                         min: 0.1,
-                        max: 3
+                        max: 3,
                     },
                     fades: true,
-                    color: 'white'
+                    color: 'white',
                 })
             )
         }
@@ -561,7 +561,7 @@ class Game {
                                     this.player.width,
                                     this.canvasWidth - this.player.width
                                 ),
-                                y: -30
+                                y: -30,
                             },
                             this.fireUpgrade
                         )
@@ -576,7 +576,7 @@ class Game {
                                     this.player.width,
                                     this.canvasWidth - this.player.width
                                 ),
-                                y: -30
+                                y: -30,
                             },
                             this.liveUpgrade
                         )
@@ -591,7 +591,7 @@ class Game {
                                     this.player.width,
                                     this.canvasWidth - this.player.width
                                 ),
-                                y: -30
+                                y: -30,
                             },
                             this.timeUpgrade
                         )
@@ -610,9 +610,9 @@ class Game {
                 new Meteor(MeteorImg, {
                     position: {
                         x: getRandom(60, this.canvasWidth - 60),
-                        y: -60
+                        y: -60,
                     },
-                    scale: 1
+                    scale: 1,
                 })
             )
             this.meteorTimeStep = meteorStep
@@ -636,10 +636,10 @@ class Game {
                 new Invader(InvaderImg, {
                     position: {
                         x: getRandom(0, this.canvasWidth),
-                        y: -40
+                        y: -40,
                     },
                     scale: 1,
-                    lives: 1
+                    lives: 1,
                 })
             )
             this.invaderTimeStep = invaderStep
@@ -686,7 +686,7 @@ class Game {
     restart() {
         this.player.position = {
             x: this.canvasWidth / 2 - this.player.width / 2,
-            y: this.canvasHeight - this.player.height - 20
+            y: this.canvasHeight - this.player.height - 20,
         }
         this.point = 0
         this.player.lives = 3
