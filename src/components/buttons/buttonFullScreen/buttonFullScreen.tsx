@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { FC, useState } from 'react'
-import { ButtonFullScreenStyled } from './ButtonFullScreenStyled'
+import { ButtonFullScreenStyled } from './buttonFullScreenStyled'
 
 export interface ButtonFullScreenProps {
     onClick?: () => void
