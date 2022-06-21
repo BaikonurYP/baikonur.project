@@ -8,3 +8,49 @@ services:
             ["3000:3000"]
         volumes:
             - ./shared:/var/www/shared
+        depends_on:
+            - postgres
+        environment:
+            DATABASE_URL: postgres://supermegauser:password@postgres:5432/baikonurdb
+            NODE_ENV: development
+            PORT: 8000
+
+    postgres:
+        hostname: postgres
+        container_name: postgres
+        image: postgres:12
+        ports:
+            ['5432:5432']
+        volumes:
+            - ./postgres-initdb.sh:/docker-entrypoint-initdb.d/init.sh
+        restart: always
+        environment:
+            POSTGRES_USER: supermegauser
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: baikonurdb
+        networks:
+            [awesome]
+
+    pgadmin:
+        container_name: pgadmin
+        image: dpage/pgadmin4:4.18
+        restart: always
+        environment:
+            PGADMIN_DEFAULT_EMAIL: admin@admin.com
+            PGADMIN_DEFAULT_PASSWORD: secret
+            PGADMIN_LISTEN_PORT: 800
+        ports:
+            ["8088:800"]
+        volumes:
+            - pgadmin-data:/var/lib/pgadmin
+        depends_on:
+            - postgres
+        networks:
+            [awesome]
+
+volumes:
+    pgadmin-data:
+
+networks:
+    awesome:
+        driver: bridge
