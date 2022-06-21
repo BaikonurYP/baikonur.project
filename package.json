@@ -14,9 +14,7 @@
         "start": "NODE_ENV=development npm-run-all --print-label --parallel start:*",
         "precommit": "lint-staged",
         "test": "node_modules/.bin/jest",
-        "docker-build": "docker build --tag baikonur .",
-        "docker-run": "docker run --publish 3000:3000 baikonur",
-        "docker-compose-up": "docker-compose up"
+        "docker": "docker-compose build && docker-compose up"
     },
     "repository": {
         "type": "git",

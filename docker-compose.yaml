@@ -6,14 +6,17 @@ services:
             context: .
         ports:
             ["3000:3000"]
+        environment:
+            env-file:
+              ./.env
         volumes:
             - ./shared:/var/www/shared
         depends_on:
             - postgres
-        environment:
-            DATABASE_URL: postgres://supermegauser:password@postgres:5432/baikonurdb
-            NODE_ENV: development
-            PORT: 8000
+        networks:
+            [awesome]
+        restart: always
+
 
     postgres:
         hostname: postgres

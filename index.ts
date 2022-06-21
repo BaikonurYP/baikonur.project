@@ -6,16 +6,23 @@ require('dotenv').config()
 const { app } = require('./dist/server.js')
 
 const sequelize = new Sequelize(
-    process.env.DB_NAME, // Название БД
-    process.env.DB_USER, // Пользователь
-    process.env.DB_PASSWORD, // ПАРОЛЬ
     {
-        dialect: 'postgres',
         host: process.env.DB_HOST,
-        // @ts-ignore
-        port: process.env.DB_PORT
+        port: Number(process.env.DB_PORT),
+        username: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME,
+
+        dialect: 'postgres',
+        pool: {
+            max: 5,
+            min: 0,
+            acquire: 30000,
+            idle: 10000
+        }
     }
 )
+
 
 const port = process.env.PORT || 3000;
 
@@ -28,7 +35,7 @@ const start = async () => {
             console.log(`Application is started on localhost:${port}`);
         })
     } catch (e) {
-        console.log(e)
+        console.error(e)
     }
 }
 
