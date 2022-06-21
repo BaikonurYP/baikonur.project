@@ -7,6 +7,7 @@ const app = express()
 
 app.use(express.static(path.resolve(__dirname, '../dist')))
 
+
 app.get('/*', serverRenderMiddleware)
 
 export { app }
