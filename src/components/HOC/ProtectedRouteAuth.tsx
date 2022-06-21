@@ -16,7 +16,7 @@ const ProtectedRouteAuth: FC<ProtectedRouteProps> = ({
     const { isAuth } = useAppSelector((state) => state.auth)
 
     return (
-        <Route path={path}>
+        <Route path={path} exact>
             {isAuth && user ? <Redirect to="./home" /> : <Component />}
         </Route>
     )

@@ -23,7 +23,7 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({
     }, [])
 
     return (
-        <Route path={path}>
+        <Route path={path} exact>
             {!isAuth ? (
                 <Redirect to="./login" />
             ) : user ? (
