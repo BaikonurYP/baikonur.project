@@ -1,4 +1,4 @@
-import { Sequelize, SequelizeOptions } from 'sequelize-typescript'
+import { Sequelize } from 'sequelize-typescript'
 import { Topics } from './src/server/tables/topics'
 import { Comments } from './src/server/tables/comments'
 
@@ -27,7 +27,9 @@ const port = process.env.PORT || 3000
 const start = async () => {
     try {
         await sequelize.authenticate()
-        await sequelize.sync({force: true})
+        await sequelize.sync()
+        let a = await  Comments.findAll();
+        console.log(a);
         app.listen(port, () => {
             console.log(`Application is started on localhost:${port}`)
         })
