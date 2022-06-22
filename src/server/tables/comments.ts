@@ -10,8 +10,6 @@ import {
 
 // @ts-ignore
 @Table({
-    timestamps: false, // don't add 'created_at', 'updated_at'
-    paranoid: true, // add 'deleted_at'
     tableName: 'comments',
 })
 export class Comments extends Model<Comments> {

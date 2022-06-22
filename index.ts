@@ -1,26 +1,9 @@
-import { Sequelize } from 'sequelize-typescript'
-import { Topics } from './src/server/tables/topics'
-import { Comments } from './src/server/tables/comments'
+import { db } from './src/server/tables/'
 
 require('dotenv').config()
 
-const { app } = require('./dist/server.js')
+const { app, sequelize } = require('./dist/server.js')
 
-export const sequelize = new Sequelize({
-    host: process.env.DB_HOST,
-    port: Number(process.env.DB_PORT),
-    username: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    models: [Topics, Comments],
-    dialect: 'postgres',
-    pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000,
-    },
-})
 
 const port = process.env.PORT || 3000
 
@@ -28,8 +11,6 @@ const start = async () => {
     try {
         await sequelize.authenticate()
         await sequelize.sync()
-        let a = await  Comments.findAll();
-        console.log(a);
         app.listen(port, () => {
             console.log(`Application is started on localhost:${port}`)
         })

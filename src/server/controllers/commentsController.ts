@@ -1,14 +1,15 @@
-import { Comments } from '../tables/comments'
+import { db } from '../tables'
+import { sequelize } from '../../../index';
 
 export const create = async (req: Request, res: Response) => {
 
-    const comment = await Comments.create(req.body)
+    const comment = await db.Comments.create(req.body)
     return res.json(comment)
 }
 
 export const show = async (req: Request, res: Response, next: any) => {
     try {
-        const comment = await Comments.findAll()
+        const comment = await db.Comments.findAll()
         // @ts-ignore
         return res.json(comment)
     } catch (e) {

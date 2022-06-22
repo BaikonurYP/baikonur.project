@@ -1,7 +1,7 @@
 import { Comments } from './comments'
 import { Topics } from './topics'
 
-export default {
+export const db = {
     Comments,
     Topics,
 }
