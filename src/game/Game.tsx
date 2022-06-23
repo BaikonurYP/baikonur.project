@@ -97,7 +97,7 @@ class Game {
         this.canvasWidth = ctx.canvas.width
         this.canvasHeight = ctx.canvas.height
         this.complexity = 1
-        this.player = new Player(playerImage, {
+        this.player = new Player(playerImage || ShipImg, {
             position: {
                 x: this.canvasWidth / 2,
                 y: this.canvasHeight,

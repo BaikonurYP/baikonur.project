@@ -1,5 +1,3 @@
-import { db } from './src/server/tables/'
-
 require('dotenv').config()
 
 const { app, sequelize } = require('./dist/server.js')

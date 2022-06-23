@@ -4,12 +4,18 @@ import { ButtonMainStyled } from './buttonMainStyled'
 
 export interface ButtonMainProps {
     children: string
-    onClick: () => void
+    onClick?: () => void
     color?: string
+    type: "button" | "submit" | "reset"
 }
 
 const ButtonMain: FC<ButtonMainProps> = (props) => {
-    return <ButtonMainStyled {...props} type="button"></ButtonMainStyled>
+    const { type = 'button'} = props
+    return (
+        <ButtonMainStyled
+            {...props}
+            type={type || 'button'} />
+    )
 }
 
 export default ButtonMain

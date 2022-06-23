@@ -34,6 +34,6 @@ app.use(express.json())
 
 app.use('/api', router)
 
-app.get('/', serverRenderMiddleware)
+app.get('/*', serverRenderMiddleware)
 
 export { app }

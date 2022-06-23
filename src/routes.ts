@@ -17,6 +17,7 @@ import ForumThemePage from './pages/ForumPage/ForumThemePage'
 import LeaderboardPage from './pages/LeaderboardPage/LeaderboardPage'
 import Page404 from './pages/404Page/404Page'
 import Page500 from './pages/500Page/500Page'
+import { fetchTopics } from './store/actions/topicsAction'
 
 export default [
     {
@@ -57,6 +58,9 @@ export default [
         path: '/forum',
         wrappedComponent: ForumPage,
         isProtected: true,
+        fetchData({ dispatch }: RouterFetchDataArgs) {
+            dispatch(fetchTopics())
+        },
     },
     {
         path: '/leaderboard',
