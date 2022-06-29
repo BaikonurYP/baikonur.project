@@ -1,29 +1,22 @@
 import { combineReducers } from 'redux'
-import { persistStore, persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
+import { connectRouter } from 'connected-react-router'
+import { History } from 'history'
+
 import { leadersReducer } from './leaderReducer'
 import { userReducer } from './userReducer'
 import { skinReducer } from './SkinReducer'
 import { authReducer } from './authReducer'
 
-const persistSkinConfig = {
-    key: 'skin',
-    storage
-}
+import { State } from '../types/redux'
 
-const persistAuthConfig = {
-    key: 'auth',
-    storage
-}
-
-const persistedSkinReducer = persistReducer(persistSkinConfig, skinReducer)
-const persistedAuthReducer = persistReducer(persistAuthConfig, authReducer)
-
-export const rootReducer = combineReducers({
-    leaders: leadersReducer,
-    user: userReducer,
-    playerSkin: persistedSkinReducer,
-    auth: persistedAuthReducer
-})
+export const rootReducer = (history: History) =>
+    combineReducers<State>({
+        leaders: leadersReducer,
+        user: userReducer,
+        playerSkin: skinReducer,
+        auth: authReducer,
+        // @ts-ignore
+        router: connectRouter(history),
+    })
 
 export type RootState = ReturnType<typeof rootReducer>

@@ -43,7 +43,7 @@ export class BaseApi {
             url: url,
             baseURL: this.BASE_URL,
             method: method,
-            withCredentials: true
+            withCredentials: true,
         }
         if (data) {
             if (method == HTTPMethod.GET) {

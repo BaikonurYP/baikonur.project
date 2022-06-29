@@ -10,7 +10,7 @@ import {
     SignUpAction,
     User,
     UserActionTypes,
-    UserState
+    UserState,
 } from '../types/userTypes'
 import {
     changeAvatarError,
@@ -25,7 +25,7 @@ import {
     loginSuccess,
     oAuthAccess,
     signUpError,
-    signUpSuccess
+    signUpSuccess,
 } from '../actions/userActions'
 import { changeAuthSuccess } from '../actions/authActions'
 import { RequestResult } from '../../core/http/api/types/RequestResult'
@@ -132,7 +132,7 @@ function* oAuthRequestUserSaga(
 ): Generator<StrictEffect, void, RequestResult<string>> {
     try {
         const res = (yield call(authApi.oAuth.bind(authApi), {
-            code: action.payload
+            code: action.payload,
         })) as RequestResult<string>
         if (res.successes) {
             yield put({ type: UserActionTypes.FETCH_USER })
@@ -212,6 +212,6 @@ export default function* rootSaga(): Generator<StrictEffect, void, any> {
             UserActionTypes.CHANGE_PASSWORDS_REQUEST,
             changeUserPasswordSaga
         ),
-        takeLatest(UserActionTypes.CHANGE_AVATAR_REQUEST, changeUserAvatarSaga)
+        takeLatest(UserActionTypes.CHANGE_AVATAR_REQUEST, changeUserAvatarSaga),
     ])
 }

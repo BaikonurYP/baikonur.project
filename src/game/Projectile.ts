@@ -17,7 +17,7 @@ export default class Projectile extends CanvasObject {
         this.position.x = options.position.x - this.width / 2
         this.velocity = {
             x: options.velocity.x,
-            y: options.velocity.y
+            y: options.velocity.y,
         }
         this.image.onload = () => {
             this.width = this.image.width

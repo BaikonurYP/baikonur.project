@@ -18,7 +18,7 @@ export default class Meteor extends CanvasObject {
         super(MeteorImg, options.position)
         this.velocity = {
             x: getRandom(3, -3),
-            y: getRandom(1, 3)
+            y: getRandom(1, 3),
         }
         this.lives = 1
         this.scale = options.scale

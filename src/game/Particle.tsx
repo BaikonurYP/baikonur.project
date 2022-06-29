@@ -28,7 +28,7 @@ export default class Particle {
     constructor(options: IParticleOption) {
         this.size = {
             min: options.size.min,
-            max: options.size.max
+            max: options.size.max,
         }
         this.position = options.position
         this.velocity = options.velocity

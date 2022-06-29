@@ -9,8 +9,8 @@ export const fetchLeadersApi = () =>
             { id: 2, name: 'Разрушитель', avatar: Skin2, cost: 7896540 },
             { id: 3, name: 'Уничтожитель 2', avatar: Skin3, cost: 7896540 },
             { id: 4, name: 'Уничтожитель', avatar: Skin1, cost: 7896540 },
-            { id: 5, name: 'Уничтожитель', avatar: Skin1, cost: 7896540 }
+            { id: 5, name: 'Уничтожитель', avatar: Skin1, cost: 7896540 },
         ],
         loading: false,
-        error: null
+        error: null,
     })

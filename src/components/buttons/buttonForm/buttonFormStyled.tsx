@@ -11,7 +11,7 @@ function getParamSize(init: number, size: ButtonSize): number {
         XS: 0.5,
         SM: 0.75,
         MD: 1,
-        LG: 2
+        LG: 2,
     }
 
     return sizesDict[size ?? 'MD'] * init

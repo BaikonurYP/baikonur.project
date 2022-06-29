@@ -1,21 +1,30 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import { PersistGate } from 'redux-persist/integration/react'
-import { BrowserRouter } from 'react-router-dom'
-import App from './components/App/App'
+import { ConnectedRouter } from 'connected-react-router'
+import { App } from './components/App/App'
 import Global from './styles/GlobalStyle/GlobalStyle'
+import 'babel-polyfill'
 
-import store, { persistor } from './store'
+import { State } from './store/types/redux'
+import { configureStore } from './store'
 
-ReactDOM.render(
+export const { store, history } = configureStore(window.__INITIAL_STATE__)
+
+// global redeclared types
+declare global {
+    interface Window {
+        __INITIAL_STATE__: State
+        __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: Function
+    }
+}
+
+ReactDOM.hydrate(
     <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-            <BrowserRouter>
-                <Global />
-                <App />
-            </BrowserRouter>
-        </PersistGate>
+        <ConnectedRouter history={history}>
+            <Global />
+            <App />
+        </ConnectedRouter>
     </Provider>,
     document.getElementById('root')
 )

@@ -16,7 +16,7 @@ const menuItems = [
     { title: 'Профиль', icon: IconProfile, path: '/profile' },
     { title: 'Форум', icon: IconForum, path: '/forum' },
     { title: 'Лидеры', icon: IconLeaders, path: '/leaderboard' },
-    { title: 'Игра', icon: IconPlay, path: '/home' }
+    { title: 'Игра', icon: IconPlay, path: '/home' },
 ]
 
 const Menu: FC = () => {

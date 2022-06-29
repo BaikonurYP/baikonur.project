@@ -19,11 +19,11 @@ export default class CanvasObject {
         }
         this.position = {
             x: position.x,
-            y: position.y
+            y: position.y,
         }
         this.velocity = {
             x: 0,
-            y: 0
+            y: 0,
         }
     }
 }
