@@ -8,7 +8,6 @@ import ProtectedRouteAuth from '../HOC/ProtectedRouteAuth'
 import routes from '../../routes'
 
 const App: FC = () => {
-    console.log(routes)
     return (
         <Switch>
             {routes.map(
