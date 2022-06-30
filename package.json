@@ -10,7 +10,7 @@
         "format": "prettier --write \"src/**/*.{ts,tsx}\" \"webpack/**/*.ts\"",
         "check-types": "tsc --noEmit",
         "start:webpack": "webpack --mode=development --watch",
-        "start:server": "nodemon index.ts --watch dist/server.js",
+        "start:server": "nodemon index.js --watch dist/server.js",
         "start": "NODE_ENV=development npm-run-all --print-label --parallel start:*",
         "precommit": "lint-staged",
         "test": "node_modules/.bin/jest",
