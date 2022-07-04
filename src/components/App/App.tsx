@@ -11,26 +11,24 @@ const App: FC = () => {
     return (
         <Switch>
             {routes.map(
-                ({
-                    fetchData,
-                    isProtected,
-                    isProtectedAuth,
-                    ...routeProps
-                }) => isProtected ? (
-                    <ProtectedRoute key={routeProps.path} {...routeProps} />
-                ) : isProtectedAuth ? (
-                    <ProtectedRouteAuth
-                        key={routeProps.path}
-                        {...routeProps}/>
-                ) : (
-                    !isProtectedAuth
-                        && !isProtected && (
-                        <Route
+                ({ fetchData, isProtected, isProtectedAuth, ...routeProps }) =>
+                    isProtected ? (
+                        <ProtectedRoute key={routeProps.path} {...routeProps} />
+                    ) : isProtectedAuth ? (
+                        <ProtectedRouteAuth
                             key={routeProps.path}
                             {...routeProps}
-                            exact/>
+                        />
+                    ) : (
+                        !isProtectedAuth &&
+                        !isProtected && (
+                            <Route
+                                key={routeProps.path}
+                                {...routeProps}
+                                exact
+                            />
+                        )
                     )
-                )
             )}
         </Switch>
     )
