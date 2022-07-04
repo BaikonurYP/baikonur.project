@@ -1,7 +1,7 @@
 import {
     fetchUser,
     oAuthAccess,
-    oAuthRequest,
+    oAuthRequest
 } from './store/actions/userActions'
 import { fetchLeaders } from './store/actions/leadersAction'
 
@@ -22,60 +22,60 @@ import { fetchTopics } from './store/actions/topicsAction'
 export default [
     {
         path: '/',
-        component: HomePage,
+        component: HomePage
     },
     {
         path: '/home',
-        wrappedComponent: HomePage,
-        isProtected: true,
+        component: HomePage,
+        isProtected: true
     },
     {
         path: '/login',
-        wrappedComponent: LoginPage,
-        isProtectedAuth: true,
+        component: LoginPage,
+        isProtectedAuth: true
     },
     {
         path: '/signup',
-        wrappedComponent: SignupPage,
-        isProtectedAuth: true,
+        component: SignupPage,
+        isProtectedAuth: true
     },
     {
         path: '/game',
-        wrappedComponent: GamePage,
-        isProtected: true,
+        component: GamePage,
+        isProtected: true
     },
     {
         path: '/profile',
-        wrappedComponent: ProfilePage,
-        isProtected: true,
+        component: ProfilePage,
+        isProtected: true
     },
     {
         path: '/forum/:id',
-        wrappedComponent: ForumThemePage,
-        isProtected: true,
+        component: ForumThemePage,
+        isProtected: true
     },
     {
         path: '/forum',
-        wrappedComponent: ForumPage,
+        component: ForumPage,
         isProtected: true,
-        fetchData({ dispatch }: RouterFetchDataArgs) {
+        fetchData({dispatch}: RouterFetchDataArgs) {
             dispatch(fetchTopics())
         },
     },
     {
         path: '/leaderboard',
-        wrappedComponent: LeaderboardPage,
+        component: LeaderboardPage,
         isProtected: true,
         fetchData({ dispatch }: RouterFetchDataArgs) {
             dispatch(fetchLeaders())
-        },
+        }
     },
     {
         path: '/500',
-        wrappedComponent: Page500,
+        component: Page500
     },
     {
         path: '*',
-        wrappedComponent: Page404,
-    },
+        component: Page404
+    }
 ]

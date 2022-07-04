@@ -4,12 +4,12 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
 import { fetchUser } from '../../store/actions/userActions'
 
 interface ProtectedRouteProps {
-    wrappedComponent?: any
+    component?: any
     path: string
 }
 
 const ProtectedRouteAuth: FC<ProtectedRouteProps> = ({
-    wrappedComponent: Component,
+    component: Component,
     path,
 }) => {
     const { user } = useAppSelector((state) => state.user)
