@@ -2,6 +2,7 @@ import * as React from 'react'
 import { useEffect, useState } from 'react'
 
 import { useHistory } from 'react-router-dom'
+import { Field, Form, Formik } from 'formik'
 
 import Container from '../../components/container/container'
 import {
@@ -13,14 +14,12 @@ import {
 } from './ForumPageStyled'
 
 import ButtonMain from '../../components/buttons/buttonMain/buttonMain'
-import { Column, DataList } from './ForumTypes'
+import { Column } from './ForumTypes'
 import { Layout } from '../../components/layout/layout'
 import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
 import { fetchTopics, saveTopic } from '../../store/actions/topicsAction'
 import { Topic } from '../../store/types/topicTypes'
-import ButtonText from '../../components/buttons/buttonText/buttonText'
 import Popup from '../../components/popup/Popup'
-import { Field, Form, Formik } from 'formik'
 
 const ForumPage: React.FC = () => {
     const history = useHistory()
@@ -47,11 +46,12 @@ const ForumPage: React.FC = () => {
         setVisible(false)
     }
 
-    const addTheme = (values) => {
+    const addTheme = (values: { title: string }) => {
+        const date = new Date()
         const data = {
             name: values.title,
             count: 0,
-            date: '23.06.2022',
+            date: date.toLocaleString('ru-RU'),
         }
         dispatch(saveTopic(data))
         onClose()
@@ -123,7 +123,7 @@ const ForumPage: React.FC = () => {
                                 }}
                             </Field>
                             <ButtonMain type="submit" color="yellow">
-                                Солздать тему
+                                Создать тему
                             </ButtonMain>
                         </Form>
                     </Formik>

@@ -20,7 +20,7 @@ type RequestOptions = {
 
 /** Базовое API для всех классов */
 export class BaseApi {
-    BASE_URL: string;
+    BASE_URL: string
 
     /** УРЛ сваггера */
     constructor() {

@@ -4,8 +4,9 @@ import { toast } from 'react-toastify'
 
 import {
     CommentActionTypes,
-    CommentState, FetchCommentAction,
-    SaveCommentAction
+    CommentState,
+    FetchCommentAction,
+    SaveCommentAction,
 } from '../types/commentsTypes'
 import { commentsApi } from '../../core/http/api/CommentsApi'
 import * as actions from '../actions/commentsAction'
@@ -16,10 +17,9 @@ function* getCommentsSaga(
     action: FetchCommentAction
 ): Generator<StrictEffect, void, CommentState> {
     try {
-        console.log(action)
-
         const data: RequestResult<CommentState> = (yield call(
-            commentsApi.getAll.bind(commentsApi), action.payload
+            commentsApi.getAll.bind(commentsApi),
+            action.payload
         )) as RequestResult<CommentState>
         yield put(actions.fetchCommentsSuccess(data.data))
     } catch (e) {
@@ -32,7 +32,10 @@ function* saveCommentSaga(
     action: SaveCommentAction
 ): Generator<StrictEffect, void, CommentState> {
     try {
-        const data = yield call(commentsApi.create.bind(commentsApi), action.payload)
+        const data = yield call(
+            commentsApi.create.bind(commentsApi),
+            action.payload
+        )
         yield put(actions.saveCommentSuccess(data.data))
     } catch (e) {
         yield put(actions.saveCommentError())
@@ -43,6 +46,6 @@ function* saveCommentSaga(
 export default function* rootSaga(): Generator<StrictEffect, void, any> {
     yield all([
         yield takeLatest(CommentActionTypes.FETCH_COMMENTS, getCommentsSaga),
-        yield takeLatest(CommentActionTypes.SAVE_COMMENT, saveCommentSaga)
+        yield takeLatest(CommentActionTypes.SAVE_COMMENT, saveCommentSaga),
     ])
 }

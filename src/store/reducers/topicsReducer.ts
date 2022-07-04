@@ -1,5 +1,8 @@
-
-import {TopicState, TopicsActionTypes, TopicsAction} from "../types/topicTypes";
+import {
+    TopicState,
+    TopicsActionTypes,
+    TopicsAction,
+} from '../types/topicTypes'
 
 export const initialState: TopicState = {
     topics: [],
@@ -25,7 +28,11 @@ export const topicsReducer = (
             return { ...state, loading: true }
 
         case TopicsActionTypes.SAVE_TOPIC_SUCCESS: {
-            return { ...state, topics: [...state.topics, action.payload], loading: false }
+            return {
+                ...state,
+                topics: [...state.topics, action.payload],
+                loading: false,
+            }
         }
 
         case TopicsActionTypes.SAVE_TOPIC_ERROR:

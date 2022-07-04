@@ -1,7 +1,7 @@
 import {
     fetchUser,
     oAuthAccess,
-    oAuthRequest
+    oAuthRequest,
 } from './store/actions/userActions'
 import { fetchLeaders } from './store/actions/leadersAction'
 
@@ -22,43 +22,43 @@ import { fetchTopics } from './store/actions/topicsAction'
 export default [
     {
         path: '/',
-        component: HomePage
+        component: HomePage,
     },
     {
         path: '/home',
         component: HomePage,
-        isProtected: true
+        isProtected: true,
     },
     {
         path: '/login',
         component: LoginPage,
-        isProtectedAuth: true
+        isProtectedAuth: true,
     },
     {
         path: '/signup',
         component: SignupPage,
-        isProtectedAuth: true
+        isProtectedAuth: true,
     },
     {
         path: '/game',
         component: GamePage,
-        isProtected: true
+        isProtected: true,
     },
     {
         path: '/profile',
         component: ProfilePage,
-        isProtected: true
+        isProtected: true,
     },
     {
         path: '/forum/:id',
         component: ForumThemePage,
-        isProtected: true
+        isProtected: true,
     },
     {
         path: '/forum',
         component: ForumPage,
         isProtected: true,
-        fetchData({dispatch}: RouterFetchDataArgs) {
+        fetchData({ dispatch }: RouterFetchDataArgs) {
             dispatch(fetchTopics())
         },
     },
@@ -68,14 +68,14 @@ export default [
         isProtected: true,
         fetchData({ dispatch }: RouterFetchDataArgs) {
             dispatch(fetchLeaders())
-        }
+        },
     },
     {
         path: '/500',
-        component: Page500
+        component: Page500,
     },
     {
         path: '*',
-        component: Page404
-    }
+        component: Page404,
+    },
 ]

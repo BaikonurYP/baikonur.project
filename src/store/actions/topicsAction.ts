@@ -15,10 +15,9 @@ export const saveTopic = (payload: Topic) => ({
     payload,
 })
 
-
 export const saveTopicSuccess = (payload: Topic) => ({
     type: TopicsActionTypes.SAVE_TOPIC_SUCCESS,
-    payload
+    payload,
 })
 
 export const saveTopicError = () => ({

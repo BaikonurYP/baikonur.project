@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 
 import { Formik, Form, Field } from 'formik'
 import Container from '../../components/container/container'
@@ -14,7 +14,7 @@ import {
     ForumBackStyled,
     ForumMessageStyled,
     ForumTextareaStyled,
-    ForumThemeTitle
+    ForumThemeTitle,
 } from './ForumPageStyled'
 
 import { Column } from './ForumTypes'
@@ -43,23 +43,22 @@ const ForumThemePage: React.FC = () => {
     }
 
     useEffect(() => {
-        console.log(topics)
-        console.log(id)
-        const curTopic = topics.find((item: Topic) => Number(item.id) === Number(id))
-        console.log(curTopic?.name)
+        const curTopic = topics.find(
+            (item: Topic) => Number(item.id) === Number(id)
+        )
         setTopicName(curTopic?.name)
         dispatch(fetchComments(id))
     }, [])
 
     const sendMessage = (values: any) => {
-        console.log(values)
+        const date = new Date()
         const dataToSend = {
             topic_id: id,
             message: values.message,
             user_id: user.id,
             user_name: user.display_name || user.login,
             user_avatar: user.avatar || '',
-            date: '23.06.2022'
+            date: date.toLocaleString('ru-RU'),
         }
         dispatch(saveComment(dataToSend))
     }
@@ -79,7 +78,9 @@ const ForumThemePage: React.FC = () => {
                                     </ForumBackStyled>
                                 </th>
                                 <th>
-                                    <ForumThemeTitle>{topicName}</ForumThemeTitle>
+                                    <ForumThemeTitle>
+                                        {topicName}
+                                    </ForumThemeTitle>
                                 </th>
                             </tr>
                         </thead>
@@ -92,11 +93,12 @@ const ForumThemePage: React.FC = () => {
                                                 src={
                                                     item?.user_avatar
                                                         ? urlToImage(
-                                                            item.user_avatar
-                                                        )
+                                                              item.user_avatar
+                                                          )
                                                         : Ava1
                                                 }
-                                                alt="avatar"/>
+                                                alt="avatar"
+                                            />
                                         </ForumAvaStyled>
                                     </td>
                                     <td>{item?.message}</td>
@@ -107,14 +109,16 @@ const ForumThemePage: React.FC = () => {
                     <ForumMessageStyled>
                         <Formik
                             initialValues={{ message: '' }}
-                            onSubmit={sendMessage}>
+                            onSubmit={sendMessage}
+                        >
                             <Form>
                                 <Field name="message">
                                     {({ field }) => (
                                         <ForumTextareaStyled
                                             name={field.name}
                                             value={field.value}
-                                            onChange={field.onChange}/>
+                                            onChange={field.onChange}
+                                        />
                                     )}
                                 </Field>
                                 <ButtonMain type="submit" color="yellow">

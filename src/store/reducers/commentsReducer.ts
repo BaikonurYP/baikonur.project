@@ -1,5 +1,8 @@
-
-import {CommentState, CommentActionTypes, CommentsAction} from "../types/commentsTypes";
+import {
+    CommentState,
+    CommentActionTypes,
+    CommentsAction,
+} from '../types/commentsTypes'
 
 export const initialState: CommentState = {
     comments: [],
@@ -25,7 +28,11 @@ export const commentsReducer = (
             return { ...state, loading: true }
 
         case CommentActionTypes.SAVE_COMMENT_SUCCESS: {
-            return { ...state, comments: [...state.comments, action.payload], loading: false }
+            return {
+                ...state,
+                comments: [...state.comments, action.payload],
+                loading: false,
+            }
         }
 
         case CommentActionTypes.SAVE_COMMENT_ERROR:

@@ -28,7 +28,10 @@ function* saveTopicSaga(
     action: SaveTopicAction
 ): Generator<StrictEffect, void, TopicState> {
     try {
-        const data = yield call(topicsApi.create.bind(topicsApi), action.payload)
+        const data = yield call(
+            topicsApi.create.bind(topicsApi),
+            action.payload
+        )
         yield put(actions.saveTopicSuccess(data.data))
     } catch (e) {
         yield put(actions.saveTopicError())

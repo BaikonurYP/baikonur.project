@@ -5,9 +5,8 @@ import { SwaggerCommentsInfo } from './types/SwaggerTypes'
 
 /** АПИ для работы с комментраиями */
 class CommentsApi extends BaseApi {
-
     constructor() {
-        super();
+        super()
         this.BASE_URL = 'http://localhost:3000/'
     }
 
@@ -25,22 +24,18 @@ class CommentsApi extends BaseApi {
         createdAt: string
         updatedAt: string
     }): Promise<RequestResult<string>> {
-        return this.request<string>(
-            'api/comments/',
-            HTTPMethod.POST,
-            data
-        )
+        return this.request<string>('api/comments/', HTTPMethod.POST, data)
     }
 
     /**
      * Список всех коммеентариев данного топика
      * @param data ID топика
      */
-    getAll(
-        id: number
-    ): Promise<RequestResult<SwaggerCommentsInfo>> {
-        console.log(id)
-        return this.request<SwaggerCommentsInfo>(`api/comments/topics/${id}`, HTTPMethod.GET)
+    getAll(id: number): Promise<RequestResult<SwaggerCommentsInfo>> {
+        return this.request<SwaggerCommentsInfo>(
+            `api/comments/topics/${id}`,
+            HTTPMethod.GET
+        )
     }
 }
 

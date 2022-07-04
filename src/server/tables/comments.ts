@@ -4,9 +4,8 @@ import {
     DataType,
     Column,
     AutoIncrement,
-    PrimaryKey
+    PrimaryKey,
 } from 'sequelize-typescript'
-
 
 // @ts-ignore
 @Table({
@@ -16,23 +15,23 @@ export class Comments extends Model<Comments> {
     @AutoIncrement
     @PrimaryKey
     @Column(DataType.INTEGER)
-        id: number
+    id: number
 
     @Column(DataType.INTEGER)
-        topic_id: number
+    topic_id: number
 
     @Column(DataType.STRING)
-        message: string
+    message: string
 
     @Column(DataType.INTEGER)
-        user_id: number
+    user_id: number
 
     @Column(DataType.STRING)
-        user_name: string
+    user_name: string
 
     @Column(DataType.STRING)
-        user_avatar: string
+    user_avatar: string
 
     @Column(DataType.STRING)
-        date: string
+    date: string
 }
