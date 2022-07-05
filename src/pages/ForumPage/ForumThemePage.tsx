@@ -17,7 +17,6 @@ import {
     ForumThemeTitle,
 } from './ForumPageStyled'
 
-import { Column } from './ForumTypes'
 import BackIcon from '../../images/icons/back.svg'
 import Ava1 from './images/ava1.svg'
 import ButtonMain from '../../components/buttons/buttonMain/buttonMain'

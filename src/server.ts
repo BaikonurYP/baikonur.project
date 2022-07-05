@@ -1,4 +1,5 @@
 import path from 'path'
+import cookieParser from 'cookie-parser'
 import express from 'express'
 import 'babel-polyfill'
 import { Sequelize } from 'sequelize-typescript'
@@ -31,6 +32,7 @@ app.use(cors())
 
 app.use(express.static(path.resolve(__dirname, '../dist')))
 app.use(express.json())
+app.use(cookieParser())
 
 app.use('/api', router)
 
