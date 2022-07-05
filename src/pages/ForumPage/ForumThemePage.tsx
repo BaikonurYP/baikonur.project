@@ -14,7 +14,7 @@ import {
     ForumBackStyled,
     ForumMessageStyled,
     ForumTextareaStyled,
-    ForumThemeTitle,
+    ForumThemeTitle
 } from './ForumPageStyled'
 
 import { Column } from './ForumTypes'
@@ -58,12 +58,12 @@ const ForumThemePage: React.FC = () => {
             user_id: user.id,
             user_name: user.display_name || user.login,
             user_avatar: user.avatar || '',
-            date: date.toLocaleString('ru-RU'),
+            date: date.toLocaleString('ru-RU')
         }
         dispatch(saveComment(dataToSend))
     }
 
-    const urlToImage = (url: string) => `${BASE_IMG_URL}/${url} `
+    const urlToImage = (url: string) => url ? `${BASE_IMG_URL}/${url}` : Ava1
 
     return (
         <Layout hasMenu>
@@ -90,15 +90,8 @@ const ForumThemePage: React.FC = () => {
                                     <td>
                                         <ForumAvaStyled>
                                             <img
-                                                src={
-                                                    item?.user_avatar
-                                                        ? urlToImage(
-                                                              item.user_avatar
-                                                          )
-                                                        : Ava1
-                                                }
-                                                alt="avatar"
-                                            />
+                                                src={urlToImage(item?.user_avatar)}
+                                                alt="avatar"/>
                                         </ForumAvaStyled>
                                     </td>
                                     <td>{item?.message}</td>
@@ -109,16 +102,14 @@ const ForumThemePage: React.FC = () => {
                     <ForumMessageStyled>
                         <Formik
                             initialValues={{ message: '' }}
-                            onSubmit={sendMessage}
-                        >
+                            onSubmit={sendMessage}>
                             <Form>
                                 <Field name="message">
                                     {({ field }) => (
                                         <ForumTextareaStyled
                                             name={field.name}
                                             value={field.value}
-                                            onChange={field.onChange}
-                                        />
+                                            onChange={field.onChange}/>
                                     )}
                                 </Field>
                                 <ButtonMain type="submit" color="yellow">

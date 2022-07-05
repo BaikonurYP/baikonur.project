@@ -1,15 +1,15 @@
 import { db } from '../tables'
 
-export const create = async (req: Request, res: Response, next: any) => {
+export const create = async (req: Request, res: Response) => {
     try {
         const comment = await db.Comments.create(req.body)
         return res.json(comment)
     } catch (e) {
-        next(e)
+        console.log(e)
     }
 }
 
-export const getByTopicId = async (req: Request, res: Response, next: any) => {
+export const getByTopicId = async (req: Request, res: Response) => {
     try {
         const { id } = req.params
         const comment = await db.Comments.findAll({
@@ -17,9 +17,8 @@ export const getByTopicId = async (req: Request, res: Response, next: any) => {
                 topic_id: id,
             },
         })
-        // @ts-ignore
         return res.json(comment)
     } catch (e) {
-        next(e)
+        console.log(e)
     }
 }

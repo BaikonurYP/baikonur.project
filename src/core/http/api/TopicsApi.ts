@@ -1,3 +1,4 @@
+import React from 'react'
 import { BaseApi } from './BaseApi'
 import { HTTPMethod } from './types/HTTPTypes'
 import { RequestResult } from './types/RequestResult'
@@ -5,9 +6,9 @@ import { SwaggerCommentsInfo } from './types/SwaggerTypes'
 
 /** АПИ для работы с комментраиями */
 class TopicsApi extends BaseApi {
-    constructor() {
+    constructor(url: string) {
         super()
-        this.BASE_URL = 'http://localhost:3000/'
+        this.BASE_URL = url
     }
 
     /**
@@ -40,4 +41,4 @@ class TopicsApi extends BaseApi {
     }
 }
 
-export const topicsApi = new TopicsApi()
+export const topicsApi = new TopicsApi(process.env.REACT_APP_API_URL)

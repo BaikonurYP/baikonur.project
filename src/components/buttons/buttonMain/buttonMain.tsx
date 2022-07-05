@@ -11,7 +11,7 @@ export interface ButtonMainProps {
 
 const ButtonMain: FC<ButtonMainProps> = (props) => {
     const { type = 'button' } = props
-    return <ButtonMainStyled {...props} type={type || 'button'} />
+    return <ButtonMainStyled {...props} type={type} />
 }
 
 export default ButtonMain

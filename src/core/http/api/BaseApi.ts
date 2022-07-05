@@ -20,12 +20,7 @@ type RequestOptions = {
 
 /** Базовое API для всех классов */
 export class BaseApi {
-    BASE_URL: string
-
-    /** УРЛ сваггера */
-    constructor() {
-        this.BASE_URL = 'https://ya-praktikum.tech/api/v2'
-    }
+    BASE_URL: string = 'https://ya-praktikum.tech/api/v2'
 
     /**
      * Запрос к АПИ

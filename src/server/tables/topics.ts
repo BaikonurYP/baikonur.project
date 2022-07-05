@@ -4,26 +4,24 @@ import {
     DataType,
     Column,
     AutoIncrement,
-    PrimaryKey,
+    PrimaryKey
 } from 'sequelize-typescript'
 
 @Table({
-    timestamps: false, // don't add 'created_at', 'updated_at'
-    paranoid: true, // add 'deleted_at'
-    tableName: 'topics',
+    tableName: 'topics'
 })
 export class Topics extends Model<Topics> {
     @AutoIncrement
     @PrimaryKey
     @Column(DataType.INTEGER)
-    id: number
+        id: number
 
     @Column(DataType.STRING)
-    name: string
+        name: string
 
     @Column(DataType.INTEGER)
-    count: number
+        count: number
 
     @Column(DataType.STRING)
-    date: string
+        date: string
 }

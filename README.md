@@ -80,12 +80,12 @@ npm run build
 ```sh
 PORT=3000
 DB_NAME=baikonurdb
-DB_USER=dbuser
-DB_PASSWORD=dbpassword
+DB_USER=postgres
+DB_PASSWORD=postgres
 DB_HOST=localhost
 DB_PORT=5432
 SECRET_KEY=random_secret_key123
 
-REACT_APP_API_URL=url
+REACT_APP_API_URL='http://localhost:3000/'
 
 ```

@@ -5,9 +5,9 @@ import { SwaggerCommentsInfo } from './types/SwaggerTypes'
 
 /** АПИ для работы с комментраиями */
 class CommentsApi extends BaseApi {
-    constructor() {
+    constructor(url: string) {
         super()
-        this.BASE_URL = 'http://localhost:3000/'
+        this.BASE_URL = url
     }
 
     /**
@@ -39,4 +39,4 @@ class CommentsApi extends BaseApi {
     }
 }
 
-export const commentsApi = new CommentsApi()
+export const commentsApi = new CommentsApi(process.env.REACT_APP_API_URL)
