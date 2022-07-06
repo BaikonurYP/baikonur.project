@@ -91,7 +91,7 @@ function getHtml(reactHtml: string, styleTags: string, reduxState: {}, helmet: H
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Байконур</title>
-        <script nonce=${nonce} defer src="/main.js"></script>
+        <script defer src="/main.js"></script>
         ${helmet.title.toString()}
         ${helmet.meta.toString()}
         ${helmet.link.toString()}
@@ -99,7 +99,7 @@ function getHtml(reactHtml: string, styleTags: string, reduxState: {}, helmet: H
     </head>
     <body>
         <div id="root">${reactHtml}</div>
-        <script nonce=${nonce}>
+        <script>
                 window.__INITIAL_STATE__ = ${JSON.stringify(reduxState)}
         </script>
     </body>
