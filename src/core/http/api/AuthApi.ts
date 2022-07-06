@@ -1,3 +1,4 @@
+import { AxiosRequestConfig } from 'axios'
 import { BaseApi } from './BaseApi'
 import { HTTPMethod } from './types/HTTPTypes'
 import { RequestResult } from './types/RequestResult'
@@ -36,8 +37,8 @@ class AuthApi extends BaseApi {
     }
 
     /** Получить текущего юзера */
-    user(): Promise<RequestResult<SwaggerUserInfo>> {
-        return this.request<SwaggerUserInfo>('auth/user', HTTPMethod.GET)
+    user(options?: AxiosRequestConfig | undefined): Promise<RequestResult<SwaggerUserInfo>> {
+        return this.request<SwaggerUserInfo>('auth/user', HTTPMethod.GET, {} ,{ ...options })
     }
 
     /** Выход */
