@@ -12,7 +12,7 @@ const ProtectedRouteAuth: FC<ProtectedRouteProps> = ({
     component: Component,
     path,
 }) => {
-    const user = useAppSelector((state) => state.user)
+    const { user } = useAppSelector((state) => state.user)
     const { isAuth } = useAppSelector((state) => state.auth)
 
     return (

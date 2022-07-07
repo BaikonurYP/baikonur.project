@@ -9,7 +9,7 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
         const { data } = await authApi.user({
             headers: { cookie: req.headers.cookie! },
         })
-        res.locals.user = data
+        res.locals.user = { user: data, loading: false }
         if (data.id) {
             res.locals.auth = { isAuth: true, loading: false, error: null }
         }

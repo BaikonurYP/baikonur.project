@@ -33,9 +33,9 @@ const ForumThemePage: React.FC = () => {
     const [topicName, setTopicName] = useState('')
 
     const dispatch = useAppDispatch()
-    const comments = useAppSelector((state) => state.comments.comments)
-    const user = useAppSelector((state) => state.user.user)
-    const topics = useAppSelector((state) => state.topics.topics)
+    const { comments } = useAppSelector((state) => state.comments)
+    const { user } = useAppSelector((state) => state.user)
+    const { topics } = useAppSelector((state) => state.topics)
 
     const goBack = () => {
         history.push('/forum')

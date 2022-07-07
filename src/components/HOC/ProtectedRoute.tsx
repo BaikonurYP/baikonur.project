@@ -14,7 +14,7 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({
 }) => {
     const dispatch = useAppDispatch()
     const { isAuth } = useAppSelector((state) => state.auth)
-    const user = useAppSelector((state) => state.user)
+    const { user } = useAppSelector((state) => state.user)
 
     useEffect(() => {
         if (!isAuth) {

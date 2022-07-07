@@ -42,7 +42,7 @@ export default (req: Request, res: Response) => {
         const helmet = Helmet.renderStatic()
 
         res.status(context.statusCode || 200).send(
-            getHtml(reactHtml, styleTags, reduxState, helmet)
+            getHtml(reactHtml, styleTags, reduxState, helmet, req.csrfToken())
         )
     }
 
@@ -82,7 +82,7 @@ export default (req: Request, res: Response) => {
         })
 }
 
-function getHtml(reactHtml: string, styleTags: string, reduxState: {}, helmet: HelmetData) {
+function getHtml(reactHtml: string, styleTags: string, reduxState: {}, helmet: HelmetData, nonce: string) {
     return `
     <!doctype html>
     <html lang="en">
@@ -91,7 +91,7 @@ function getHtml(reactHtml: string, styleTags: string, reduxState: {}, helmet: H
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Байконур</title>
-        <script defer src="/main.js"></script>
+        <script nonce=${nonce} defer src="/main.js"></script>
         ${helmet.title.toString()}
         ${helmet.meta.toString()}
         ${helmet.link.toString()}
@@ -99,7 +99,7 @@ function getHtml(reactHtml: string, styleTags: string, reduxState: {}, helmet: H
     </head>
     <body>
         <div id="root">${reactHtml}</div>
-        <script>
+        <script nonce=${nonce}>
                 window.__INITIAL_STATE__ = ${JSON.stringify(reduxState)}
         </script>
     </body>
