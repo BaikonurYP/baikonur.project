@@ -10,7 +10,7 @@ import {
     HomeTitleStyled,
     SkinWrapStyled,
     SkinAvaStyled,
-    SkinNameStyled
+    SkinNameStyled,
 } from './HomePageStyled'
 
 import Skin1 from '../../images/skins/plain_1.svg'
@@ -24,7 +24,7 @@ const skins = [
     { title: 'Зеленый гоблин', image: Skin1 },
     { title: 'Красная жара', image: Skin2 },
     { title: 'Смурфик', image: Skin3 },
-    { title: 'Желтый карлик', image: Skin4 }
+    { title: 'Желтый карлик', image: Skin4 },
 ]
 
 const userName = 'Великий уравнитель'

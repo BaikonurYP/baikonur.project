@@ -1,25 +1,47 @@
-import { applyMiddleware, createStore, compose } from 'redux'
-import { persistStore } from 'redux-persist'
-
+import { createStore, compose, applyMiddleware, Store } from 'redux'
+import createSagaMiddleware, { END, SagaMiddleware } from 'redux-saga'
+import { routerMiddleware } from 'connected-react-router'
 import logger from 'redux-logger'
-import createSagaMiddleware from 'redux-saga'
-import { StrictEffect } from '@redux-saga/types'
-
+import { createBrowserHistory, createMemoryHistory, History } from 'history'
+import { AppStore, State } from './types/redux'
 import { rootReducer } from './reducers'
-import saga from './saga'
+import rootSaga from './saga'
 
-const sagaMiddleware = createSagaMiddleware()
+function getComposeEnhancers() {
+    if (process.env.NODE_ENV !== 'production' && !isServer) {
+        return window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+    }
 
-const sagaConnect = (
-    ...sagas: (() => Generator<StrictEffect, void, any>)[]
-) => {
-    sagas.forEach((saga) => sagaMiddleware.run(saga))
+    return compose
 }
 
-const store = createStore(rootReducer, applyMiddleware(logger, sagaMiddleware))
+export const isServer = !(
+    typeof window !== 'undefined' &&
+    window.document &&
+    window.document.createElement
+)
 
-export const persistor = persistStore(store)
+export function configureStore(initialState: State, url = '/') {
+    const history = isServer
+        ? createMemoryHistory({ initialEntries: [url] })
+        : createBrowserHistory()
 
-sagaConnect(...saga)
+    const sagaMiddleware = createSagaMiddleware()
+    const composeEnhancers = getComposeEnhancers()
+    const middlewares = [routerMiddleware(history), sagaMiddleware, logger]
 
-export default store
+    const store = createStore(
+        rootReducer(history),
+        initialState,
+        composeEnhancers(applyMiddleware(...middlewares))
+    ) as AppStore
+
+    store.runSaga = sagaMiddleware.run
+    store.close = () => store.dispatch(END)
+
+    if (!isServer) {
+        sagaMiddleware.run(rootSaga)
+    }
+
+    return { store, history }
+}

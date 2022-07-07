@@ -4,19 +4,19 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
 import { fetchUser } from '../../store/actions/userActions'
 
 interface ProtectedRouteProps {
-    wrappedComponent: any
+    component?: any
     path: string
 }
 
 const ProtectedRouteAuth: FC<ProtectedRouteProps> = ({
-    wrappedComponent: Component,
-    path
+    component: Component,
+    path,
 }) => {
     const { user } = useAppSelector((state) => state.user)
     const { isAuth } = useAppSelector((state) => state.auth)
 
     return (
-        <Route path={path}>
+        <Route path={path} exact>
             {isAuth && user ? <Redirect to="./home" /> : <Component />}
         </Route>
     )

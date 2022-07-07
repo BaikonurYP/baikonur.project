@@ -7,7 +7,6 @@ import Invader from './Invader'
 import Particle from './Particle'
 import Perk from './Perk'
 
-import ShipImg from '../images/player/plain_1.svg'
 import MeteorImg from '../images/Meteors/Meteor.png'
 import InvaderImg from '../images/invaders/enemy_1.svg'
 import Invider2Img from '../images/invaders/enemy_2.svg'
@@ -25,7 +24,7 @@ const keyMap = {
     s: false,
     d: false,
     space: false,
-    esc: false
+    esc: false,
 }
 
 type ShootingObjects = Invader
@@ -85,6 +84,10 @@ class Game {
 
     complexityTimeStep: number
 
+    gamepad: any
+
+    gamepadAxex: any
+
     constructor(
         ctx: CanvasRenderingContext2D,
         playerImage: string,
@@ -100,8 +103,8 @@ class Game {
         this.player = new Player(playerImage, {
             position: {
                 x: this.canvasWidth / 2,
-                y: this.canvasHeight
-            }
+                y: this.canvasHeight,
+            },
         })
         this.playerSpeed = 7
         this.invaders = []
@@ -109,10 +112,10 @@ class Game {
             new Meteor(MeteorImg, {
                 position: {
                     x: getRandom(10, this.canvasWidth - 10),
-                    y: -20
+                    y: -20,
                 },
-                scale: 1
-            })
+                scale: 1,
+            }),
         ]
         this.projectiles = []
         this.enemiesProjectiles = []
@@ -131,6 +134,7 @@ class Game {
         this.invaderTimeStep = 0
         this.perkTimeStep = 0
         this.complexityTimeStep = 0
+        this.gamepad = null
     }
 
     fireUpgrade = () => {
@@ -155,42 +159,38 @@ class Game {
 
     addListeners() {
         addEventListener('keydown', ({ key }) => {
-            switch (key) {
-                case 'w':
-                    keyMap.w = true
-                    break
-                case 'a':
-                    keyMap.a = true
-                    break
-                case 's':
-                    keyMap.s = true
-                    break
-                case 'd':
-                    keyMap.d = true
-                    break
-                case ' ':
-                    keyMap.space = true
-                    break
+            if (key === 'w' || key === 'ц') {
+                keyMap.w = true
+            }
+            if (key === 'a' || key === 'ф') {
+                keyMap.a = true
+            }
+            if (key === 's' || key === 'ы') {
+                keyMap.s = true
+            }
+            if (key === 'd' || key === 'в') {
+                keyMap.d = true
+            }
+            if (key === ' ') {
+                keyMap.space = true
             }
         })
 
         addEventListener('keyup', ({ key }) => {
-            switch (key) {
-                case 'w':
-                    keyMap.w = false
-                    break
-                case 'a':
-                    keyMap.a = false
-                    break
-                case 's':
-                    keyMap.s = false
-                    break
-                case 'd':
-                    keyMap.d = false
-                    break
-                case ' ':
-                    keyMap.space = false
-                    break
+            if (key === 'w' || key === 'ц') {
+                keyMap.w = false
+            }
+            if (key === 'a' || key === 'ф') {
+                keyMap.a = false
+            }
+            if (key === 's' || key === 'ы') {
+                keyMap.s = false
+            }
+            if (key === 'd' || key === 'в') {
+                keyMap.d = false
+            }
+            if (key === ' ') {
+                keyMap.space = false
             }
         })
     }
@@ -205,6 +205,36 @@ class Game {
     }
 
     control() {
+        if (this.gamepad) {
+            const buttons = this.gamepad.buttons
+            if (buttons[14].pressed && this.player.position.x >= 0) {
+                this.player.position.x -= this.playerSpeed
+            }
+            //right
+            if (
+                buttons[15].pressed &&
+                this.player.position.x + this.player.width <=
+                    this.ctx.canvas.width
+            ) {
+                this.player.position.x += this.playerSpeed
+            }
+            //up
+            if (buttons[12].pressed && this.player.position.y >= 200) {
+                this.player.position.y -= this.playerSpeed
+            }
+            //down
+            if (
+                buttons[13].pressed &&
+                this.player.position.y + this.player.height <=
+                    this.ctx.canvas.height
+            ) {
+                this.player.position.y += this.playerSpeed
+            }
+            if (buttons[0].pressed) {
+                this.shoot()
+            }
+        }
+
         if (keyMap.a && this.player.position.x >= 0) {
             this.player.position.x -= this.playerSpeed
         }
@@ -257,9 +287,9 @@ class Game {
             new Projectile(PlayerProjectileImg, {
                 position: {
                     x: this.player.position.x + this.player.width / 2,
-                    y: this.player.position.y
+                    y: this.player.position.y,
                 },
-                velocity: { x: 0, y: -10 }
+                velocity: { x: 0, y: -10 },
             })
         )
         this.per = per
@@ -271,17 +301,17 @@ class Game {
                 new Particle({
                     position: {
                         x: position.x,
-                        y: position.y
+                        y: position.y,
                     },
                     velocity: {
                         x: getRandom(-3, 3),
-                        y: getRandom(-3, 3)
+                        y: getRandom(-3, 3),
                     },
                     size: {
                         min: 0.1,
-                        max: 5
+                        max: 5,
                     },
-                    color: '#BAA0DE'
+                    color: '#BAA0DE',
                 })
             )
         }
@@ -314,9 +344,9 @@ class Game {
             new Projectile(InvaderProjectileImg, {
                 position: {
                     x: enemy.position.x + enemy.width / 2,
-                    y: enemy.position.y + enemy.height
+                    y: enemy.position.y + enemy.height,
                 },
-                velocity: { x: 0, y: 5 }
+                velocity: { x: 0, y: 5 },
             })
         )
     }
@@ -328,10 +358,10 @@ class Game {
                 new Invader(Invider2Img, {
                     position: {
                         x: position.x,
-                        y: position.y
+                        y: position.y,
                     },
                     scale: 1.2,
-                    lives: 3
+                    lives: 3,
                 })
             )
         }, 0)
@@ -357,7 +387,7 @@ class Game {
                 ) {
                     this.transformInvider({
                         x: firstInvider.position.x,
-                        y: firstInvider.position.y
+                        y: firstInvider.position.y,
                     })
                 }
             }
@@ -407,7 +437,7 @@ class Game {
                 setTimeout(() => {
                     this.createPaticles({
                         x: projectile.position.x,
-                        y: projectile.position.y
+                        y: projectile.position.y,
                     })
 
                     if (enemy.lives === 1) {
@@ -445,7 +475,7 @@ class Game {
             objectsArr.splice(index, 1)
             this.createPaticles({
                 x: object.position.x,
-                y: object.position.y
+                y: object.position.y,
             })
 
             this.player.lives -= 1
@@ -486,18 +516,18 @@ class Game {
                 new Particle({
                     position: {
                         x: getRandom(0, this.canvasWidth),
-                        y: getRandom(0, this.canvasHeight)
+                        y: getRandom(0, this.canvasHeight),
                     },
                     velocity: {
                         x: 0,
-                        y: 0.3
+                        y: 0.3,
                     },
                     size: {
                         min: 0.1,
-                        max: 3
+                        max: 3,
                     },
                     fades: true,
-                    color: 'white'
+                    color: 'white',
                 })
             )
         }
@@ -561,7 +591,7 @@ class Game {
                                     this.player.width,
                                     this.canvasWidth - this.player.width
                                 ),
-                                y: -30
+                                y: -30,
                             },
                             this.fireUpgrade
                         )
@@ -576,7 +606,7 @@ class Game {
                                     this.player.width,
                                     this.canvasWidth - this.player.width
                                 ),
-                                y: -30
+                                y: -30,
                             },
                             this.liveUpgrade
                         )
@@ -591,7 +621,7 @@ class Game {
                                     this.player.width,
                                     this.canvasWidth - this.player.width
                                 ),
-                                y: -30
+                                y: -30,
                             },
                             this.timeUpgrade
                         )
@@ -610,9 +640,9 @@ class Game {
                 new Meteor(MeteorImg, {
                     position: {
                         x: getRandom(60, this.canvasWidth - 60),
-                        y: -60
+                        y: -60,
                     },
-                    scale: 1
+                    scale: 1,
                 })
             )
             this.meteorTimeStep = meteorStep
@@ -636,10 +666,10 @@ class Game {
                 new Invader(InvaderImg, {
                     position: {
                         x: getRandom(0, this.canvasWidth),
-                        y: -40
+                        y: -40,
                     },
                     scale: 1,
-                    lives: 1
+                    lives: 1,
                 })
             )
             this.invaderTimeStep = invaderStep
@@ -659,6 +689,13 @@ class Game {
     animate = () => {
         if (!this.pause) {
             requestAnimationFrame(this.animate)
+        }
+        if (typeof window !== 'undefined') {
+            const gamepads = navigator.getGamepads()
+            if (gamepads[0]) {
+                this.gamepad = gamepads[0]
+                this.gamepadAxex = gamepads[0].axes
+            }
         }
         this.drawBackground()
         this.particlesUpdate()
@@ -686,7 +723,7 @@ class Game {
     restart() {
         this.player.position = {
             x: this.canvasWidth / 2 - this.player.width / 2,
-            y: this.canvasHeight - this.player.height - 20
+            y: this.canvasHeight - this.player.height - 20,
         }
         this.point = 0
         this.player.lives = 3

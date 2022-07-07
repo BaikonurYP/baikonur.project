@@ -14,7 +14,7 @@ export default class Perk extends CanvasObject {
         }
         this.velocity = {
             x: 0,
-            y: 1
+            y: 1,
         }
         this.upgrade = upgrade
     }

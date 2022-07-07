@@ -3,7 +3,7 @@ import React, { FC } from 'react'
 import {
     ButtonContainerStyled,
     ButtonFormStyled,
-    ButtonSize
+    ButtonSize,
 } from './buttonFormStyled'
 
 interface ButtonFormProps {

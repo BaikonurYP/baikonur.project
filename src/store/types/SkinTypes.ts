@@ -7,7 +7,7 @@ export interface SkinState {
 export enum SkinActionTypes {
     CHANGE_SKIN = 'CHANGE_SKIN',
     CHANGE_SKIN_SUCCESS = 'CHANGE_SKIN_SUCCESS',
-    CHANGE_SKIN_ERROR = 'CHANGE_SKIN_ERROR'
+    CHANGE_SKIN_ERROR = 'CHANGE_SKIN_ERROR',
 }
 
 interface ChangeSkinAction {

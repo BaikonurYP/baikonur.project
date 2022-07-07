@@ -84,5 +84,5 @@ export {
     nameValidationChain,
     displayNameValidationChain,
     emailValidationChain,
-    phoneValidationChain
+    phoneValidationChain,
 }

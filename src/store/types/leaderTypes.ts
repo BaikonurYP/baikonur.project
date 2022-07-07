@@ -21,7 +21,7 @@ export enum LeadersActionTypes {
     FETCH_LEADERS_ERROR = 'FETCH_LEADERS_ERROR',
     SAVE_LEADER = 'SAVE_LEADER',
     SAVE_LEADER_SUCCESS = 'SAVE_LEADER_SUCCESS',
-    SAVE_LEADER_ERROR = 'SAVE_LEADER_ERROR'
+    SAVE_LEADER_ERROR = 'SAVE_LEADER_ERROR',
 }
 export interface FetchLeadersAction {
     type: LeadersActionTypes.FETCH_LEADERS

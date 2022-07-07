@@ -15,7 +15,7 @@ import {
     LiveContainer,
     Live,
     Points,
-    CanvasStyled
+    CanvasStyled,
 } from './GameComponentStyled'
 import ButtonFullScreen from '../buttons/buttonFullScreen/buttonFullScreen'
 import { saveLeader } from '../../store/actions/leadersAction'
@@ -46,7 +46,7 @@ const GameComponent: FC = () => {
         const ctx = ref.current.getContext('2d')
         const game = new Game(
             ctx,
-            image,
+            ShipImg,
             onChangePoints,
             onChangeLives,
             onChangeLevel
@@ -68,7 +68,7 @@ const GameComponent: FC = () => {
                 login: user.login,
                 name: user.display_name,
                 baikonurScore: points,
-                avatar: user.avatar
+                avatar: user.avatar,
             }
             dispatch(saveLeader(data))
         }

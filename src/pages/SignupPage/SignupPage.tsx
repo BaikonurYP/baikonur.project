@@ -12,7 +12,7 @@ import {
     loginValidationChain,
     nameValidationChain,
     passwordValidationChain,
-    phoneValidationChain
+    phoneValidationChain,
 } from '../../components/inputs/validators'
 import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
 import { fetchUser, signUp } from '../../store/actions/userActions'
@@ -28,7 +28,7 @@ const SignupPage: FC = () => {
             first_name: '',
             second_name: '',
             phone: '',
-            email: ''
+            email: '',
         },
         validationSchema: yup.object({
             login: loginValidationChain,
@@ -36,12 +36,12 @@ const SignupPage: FC = () => {
             first_name: nameValidationChain,
             second_name: nameValidationChain,
             email: emailValidationChain,
-            phone: phoneValidationChain
+            phone: phoneValidationChain,
         }),
         onSubmit: (values, { setSubmitting }) => {
             setSubmitting(false)
             dispatch(signUp(values))
-        }
+        },
     })
 
     return (
