@@ -6,6 +6,8 @@ import { leadersReducer } from './leaderReducer'
 import { userReducer } from './userReducer'
 import { skinReducer } from './SkinReducer'
 import { authReducer } from './authReducer'
+import { topicsReducer } from './topicsReducer'
+import { commentsReducer } from './commentsReducer'
 
 import { State } from '../types/redux'
 
@@ -15,6 +17,11 @@ export const rootReducer = (history: History) =>
         user: userReducer,
         playerSkin: skinReducer,
         auth: authReducer,
+<<<<<<< HEAD
+=======
+        topics: topicsReducer,
+        comments: commentsReducer,
+>>>>>>> main
         // @ts-ignore
         router: connectRouter(history),
     })

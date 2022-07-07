@@ -142,7 +142,7 @@ const GameComponent: FC = () => {
                         {Array(playerLives)
                             .fill(null)
                             .map((value, index) => (
-                                <Live src={ShipImg} key={index} />
+                                <Live src={ShipImg} key={ShipImg} />
                             ))}
                     </LiveContainer>
                     <Points>{points}</Points>

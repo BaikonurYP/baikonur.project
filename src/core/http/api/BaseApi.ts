@@ -20,8 +20,7 @@ type RequestOptions = {
 
 /** Базовое API для всех классов */
 export class BaseApi {
-    /** УРЛ сваггера */
-    private BASE_URL: string = 'https://ya-praktikum.tech/api/v2'
+    BASE_URL: string = 'https://ya-praktikum.tech/api/v2'
 
     /**
      * Запрос к АПИ

@@ -17,7 +17,11 @@ const ProtectedRouteAuth: FC<ProtectedRouteProps> = ({
 
     return (
         <Route path={path} exact>
+<<<<<<< HEAD
             {isAuth && user ? <Redirect to="./home" /> : <Component />}
+=======
+            {isAuth && user ? <Redirect to="/home" /> : <Component />}
+>>>>>>> main
         </Route>
     )
 }

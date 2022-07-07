@@ -38,8 +38,9 @@ export const BoardAvaStyled = styled.div`
     align-content: center;
     justify-content: center;
     margin-right: 20px;
+    overflow: hidden;
     img {
-        width: 44px;
+        width: 100%;
     }
 `
 export const BoardUserValueStyled = styled.div`

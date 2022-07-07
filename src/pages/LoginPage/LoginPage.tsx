@@ -25,7 +25,7 @@ const LoginPage: FC = () => {
     const history = useHistory()
 
     const goToGame = () => {
-        history.push(`/game`)
+        history.push(`/home`)
     }
 
     const { user } = useAppSelector((state) => state.user)

@@ -1,7 +1,12 @@
 import * as React from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 
+import { useEffect, useState } from 'react'
+
+import { Formik, Form, Field } from 'formik'
 import Container from '../../components/container/container'
+
+import { Topic } from '../../store/types/topicTypes'
 import {
     ForumAvaStyled,
     ForumTableStyled,
@@ -12,22 +17,32 @@ import {
     ForumThemeTitle,
 } from './ForumPageStyled'
 
-import { Column, DataItem } from './ForumTypes'
+import { Column } from './ForumTypes'
 import BackIcon from '../../images/icons/back.svg'
 import Ava1 from './images/ava1.svg'
-import Ava2 from './images/ava2.svg'
-import Ava3 from './images/ava3.svg'
 import ButtonMain from '../../components/buttons/buttonMain/buttonMain'
 import { Layout } from '../../components/layout/layout'
+import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
+import { Comments } from '../../server/tables/comments'
+import { fetchComments, saveComment } from '../../store/actions/commentsAction'
+import { BASE_IMG_URL } from '../../utils/constants'
 
 const ForumThemePage: React.FC = () => {
     const history = useHistory()
-    const forumTheme = 'обсуждение новых фишек'
+    const { id } = useParams()
+
+    const [topicName, setTopicName] = useState('')
+
+    const dispatch = useAppDispatch()
+    const comments = useAppSelector((state) => state.comments.comments)
+    const user = useAppSelector((state) => state.user.user)
+    const topics = useAppSelector((state) => state.topics.topics)
 
     const goBack = () => {
         history.push('/forum')
     }
 
+<<<<<<< HEAD
     const columns: Column[] = React.useMemo(
         () => [
             {
@@ -68,6 +83,31 @@ const ForumThemePage: React.FC = () => {
         ],
         []
     )
+=======
+    useEffect(() => {
+        const curTopic = topics.find(
+            (item: Topic) => Number(item.id) === Number(id)
+        )
+        setTopicName(curTopic?.name)
+        dispatch(fetchComments(id))
+    }, [])
+
+    const sendMessage = (values: any) => {
+        const date = new Date()
+        const dataToSend = {
+            topic_id: id,
+            message: values.message,
+            user_id: user.id,
+            user_name: user.display_name || user.login,
+            user_avatar: user.avatar || '',
+            date: date.toLocaleString('ru-RU'),
+        }
+        dispatch(saveComment(dataToSend))
+    }
+
+    const urlToImage = (url: string) => (url ? `${BASE_IMG_URL}/${url}` : Ava1)
+
+>>>>>>> main
     return (
         <Layout hasMenu>
             <Container direction="column">
@@ -75,35 +115,56 @@ const ForumThemePage: React.FC = () => {
                     <ForumTableStyled>
                         <thead>
                             <tr>
-                                {columns.map((column) => (
-                                    <th key={column.key}>{column.header}</th>
-                                ))}
+                                <th>
+                                    <ForumBackStyled onClick={goBack}>
+                                        <img src={BackIcon} alt="avatar" />
+                                    </ForumBackStyled>
+                                </th>
+                                <th>
+                                    <ForumThemeTitle>
+                                        {topicName}
+                                    </ForumThemeTitle>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
-                            {data.map((item, i) => (
-                                <tr key={item.id}>
+                            {comments.map((item: Comments, i: number) => (
+                                <tr key={item?.id}>
                                     <td>
                                         <ForumAvaStyled>
                                             <img
-                                                src={item.avatar}
+                                                src={urlToImage(
+                                                    item?.user_avatar
+                                                )}
                                                 alt="avatar"
                                             />
                                         </ForumAvaStyled>
                                     </td>
-                                    <td>{item.message}</td>
+                                    <td>{item?.message}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </ForumTableStyled>
                     <ForumMessageStyled>
-                        <ForumTextareaStyled />
-                        <ButtonMain
-                            color="yellow"
-                            onClick={() => console.log()}
+                        <Formik
+                            initialValues={{ message: '' }}
+                            onSubmit={sendMessage}
                         >
-                            Отправить сообщение
-                        </ButtonMain>
+                            <Form>
+                                <Field name="message">
+                                    {({ field }) => (
+                                        <ForumTextareaStyled
+                                            name={field.name}
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                        />
+                                    )}
+                                </Field>
+                                <ButtonMain type="submit" color="yellow">
+                                    Отправить сообщение
+                                </ButtonMain>
+                            </Form>
+                        </Formik>
                     </ForumMessageStyled>
                 </ForumWrapperStyled>
             </Container>
