@@ -1,5 +1,5 @@
 import CanvasObject from './CanvasObject'
-import ShipImg from "../images/player/plain_1.svg";
+import ShipImg from '../images/player/plain_1.svg'
 
 interface IOption {
     position: {
