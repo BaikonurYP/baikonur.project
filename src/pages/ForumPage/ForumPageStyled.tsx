@@ -95,3 +95,10 @@ export const ForumTextareaStyled = styled.textarea`
     min-height: 100px;
     margin: 12px 0;
 `
+export const ForumInputStyled = styled.input`
+    border: 1px solid ${getColor('purple')};
+    background-color: ${getColor('light-grey')};
+    width: 100%;
+    height: 40px;
+    margin: 12px 0;
+`

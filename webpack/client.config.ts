@@ -1,4 +1,5 @@
-import { Configuration, SingleEntryPlugin } from 'webpack'
+import { Configuration, SingleEntryPlugin, DefinePlugin } from 'webpack'
+require('dotenv').config()
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
@@ -65,6 +66,9 @@ const config: Configuration = {
     plugins: [
         new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' }),
         !IS_DEV && new CompressionPlugin(),
+        new DefinePlugin({
+            'process.env.REACT_APP_API_URL': JSON.stringify(process.env.REACT_APP_API_URL),
+        })
     ].filter(Boolean) as SingleEntryPlugin[],
 
     devtool: 'source-map',

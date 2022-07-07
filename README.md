@@ -76,6 +76,16 @@ npm run build
 
 ## Ссылки
 
-https://someLink
-https://someLink
-https://someLink
+необходимо добавить файл .env с описанием переменных окружения
+```sh
+PORT=3000
+DB_NAME=baikonurdb
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_HOST=localhost
+DB_PORT=5432
+SECRET_KEY=random_secret_key123
+
+REACT_APP_API_URL='http://localhost:3000/'
+
+```

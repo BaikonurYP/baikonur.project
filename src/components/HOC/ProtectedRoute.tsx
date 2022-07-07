@@ -17,7 +17,7 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({
     const { user } = useAppSelector((state) => state.user)
 
     useEffect(() => {
-        if (isAuth) {
+        if (!isAuth) {
             dispatch(fetchUser())
         }
     }, [])
@@ -25,7 +25,7 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({
     return (
         <Route path={path} exact>
             {!isAuth ? (
-                <Redirect to="./login" />
+                <Redirect to="/login" />
             ) : user ? (
                 <Component />
             ) : (
