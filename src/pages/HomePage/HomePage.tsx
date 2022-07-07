@@ -41,7 +41,7 @@ const HomePage: FC = () => {
 
     useEffect(() => {
         const params = new URLSearchParams(document.location.search)
-        let code = params.get('code')
+        const code = params.get('code')
         if (code) {
             dispatch(oAuthRequest(code))
         }
@@ -59,7 +59,7 @@ const HomePage: FC = () => {
                 <HomeSkinsStyled>
                     {skins.map((skin, i) => (
                         <SkinWrapStyled
-                            key={i}
+                            key={skin.image}
                             onClick={() => toGame(skin.image)}
                         >
                             <SkinAvaStyled>

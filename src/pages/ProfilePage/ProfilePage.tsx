@@ -28,7 +28,7 @@ import { Form } from '../../components/form/form'
 
 /** Страница регистрации */
 const ProfilePage: FC = () => {
-    const { user } = useAppSelector((state) => state.user)
+    const user = useAppSelector((state) => state.user)
     const dispatch = useAppDispatch()
 
     // let {user, setUser}

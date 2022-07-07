@@ -2,11 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 
 import { authApi } from '../../core/http/api/AuthApi'
 
-export const auth = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-) => {
+export const auth = async (req: Request, res: Response, next: NextFunction) => {
     res.locals.user = undefined
 
     try {
@@ -14,6 +10,9 @@ export const auth = async (
             headers: { cookie: req.headers.cookie! },
         })
         res.locals.user = data
+        if (data.id) {
+            res.locals.auth = { isAuth: true, loading: false, error: null }
+        }
     } catch (error: unknown) {
         res.locals.error = error
     } finally {

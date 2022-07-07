@@ -7,12 +7,14 @@ import { initialState as playerSkin } from '../store/reducers/SkinReducer'
 import { initialState as topics } from '../store/reducers/topicsReducer'
 import { initialState as comments } from '../store/reducers/commentsReducer'
 import { UserState } from './types/userTypes'
+import {AuthState} from "./types/authTypes";
 
 export const getInitialState = (
     pathname: string = '/',
+    authState: AuthState = auth,
     userState: UserState = user
 ): State => ({
-    auth,
+    auth: authState,
     user: userState,
     playerSkin,
     leaders,

@@ -20,7 +20,7 @@ import routes from './routes'
 export default (req: Request, res: Response) => {
     const location = req.url
     const context: StaticRouterContext = {}
-    const { store } = configureStore(getInitialState(location, res.locals.user), location)
+    const { store } = configureStore(getInitialState(location, res.locals.auth, res.locals.user), location)
     function renderApp() {
         const tsx = (
             <ReduxProvider store={store}>
