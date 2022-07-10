@@ -2,7 +2,7 @@ import { RequestHandler } from 'express'
 import cookieParserMiddleware from 'cookie-parser'
 import csrfMiddleware from 'csurf'
 
-import { DATA, EVAL, expressCspHeader, INLINE, SELF } from "express-csp-header"
+import { DATA, EVAL, expressCspHeader, INLINE, SELF } from 'express-csp-header'
 import { auth } from './authMiddleware'
 
 const cookieParser: RequestHandler = cookieParserMiddleware()
