@@ -4,6 +4,7 @@ import { Provider as ReduxProvider } from 'react-redux'
 import { StaticRouter, matchPath } from 'react-router-dom'
 import { StaticRouterContext } from 'react-router'
 import { renderToString } from 'react-dom/server'
+import Helmet, { HelmetData } from 'react-helmet'
 import { ServerStyleSheet } from 'styled-components'
 
 import { Request, Response } from 'express'
@@ -19,7 +20,7 @@ import routes from './routes'
 export default (req: Request, res: Response) => {
     const location = req.url
     const context: StaticRouterContext = {}
-    const { store } = configureStore(getInitialState(location), location)
+    const { store } = configureStore(getInitialState(location, res.locals.auth, res.locals.user), location)
     function renderApp() {
         const tsx = (
             <ReduxProvider store={store}>
@@ -38,9 +39,10 @@ export default (req: Request, res: Response) => {
         const reactHtml = renderToString(sheet.collectStyles(tsx))
         const styleTags = sheet.getStyleTags()
         const reduxState = store.getState()
+        const helmet = Helmet.renderStatic()
 
         res.status(context.statusCode || 200).send(
-            getHtml(reactHtml, styleTags, reduxState)
+            getHtml(reactHtml, styleTags, reduxState, helmet, req.csrfToken())
         )
     }
 
@@ -80,7 +82,7 @@ export default (req: Request, res: Response) => {
         })
 }
 
-function getHtml(reactHtml: string, styleTags: string, reduxState: {}) {
+function getHtml(reactHtml: string, styleTags: string, reduxState: {}, helmet: HelmetData, nonce: string) {
     return `
     <!doctype html>
     <html lang="en">
@@ -89,12 +91,15 @@ function getHtml(reactHtml: string, styleTags: string, reduxState: {}) {
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Байконур</title>
-        <script defer src="/main.js"></script>
+        <script nonce=${nonce} defer src="/main.js"></script>
+        ${helmet.title.toString()}
+        ${helmet.meta.toString()}
+        ${helmet.link.toString()}
         ${styleTags}
     </head>
     <body>
         <div id="root">${reactHtml}</div>
-        <script>
+        <script nonce=${nonce}>
                 window.__INITIAL_STATE__ = ${JSON.stringify(reduxState)}
         </script>
     </body>

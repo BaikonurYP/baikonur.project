@@ -23,7 +23,7 @@ import { Leader } from '../../store/types/leaderTypes'
 
 const GameComponent: FC = () => {
     const image = useAppSelector((state) => state.playerSkin.image)
-    const user = useAppSelector((state) => state.user.user)
+    const { user } = useAppSelector((state) => state.user.user)
     const ref = useRef(null)
     const history = useHistory()
     const dispatch = useAppDispatch()

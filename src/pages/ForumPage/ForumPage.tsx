@@ -25,8 +25,8 @@ const ForumPage: React.FC = () => {
     const history = useHistory()
 
     const dispatch = useAppDispatch()
-    const topics = useAppSelector((state) => state.topics.topics)
-    const user = useAppSelector((state) => state.user.user)
+    const { topics } = useAppSelector((state) => state.topics)
+    const { user } = useAppSelector((state) => state.user)
 
     const [visible, setVisible] = useState(false)
 

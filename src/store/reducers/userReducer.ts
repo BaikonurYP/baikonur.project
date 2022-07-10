@@ -1,7 +1,7 @@
 import {
     UserAction,
     UserActionTypes,
-    UserState as UserState,
+    UserState,
 } from '../types/userTypes'
 
 export const initialState: UserState = {

@@ -17,7 +17,6 @@ import {
     ForumThemeTitle,
 } from './ForumPageStyled'
 
-import { Column } from './ForumTypes'
 import BackIcon from '../../images/icons/back.svg'
 import Ava1 from './images/ava1.svg'
 import ButtonMain from '../../components/buttons/buttonMain/buttonMain'
@@ -34,9 +33,9 @@ const ForumThemePage: React.FC = () => {
     const [topicName, setTopicName] = useState('')
 
     const dispatch = useAppDispatch()
-    const comments = useAppSelector((state) => state.comments.comments)
-    const user = useAppSelector((state) => state.user.user)
-    const topics = useAppSelector((state) => state.topics.topics)
+    const { comments } = useAppSelector((state) => state.comments)
+    const { user } = useAppSelector((state) => state.user)
+    const { topics } = useAppSelector((state) => state.topics)
 
     const goBack = () => {
         history.push('/forum')

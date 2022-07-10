@@ -2,6 +2,7 @@ import path from 'path'
 import express from 'express'
 import 'babel-polyfill'
 import { Sequelize } from 'sequelize-typescript'
+import { middlewares } from '../src/server/middleware'
 import serverRenderMiddleware from './server-render-middleware'
 
 import router from './server/routers'
@@ -34,6 +35,6 @@ app.use(express.json())
 
 app.use('/api', router)
 
-app.get('/*', serverRenderMiddleware)
+app.get('/*', [...middlewares], serverRenderMiddleware)
 
 export { app }

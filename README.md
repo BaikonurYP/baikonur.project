@@ -86,6 +86,11 @@ DB_HOST=localhost
 DB_PORT=5432
 SECRET_KEY=random_secret_key123
 
-REACT_APP_API_URL='http://localhost:3000/'
+REACT_APP_API_URL='https://local.ya-praktikum.tech:3000/'
 
 ```
+
+
+Для хождения в API практикума был сгенерирован сертификат SSL
+Необходимо доавить в etc/hosts
+127.0.0.1 local.ya-praktikum.tech

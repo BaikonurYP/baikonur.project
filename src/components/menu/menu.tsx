@@ -21,7 +21,7 @@ const menuItems = [
 
 const Menu: FC = () => {
     const { user } = useAppSelector((state) => state.user)
-
+    const { isAuth } = useAppSelector((state) => state.auth)
     const dispatch = useAppDispatch()
     const history = useHistory()
 
