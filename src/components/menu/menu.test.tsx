@@ -7,11 +7,11 @@ import Menu from './menu'
 describe('Menu test', () => {
     const initialState = {
         user: {
-            user: {}
+            user: {},
         },
         auth: {
-            isAuth: true
-        }
+            isAuth: true,
+        },
     }
     const mockStore = configureStore()
     it('should render', () => {

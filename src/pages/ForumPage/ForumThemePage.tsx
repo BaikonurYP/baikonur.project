@@ -42,9 +42,7 @@ const ForumThemePage: React.FC = () => {
     }
 
     useEffect(() => {
-        const curTopic = topics.find(
-            (item) => Number(item.id) === Number(id)
-        )
+        const curTopic = topics.find((item) => Number(item.id) === Number(id))
         setTopicName(curTopic?.name)
         dispatch(fetchComments(id))
     }, [])

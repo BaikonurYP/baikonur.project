@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import {getColor} from "../../styles/GlobalStyle/colors";
+import { getColor } from '../../styles/GlobalStyle/colors'
 
 export const CheckBoxWrapper = styled.div`
     position: relative;
