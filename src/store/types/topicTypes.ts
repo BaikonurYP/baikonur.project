@@ -10,7 +10,7 @@ export interface TopicData {
 }
 
 export interface TopicState {
-    topics: TopicData[]
+    topics: Topic[]
     loading: boolean
 }
 

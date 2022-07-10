@@ -11,6 +11,7 @@ export const colors = {
     'purple-grey': '#63596D',
     white: '#ffffff',
     'white-30': 'rgba(255, 255, 255, 0.3)',
+    'black-20':'rgba(0, 0, 0, 0.2)',
     grey: '#CBCBCB',
     'light-grey': '#EEEEEE',
     'blue-light': '#1884b4',

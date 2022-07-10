@@ -9,17 +9,15 @@ interface SwitcherProps {
 
 const Switcher: FC<SwitcherProps> = ({ onChange, checked = false }) => {
     return (
-        <div>
-            <CheckBoxWrapper>
-                <CheckBox
-                    id="checkbox"
-                    type="checkbox"
-                    onChange={onChange}
-                    checked={checked}
-                />
-                <CheckBoxLabel htmlFor="checkbox" />
-            </CheckBoxWrapper>
-        </div>
+        <CheckBoxWrapper>
+            <CheckBox
+                id="checkbox"
+                type="checkbox"
+                onChange={onChange}
+                checked={checked}
+            />
+            <CheckBoxLabel htmlFor="checkbox" />
+        </CheckBoxWrapper>
     )
 }
 

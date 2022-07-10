@@ -15,7 +15,7 @@ export interface CommentData {
 }
 
 export interface CommentState {
-    comments: CommentData[]
+    comments: Comment[]
     loading: boolean
 }
 

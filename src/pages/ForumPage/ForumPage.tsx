@@ -94,13 +94,13 @@ const ForumPage: React.FC = () => {
                         <ForumTitleStyled>Список форумов</ForumTitleStyled>
                         <Switcher
                             onChange={onChangeTheme}
-                            checked={theme?.name === 'dark' ? false : true}
+                            checked={theme.name === 'light'}
                         />
                         <ButtonMain color="yellow" onClick={showAddModal}>
                             + Новый форум
                         </ButtonMain>
                     </ForumTitleWrapStyled>
-                    <ForumTableStyled theme={theme?.name || 'dark'}>
+                    <ForumTableStyled theme={theme.name || 'dark'}>
                         <thead>
                             <tr>
                                 {columns.map((column) => (

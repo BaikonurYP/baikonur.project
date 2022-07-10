@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import {getColor} from "../../styles/GlobalStyle/colors";
 
 export const CheckBoxWrapper = styled.div`
     position: relative;
@@ -11,7 +12,7 @@ export const CheckBoxLabel = styled.label`
     width: 42px;
     height: 26px;
     border-radius: 15px;
-    background: #bebebe;
+    background: ${getColor('grey')};
     cursor: pointer;
     &::after {
         content: '';
@@ -20,8 +21,8 @@ export const CheckBoxLabel = styled.label`
         width: 18px;
         height: 18px;
         margin: 3px;
-        background: #ffffff;
-        box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.2);
+        background: ${getColor('purple')};
+        box-shadow: 1px 3px 3px 1px ${getColor('black-20')};
         transition: 0.2s;
     }
 `
@@ -32,7 +33,7 @@ export const CheckBox = styled.input`
     width: 42px;
     height: 26px;
     &:checked + ${CheckBoxLabel} {
-        background: #4fbe79;
+        background: ${getColor('purple-light')};
         &::after {
             content: '';
             display: block;
