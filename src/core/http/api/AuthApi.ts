@@ -37,7 +37,7 @@ class AuthApi extends BaseApi {
     }
 
     /** Получить текущего юзера */
-    user(options?: AxiosRequestConfig | undefined): Promise<RequestResult<SwaggerUserInfo>> {
+    user(options?: AxiosRequestConfig): Promise<RequestResult<SwaggerUserInfo>> {
         return this.request<SwaggerUserInfo>('auth/user', HTTPMethod.GET, {} ,{ ...options })
     }
 
