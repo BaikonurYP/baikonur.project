@@ -1,10 +1,10 @@
-import * as topicsController from '../controllers/topicsController'
+import * as themeController from '../controllers/themeController'
 
 const Router = require('express')
 
 const router = new Router()
 
-router.post('/', topicsController.create)
-router.get('/', topicsController.getAll)
+router.patch('/', themeController.update)
+router.get('/:id/', themeController.get)
 
 export default router

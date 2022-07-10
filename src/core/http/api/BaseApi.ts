@@ -35,7 +35,9 @@ export class BaseApi {
         method: HTTPMethod,
         data?:
             | Record<string, string | number | Record<string, string | number>>
-            | FormData,
+            | FormData
+            | string
+            | number,
         options?: RequestOptions
     ): Promise<RequestResult<T>> {
         let config: AxiosRequestConfig = {

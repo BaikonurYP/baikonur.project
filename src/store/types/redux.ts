@@ -10,6 +10,7 @@ import { SkinState } from './SkinTypes'
 import { AuthState } from './authTypes'
 import { TopicState } from './topicTypes'
 import { CommentState } from './commentsTypes'
+import { ThemeState } from './themeTypes'
 
 export interface ReduxAction<T = any, P = any> extends Action {
     type: T
@@ -28,6 +29,7 @@ export interface State {
     readonly leaders: LeadersState
     readonly topics: TopicState
     readonly comments: CommentState
+    readonly theme: ThemeState
     readonly router: RouterState
 }
 

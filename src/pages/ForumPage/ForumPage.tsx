@@ -20,6 +20,8 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
 import { fetchTopics, saveTopic } from '../../store/actions/topicsAction'
 import { Topic } from '../../store/types/topicTypes'
 import Popup from '../../components/popup/Popup'
+import Switcher from '../../components/switcher/switcher'
+import { saveTheme } from '../../store/actions/themeAction'
 
 const ForumPage: React.FC = () => {
     const history = useHistory()
@@ -27,6 +29,7 @@ const ForumPage: React.FC = () => {
     const dispatch = useAppDispatch()
     const { topics } = useAppSelector((state) => state.topics)
     const { user } = useAppSelector((state) => state.user)
+    const theme = useAppSelector((state) => state.theme)
 
     const [visible, setVisible] = useState(false)
 
@@ -74,17 +77,30 @@ const ForumPage: React.FC = () => {
         []
     )
 
+    const onChangeTheme = () => {
+        dispatch(
+            saveTheme({
+                id: user.id,
+                name: theme?.name === 'dark' ? 'light' : 'dark',
+            })
+        )
+    }
+
     return (
         <Layout hasMenu>
             <Container direction="column">
-                <ForumWrapperStyled>
+                <ForumWrapperStyled theme={theme?.name || 'dark'}>
                     <ForumTitleWrapStyled>
                         <ForumTitleStyled>Список форумов</ForumTitleStyled>
+                        <Switcher
+                            onChange={onChangeTheme}
+                            checked={theme?.name === 'dark' ? false : true}
+                        />
                         <ButtonMain color="yellow" onClick={showAddModal}>
                             + Новый форум
                         </ButtonMain>
                     </ForumTitleWrapStyled>
-                    <ForumTableStyled>
+                    <ForumTableStyled theme={theme?.name || 'dark'}>
                         <thead>
                             <tr>
                                 {columns.map((column) => (

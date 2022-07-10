@@ -8,6 +8,7 @@ import { skinReducer } from './SkinReducer'
 import { authReducer } from './authReducer'
 import { topicsReducer } from './topicsReducer'
 import { commentsReducer } from './commentsReducer'
+import { themeReducer } from './themeReducer'
 
 import { State } from '../types/redux'
 
@@ -18,6 +19,7 @@ export const rootReducer = (history: History) =>
         playerSkin: skinReducer,
         auth: authReducer,
         topics: topicsReducer,
+        theme: themeReducer,
         comments: commentsReducer,
         // @ts-ignore
         router: connectRouter(history),

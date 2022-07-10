@@ -36,6 +36,7 @@ const ForumThemePage: React.FC = () => {
     const { comments } = useAppSelector((state) => state.comments)
     const { user } = useAppSelector((state) => state.user)
     const { topics } = useAppSelector((state) => state.topics)
+    const theme = useAppSelector((state) => state.theme)
 
     const goBack = () => {
         history.push('/forum')
@@ -67,8 +68,8 @@ const ForumThemePage: React.FC = () => {
     return (
         <Layout hasMenu>
             <Container direction="column">
-                <ForumWrapperStyled>
-                    <ForumTableStyled>
+                <ForumWrapperStyled theme={theme?.name || 'dark'}>
+                    <ForumTableStyled theme={theme?.name || 'dark'}>
                         <thead>
                             <tr>
                                 <th>

@@ -8,9 +8,11 @@ import {
 } from 'sequelize-typescript'
 
 @Table({
-    tableName: 'theme',
+    timestamps: false,
+    paranoid: true,
+    tableName: 'user_themes',
 })
-export class Theme extends Model<Theme> {
+export class UserThemes extends Model<UserThemes> {
     @AutoIncrement
     @PrimaryKey
     @Column(DataType.INTEGER)
@@ -20,8 +22,5 @@ export class Theme extends Model<Theme> {
     name: string
 
     @Column(DataType.INTEGER)
-    count: number
-
-    @Column(DataType.STRING)
-    date: string
+    user_id: number
 }
