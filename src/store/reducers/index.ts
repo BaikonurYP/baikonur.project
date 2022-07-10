@@ -22,7 +22,7 @@ export const rootReducer = (history: History) =>
         theme: themeReducer,
         comments: commentsReducer,
         // @ts-ignore
-        router: connectRouter(history),
+        router: connectRouter(history)
     })
 
 export type RootState = ReturnType<typeof rootReducer>

@@ -6,7 +6,7 @@ import {
     ThemeActionTypes,
     ThemeState,
     SaveThemeAction,
-    FetchThemeAction,
+    FetchThemeAction
 } from '../types/themeTypes'
 import { themeApi } from '../../core/http/api/ThemeApi'
 import * as actions from '../actions/themeAction'
@@ -43,6 +43,6 @@ function* saveThemeSaga(
 export default function* rootSaga(): Generator<StrictEffect, void, any> {
     yield all([
         yield takeLatest(ThemeActionTypes.FETCH_THEME, getThemeSaga),
-        yield takeLatest(ThemeActionTypes.SAVE_THEME, saveThemeSaga),
+        yield takeLatest(ThemeActionTypes.SAVE_THEME, saveThemeSaga)
     ])
 }

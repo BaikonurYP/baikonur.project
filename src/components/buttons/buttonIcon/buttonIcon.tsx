@@ -8,13 +8,11 @@ interface ButtonIconProps {
     onClick: () => void
 }
 
-const ButtonIcon: FC<ButtonIconProps> = (props) => {
-    return (
-        <Wrapper onClick={props.onClick} {...props}>
-            <Title>{props.children}</Title>
-            <Container icon={props.icon}></Container>
-        </Wrapper>
-    )
-}
+const ButtonIcon: FC<ButtonIconProps> = (props) => (
+    <Wrapper onClick={props.onClick} {...props}>
+        <Title>{props.children}</Title>
+        <Container icon={props.icon} />
+    </Wrapper>
+)
 
 export default ButtonIcon

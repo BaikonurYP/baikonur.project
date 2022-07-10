@@ -14,8 +14,8 @@ export const getByTopicId = async (req: Request, res: Response) => {
         const { id } = req.params
         const comment = await db.Comments.findAll({
             where: {
-                topic_id: id,
-            },
+                topic_id: id
+            }
         })
         return res.json(comment)
     } catch (e) {

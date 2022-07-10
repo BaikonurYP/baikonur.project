@@ -1,12 +1,12 @@
 import {
     CommentState,
     CommentActionTypes,
-    CommentsAction,
+    CommentsAction
 } from '../types/commentsTypes'
 
 export const initialState: CommentState = {
     comments: [],
-    loading: false,
+    loading: false
 }
 
 export const commentsReducer = (
@@ -31,7 +31,7 @@ export const commentsReducer = (
             return {
                 ...state,
                 comments: [...state.comments, action.payload],
-                loading: false,
+                loading: false
             }
         }
 

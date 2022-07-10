@@ -10,5 +10,5 @@ export const TOAST_CONFIG: ToastOptions = {
     pauseOnHover: true,
     draggable: true,
     progress: undefined as any,
-    theme: 'dark',
+    theme: 'dark'
 }

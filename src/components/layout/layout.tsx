@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
+import { ToastContainer } from 'react-toastify'
 import Menu from '../menu/menu'
 import { LayoutStyled } from './layoutStyled'
-import { ToastContainer } from 'react-toastify'
 
 type LayoutProps = {
     children?: React.ReactNode

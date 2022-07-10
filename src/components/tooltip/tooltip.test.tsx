@@ -4,12 +4,12 @@ import Tooltip from './tooltip'
 
 describe('Tooltip test', () => {
     it('should render', () => {
-        let tooltip = render(<Tooltip visible={true}>MESSAGE</Tooltip>)
+        const tooltip = render(<Tooltip visible>MESSAGE</Tooltip>)
         expect(tooltip.getByText('MESSAGE')).toBeInTheDocument
     })
 
     it('should not to be rendered', () => {
-        let tooltip = render(<Tooltip visible={false}>MESSAGE</Tooltip>)
+        const tooltip = render(<Tooltip visible={false}>MESSAGE</Tooltip>)
         expect(tooltip.getByText('MESSAGE')).not.toBeInTheDocument
     })
 })

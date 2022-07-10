@@ -23,8 +23,8 @@ export const ButtonMainStyled = styled.button<ButtonMainProps>`
     }
 
     ${({ color }) =>
-        color === 'yellow' &&
-        css`
+        color === 'yellow'
+        && css`
             background: ${getColor('yellow')};
             color: ${getColor('purple')};
 

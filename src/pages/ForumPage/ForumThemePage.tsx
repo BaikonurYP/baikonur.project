@@ -13,7 +13,7 @@ import {
     ForumBackStyled,
     ForumMessageStyled,
     ForumTextareaStyled,
-    ForumThemeTitle,
+    ForumThemeTitle
 } from './ForumPageStyled'
 
 import BackIcon from '../../images/icons/back.svg'
@@ -55,7 +55,7 @@ const ForumThemePage: React.FC = () => {
             user_id: user.id,
             user_name: user.display_name || user.login,
             user_avatar: user.avatar || '',
-            date: date.toLocaleString('ru-RU'),
+            date: date.toLocaleString('ru-RU')
         }
         dispatch(saveComment(dataToSend))
     }
@@ -90,8 +90,7 @@ const ForumThemePage: React.FC = () => {
                                                 src={urlToImage(
                                                     item?.user_avatar
                                                 )}
-                                                alt="avatar"
-                                            />
+                                                alt="avatar"/>
                                         </ForumAvaStyled>
                                     </td>
                                     <td>{item?.message}</td>
@@ -102,16 +101,14 @@ const ForumThemePage: React.FC = () => {
                     <ForumMessageStyled>
                         <Formik
                             initialValues={{ message: '' }}
-                            onSubmit={sendMessage}
-                        >
+                            onSubmit={sendMessage}>
                             <Form>
                                 <Field name="message">
                                     {({ field }) => (
                                         <ForumTextareaStyled
                                             name={field.name}
                                             value={field.value}
-                                            onChange={field.onChange}
-                                        />
+                                            onChange={field.onChange}/>
                                     )}
                                 </Field>
                                 <ButtonMain type="submit" color="yellow">

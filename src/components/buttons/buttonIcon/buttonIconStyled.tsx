@@ -36,8 +36,8 @@ export const Container = styled.div<ContainerProps>`
     background-repeat: no-repeat;
     transition: 0.3s;
     ${({ icon }) =>
-        icon &&
-        css`
+        icon
+        && css`
             background-image: url(${icon});
         `}
 `

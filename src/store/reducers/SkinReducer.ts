@@ -3,7 +3,7 @@ import { SkinAction, SkinActionTypes, SkinState } from '../types/SkinTypes'
 export const initialState: SkinState = {
     image: null,
     loading: false,
-    error: null,
+    error: null
 }
 
 export const skinReducer = (

@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 import {
     LeadersActionTypes,
     LeadersState,
-    SaveLeaderAction,
+    SaveLeaderAction
 } from '../types/leaderTypes'
 import LeaderApi from '../../core/http/api/LeaderApi'
 import * as actions from '../actions/leadersAction'
@@ -40,6 +40,6 @@ function* saveLeadersSaga(
 export default function* rootSaga(): Generator<StrictEffect, void, any> {
     yield all([
         yield takeLatest(LeadersActionTypes.FETCH_LEADERS, getLeadersSaga),
-        yield takeLatest(LeadersActionTypes.SAVE_LEADER, saveLeadersSaga),
+        yield takeLatest(LeadersActionTypes.SAVE_LEADER, saveLeadersSaga)
     ])
 }

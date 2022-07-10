@@ -3,8 +3,8 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
-        "lint": "eslint src --quiet",
-        "lint-fix": "eslint src --fix",
+        "lint": "eslint \"src/**/*.{ts,tsx}\" --quiet",
+        "lint-fix": "eslint \"src/**/*.{ts,tsx}\" --fix",
         "clean": "rimraf dist",
         "build": "NODE_ENV=production NODE_PATH=. npm run clean && webpack --mode production",
         "format": "prettier --write \"src/**/*.{ts,tsx}\" \"webpack/**/*.ts\"",
@@ -109,6 +109,7 @@
         "@testing-library/jest-dom": "^4.2.4",
         "@testing-library/react": "^13.2.0",
         "@types/react-redux": "^7.1.24",
+        "@types/redux-mock-store": "^1.0.3",
         "@types/styled-components": "5.1.24",
         "@types/webpack": "^5.28.0",
         "axios": "^0.27.0",

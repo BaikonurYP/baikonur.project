@@ -1,8 +1,8 @@
 import React, { FC } from 'react'
+import { useHistory } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
 import { logOut } from '../../store/actions/userActions'
 
-import { useHistory } from 'react-router-dom'
 
 import { MenuStyled } from './menuStyled'
 import ButtonIcon from '../buttons/buttonIcon/buttonIcon'
@@ -16,7 +16,7 @@ const menuItems = [
     { title: 'Профиль', icon: IconProfile, path: '/profile' },
     { title: 'Форум', icon: IconForum, path: '/forum' },
     { title: 'Лидеры', icon: IconLeaders, path: '/leaderboard' },
-    { title: 'Игра', icon: IconPlay, path: '/home' },
+    { title: 'Игра', icon: IconPlay, path: '/home' }
 ]
 
 const Menu: FC = () => {
@@ -40,16 +40,14 @@ const Menu: FC = () => {
                     <ButtonIcon
                         icon={IconClose}
                         onClick={logOutHandler}
-                        key="Выход"
-                    >
+                        key="Выход">
                         Выход
                     </ButtonIcon>
                     {menuItems.map((item) => (
                         <ButtonIcon
                             icon={item.icon}
                             onClick={() => handleClick(item.path)}
-                            key={item.title}
-                        >
+                            key={item.title}>
                             {item.title}
                         </ButtonIcon>
                     ))}
@@ -59,8 +57,7 @@ const Menu: FC = () => {
                 <ButtonIcon
                     icon={IconProfile}
                     onClick={() => handleClick('/login')}
-                    key="Вход"
-                >
+                    key="Вход">
                     Войти
                 </ButtonIcon>
             )}

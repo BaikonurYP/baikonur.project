@@ -18,15 +18,13 @@ interface InputProps {
     helper?: string
 }
 
-const Input: FC<InputProps> = (props) => {
-    return (
-        <Label>
-            <InputStyled state={props.state} {...props}></InputStyled>
-            {props.touched && props.helper && (
-                <InpurErrorStyle>{props.helper}</InpurErrorStyle>
-            )}
-        </Label>
-    )
-}
+const Input: FC<InputProps> = (props) => (
+    <Label>
+        <InputStyled state={props.state} {...props} />
+        {props.touched && props.helper && (
+            <InpurErrorStyle>{props.helper}</InpurErrorStyle>
+        )}
+    </Label>
+)
 
 export default Input

@@ -8,7 +8,7 @@ export type TooltipState = 'default' | 'danger'
 function getTooltipColor(state: TooltipState) {
     const tooltip_colors: Record<TooltipState, keyof typeof colors> = {
         default: 'white',
-        danger: 'red-light',
+        danger: 'red-light'
     }
     return tooltip_colors[state]
 }
@@ -18,7 +18,7 @@ function getTextAlign(pos: TooltipPosition) {
         top: 'center',
         bottom: 'center',
         left: 'right',
-        right: 'left',
+        right: 'left'
     }
     return positions[pos]
 }
@@ -35,12 +35,12 @@ function getSelectorsForArray(
     units: 'px' | '%' | '',
     prefixParrern?: string
 ) {
-    let getPrefix = (pos: string) =>
+    const getPrefix = (pos: string) =>
         prefixParrern ? prefixParrern.replaceAll('{pos}', pos) : pos
-    let positions = ['top', 'right', 'bottom', 'left']
+    const positions = ['top', 'right', 'bottom', 'left']
     return arr
         .map((str, ind) => {
-            let val = str ? `${str}${units}` : 'unset'
+            const val = str ? `${str}${units}` : 'unset'
             return `${getPrefix(positions[ind])}: ${val}`
         })
         .join(';')
@@ -52,20 +52,20 @@ function getMinePosition(pos: TooltipPosition) {
         top: [null, null, 100, 50],
         bottom: [100, null, null, 50],
         left: [50, 105, null, null],
-        right: [50, null, null, 105],
+        right: [50, null, null, 105]
     }
 
     const margins: Record<TooltipPosition, number[]> = {
         top: [null, null, -10, -100],
         bottom: [10, null, null, -100],
         left: [null, null, null, null],
-        right: [null, null, null, null],
+        right: [null, null, null, null]
     }
 
     return (
-        getSelectorsForArray(positions[pos], '%') +
-        ';' +
-        getSelectorsForArray(margins[pos], 'px', 'margin-{pos}')
+        `${getSelectorsForArray(positions[pos], '%')
+        };${
+            getSelectorsForArray(margins[pos], 'px', 'margin-{pos}')}`
     )
 }
 
@@ -75,32 +75,32 @@ function getArrowPosition(pos: TooltipPosition) {
         top: [100, null, null, 50],
         bottom: [null, null, 100, 50],
         left: [50, null, null, 100],
-        right: [50, 100, null, null],
+        right: [50, 100, null, null]
     }
 
     const margins: Record<TooltipPosition, number[]> = {
         top: [null, null, null, -5],
         bottom: [null, null, null, -5],
         left: [-5, null, null, null],
-        right: [-5, null, null, null],
+        right: [-5, null, null, null]
     }
 
-    let color: keyof typeof colors = 'purple'
-    let transparent = 'transparent'
+    const color: keyof typeof colors = 'purple'
+    const transparent = 'transparent'
 
     const borders: Record<TooltipPosition, string[]> = {
         top: [getColor(color), transparent, transparent, transparent],
         bottom: [transparent, transparent, getColor(color), transparent],
         left: [transparent, transparent, transparent, getColor(color)],
-        right: [transparent, getColor(color), transparent, transparent],
+        right: [transparent, getColor(color), transparent, transparent]
     }
 
     return (
-        getSelectorsForArray(positions[pos], '%') +
-        ';' +
-        getSelectorsForArray(margins[pos], 'px', 'margin-{pos}') +
-        ';' +
-        getSelectorsForArray(borders[pos], '', 'border-{pos}-color')
+        `${getSelectorsForArray(positions[pos], '%')
+        };${
+            getSelectorsForArray(margins[pos], 'px', 'margin-{pos}')
+        };${
+            getSelectorsForArray(borders[pos], '', 'border-{pos}-color')}`
     )
 }
 

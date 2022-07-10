@@ -6,7 +6,7 @@ import {
     BoardUserValueStyled,
     BoardStyled,
     TitleStyled,
-    BoardUserInfoStyled,
+    BoardUserInfoStyled
 } from './LeaderboardPageStyled'
 
 import Star from '../../images/icons/star.svg'
@@ -41,8 +41,7 @@ const LeaderboardPage: FC = () => {
                                             leader.data?.avatar
                                                 ? `${BASE_IMG_URL}/${leader.data?.avatar}`
                                                 : defaultAvatar
-                                        }
-                                    />
+                                        }/>
                                 </BoardAvaStyled>
                                 <span>
                                     {leader.data?.name || leader.data?.login}

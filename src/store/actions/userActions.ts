@@ -1,39 +1,39 @@
 import { User, UserActionTypes } from '../types/userTypes'
 
 export const fetchUser = () => ({
-    type: UserActionTypes.FETCH_USER,
+    type: UserActionTypes.FETCH_USER
 })
 export const fetchUserSuccess = (payload: User) => ({
     type: UserActionTypes.FETCH_USER_SUCCESS,
-    payload,
+    payload
 })
 export const fetchUserError = (payload: string) => ({
     type: UserActionTypes.FETCH_USER_ERROR,
-    payload,
+    payload
 })
 
 export const login = (payload: { login: string; password: string }) => ({
     type: UserActionTypes.LOGIN_REQUEST,
-    payload,
+    payload
 })
 export const loginSuccess = () => ({
-    type: UserActionTypes.LOGIN_REQUEST_SUCCESS,
+    type: UserActionTypes.LOGIN_REQUEST_SUCCESS
 })
 export const loginError = (payload: string) => ({
     type: UserActionTypes.LOGIN_REQUEST_ERROR,
-    payload,
+    payload
 })
 
 export const logOut = () => ({
-    type: UserActionTypes.LOGOUT_REQUEST,
+    type: UserActionTypes.LOGOUT_REQUEST
 })
 export const logOutSuccess = (payload: null) => ({
     type: UserActionTypes.LOGOUT_REQUEST_SUCCESS,
-    payload,
+    payload
 })
 export const logOutError = (payload: string) => ({
     type: UserActionTypes.LOGOUT_REQUEST_ERROR,
-    payload,
+    payload
 })
 
 export const signUp = (payload: {
@@ -45,35 +45,35 @@ export const signUp = (payload: {
     phone: string
 }) => ({
     type: UserActionTypes.SIGNUP_REQUEST,
-    payload,
+    payload
 })
 export const signUpSuccess = () => ({
-    type: UserActionTypes.SIGNUP_REQUEST_SUCCESS,
+    type: UserActionTypes.SIGNUP_REQUEST_SUCCESS
 })
 export const signUpError = (payload: string) => ({
     type: UserActionTypes.SIGNUP_REQUEST_ERROR,
-    payload,
+    payload
 })
 
 export const oAuthAccess = () => ({
-    type: UserActionTypes.OAUTH_ACCESS,
+    type: UserActionTypes.OAUTH_ACCESS
 })
 export const oAuthRequest = (payload: string) => ({
     type: UserActionTypes.OAUTH_REQUEST,
-    payload,
+    payload
 })
 
 export const changeData = (payload: Omit<User, 'id' | 'avatar'>) => ({
     type: UserActionTypes.CHANGE_DATA_REQUEST,
-    payload,
+    payload
 })
 export const changeDataSuccess = (payload: User) => ({
     type: UserActionTypes.CHANGE_DATA_REQUEST_SUCCESS,
-    payload,
+    payload
 })
 export const changeDataError = (payload: string) => ({
     type: UserActionTypes.CHANGE_PASSWORDS_REQUEST_ERROR,
-    payload,
+    payload
 })
 
 export const changePasswords = (payload: {
@@ -81,25 +81,25 @@ export const changePasswords = (payload: {
     newPassword: string
 }) => ({
     type: UserActionTypes.CHANGE_PASSWORDS_REQUEST,
-    payload,
+    payload
 })
 export const changePasswordsSuccess = () => ({
-    type: UserActionTypes.CHANGE_PASSWORDS_REQUEST_SUCCESS,
+    type: UserActionTypes.CHANGE_PASSWORDS_REQUEST_SUCCESS
 })
 export const changePasswordsError = (payload: string) => ({
     type: UserActionTypes.CHANGE_PASSWORDS_REQUEST_ERROR,
-    payload,
+    payload
 })
 
 export const changeAvatar = (payload: FormData) => ({
     type: UserActionTypes.CHANGE_AVATAR_REQUEST,
-    payload,
+    payload
 })
 export const changeAvatarSuccess = (payload: User) => ({
     type: UserActionTypes.CHANGE_AVATAR_REQUEST_SUCCESS,
-    payload,
+    payload
 })
 export const changeAvatarError = (payload: string) => ({
     type: UserActionTypes.CHANGE_AVATAR_REQUEST_ERROR,
-    payload,
+    payload
 })

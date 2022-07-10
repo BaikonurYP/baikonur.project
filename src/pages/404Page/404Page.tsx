@@ -13,7 +13,8 @@ const Error404Page: FC = () => (
             <TitleStyled>404</TitleStyled>
             <TextStyled>
                 ошибка
-                <br />к сожалению запрашиваемая страница не найдена
+                <br />
+к сожалению запрашиваемая страница не найдена
             </TextStyled>
             <ImageStyled>
                 <img src={Image404} alt="404" />

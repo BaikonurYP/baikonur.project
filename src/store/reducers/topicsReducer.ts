@@ -1,12 +1,12 @@
 import {
     TopicState,
     TopicsActionTypes,
-    TopicsAction,
+    TopicsAction
 } from '../types/topicTypes'
 
 export const initialState: TopicState = {
     topics: [],
-    loading: false,
+    loading: false
 }
 
 export const topicsReducer = (
@@ -31,7 +31,7 @@ export const topicsReducer = (
             return {
                 ...state,
                 topics: [...state.topics, action.payload],
-                loading: false,
+                loading: false
             }
         }
 

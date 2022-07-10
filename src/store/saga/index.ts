@@ -12,6 +12,6 @@ export default function* rootSaga() {
         fork(user),
         fork(topics),
         fork(comments),
-        fork(theme),
+        fork(theme)
     ])
 }

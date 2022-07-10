@@ -4,7 +4,7 @@ import {
     PopupWrapper,
     PopupContainer,
     PoputTitle,
-    PopupBar,
+    PopupBar
 } from './PopupStyle'
 
 interface IPopup {

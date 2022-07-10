@@ -1,8 +1,8 @@
 import React, { FC, useState } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 import { TooltipPosition } from '../../tooltip/tooltipStyled'
 import { InpurErrorStyle } from '../input/inputStyled'
 import { FileInputInputStyled, FileInputLabelStyled } from './fileInputStyled'
-import { v4 as uuidv4 } from 'uuid'
 
 interface InputProps {
     children: string
@@ -29,8 +29,7 @@ const FileInput: FC<InputProps> = (props) => {
                 onChange={props.onChange}
                 type="file"
                 name={props.name}
-                id={uuid}
-            />
+                id={uuid}/>
             {props.touched && props.helper && (
                 <InpurErrorStyle>{props.helper}</InpurErrorStyle>
             )}

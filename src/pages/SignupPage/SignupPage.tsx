@@ -1,18 +1,18 @@
 import { Formik, useFormik } from 'formik'
 import React, { FC, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import * as yup from 'yup'
 import ButtonForm from '../../components/buttons/buttonForm/buttonForm'
 import Container from '../../components/container/container'
 import Input from '../../components/inputs/input/input'
 import { Layout } from '../../components/layout/layout'
 import { Logo } from '../../components/logo/logo'
-import * as yup from 'yup'
 import {
     emailValidationChain,
     loginValidationChain,
     nameValidationChain,
     passwordValidationChain,
-    phoneValidationChain,
+    phoneValidationChain
 } from '../../components/inputs/validators'
 import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
 import { fetchUser, signUp } from '../../store/actions/userActions'
@@ -28,7 +28,7 @@ const SignupPage: FC = () => {
             first_name: '',
             second_name: '',
             phone: '',
-            email: '',
+            email: ''
         },
         validationSchema: yup.object({
             login: loginValidationChain,
@@ -36,12 +36,12 @@ const SignupPage: FC = () => {
             first_name: nameValidationChain,
             second_name: nameValidationChain,
             email: emailValidationChain,
-            phone: phoneValidationChain,
+            phone: phoneValidationChain
         }),
         onSubmit: (values, { setSubmitting }) => {
             setSubmitting(false)
             dispatch(signUp(values))
-        },
+        }
     })
 
     return (
@@ -66,8 +66,7 @@ const SignupPage: FC = () => {
                                         : 'default'
                                 }
                                 onBlur={formik.handleBlur}
-                                touched={formik.touched.login}
-                            />
+                                touched={formik.touched.login}/>
                             <Input
                                 type="password"
                                 name="password"
@@ -76,14 +75,13 @@ const SignupPage: FC = () => {
                                 onChange={formik.handleChange}
                                 helper={formik.errors.password}
                                 state={
-                                    formik.errors.password &&
-                                    formik.touched.password
+                                    formik.errors.password
+                                    && formik.touched.password
                                         ? 'danger'
                                         : 'default'
                                 }
                                 onBlur={formik.handleBlur}
-                                touched={formik.touched.password}
-                            />
+                                touched={formik.touched.password}/>
                         </Container>
 
                         <Container mineAxisAlign="between" width={70}>
@@ -95,14 +93,13 @@ const SignupPage: FC = () => {
                                 onChange={formik.handleChange}
                                 helper={formik.errors.first_name}
                                 state={
-                                    formik.errors.first_name &&
-                                    formik.touched.first_name
+                                    formik.errors.first_name
+                                    && formik.touched.first_name
                                         ? 'danger'
                                         : 'default'
                                 }
                                 onBlur={formik.handleBlur}
-                                touched={formik.touched.first_name}
-                            />
+                                touched={formik.touched.first_name}/>
                             <Input
                                 type="text"
                                 name="second_name"
@@ -111,14 +108,13 @@ const SignupPage: FC = () => {
                                 onChange={formik.handleChange}
                                 helper={formik.errors.second_name}
                                 state={
-                                    formik.errors.second_name &&
-                                    formik.touched.second_name
+                                    formik.errors.second_name
+                                    && formik.touched.second_name
                                         ? 'danger'
                                         : 'default'
                                 }
                                 onBlur={formik.handleBlur}
-                                touched={formik.touched.second_name}
-                            />
+                                touched={formik.touched.second_name}/>
                         </Container>
 
                         <Container mineAxisAlign="between" width={70}>
@@ -135,8 +131,7 @@ const SignupPage: FC = () => {
                                         : 'default'
                                 }
                                 onBlur={formik.handleBlur}
-                                touched={formik.touched.phone}
-                            />
+                                touched={formik.touched.phone}/>
                             <Input
                                 type="text"
                                 name="email"
@@ -150,8 +145,7 @@ const SignupPage: FC = () => {
                                         : 'default'
                                 }
                                 onBlur={formik.handleBlur}
-                                touched={formik.touched.email}
-                            />
+                                touched={formik.touched.email}/>
                         </Container>
 
                         <ButtonForm>Зарегистрироваться</ButtonForm>

@@ -1,11 +1,11 @@
 import { useFormik } from 'formik'
 import React, { FC, useEffect, useRef } from 'react'
+import * as yup from 'yup'
 import ButtonForm from '../../components/buttons/buttonForm/buttonForm'
 import Container from '../../components/container/container'
 import Input from '../../components/inputs/input/input'
 import { Layout } from '../../components/layout/layout'
 import { Logo } from '../../components/logo/logo'
-import * as yup from 'yup'
 import { Header } from '../../components/header/header'
 import FileInput from '../../components/inputs/fileInput/fileInput'
 import {
@@ -14,14 +14,14 @@ import {
     loginValidationChain,
     nameValidationChain,
     passwordValidationChain,
-    phoneValidationChain,
+    phoneValidationChain
 } from '../../components/inputs/validators'
 import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
 import {
     changeAvatar,
     changeData,
     changePasswords,
-    fetchUser,
+    fetchUser
 } from '../../store/actions/userActions'
 import { Avatar } from '../../components/avatar/avatar'
 import { Form } from '../../components/form/form'
@@ -41,7 +41,7 @@ const ProfilePage: FC = () => {
                 display_name: user.display_name ?? '',
                 login: user.login,
                 email: user.email,
-                phone: user.phone ?? '',
+                phone: user.phone ?? ''
             })
             passwordFormik.resetForm()
         }
@@ -54,7 +54,7 @@ const ProfilePage: FC = () => {
             first_name: '',
             second_name: '',
             phone: '',
-            email: '',
+            email: ''
         },
         validationSchema: yup.object({
             login: loginValidationChain,
@@ -62,41 +62,41 @@ const ProfilePage: FC = () => {
             first_name: nameValidationChain,
             second_name: nameValidationChain,
             email: emailValidationChain,
-            phone: phoneValidationChain,
+            phone: phoneValidationChain
         }),
         onSubmit: (values, { setSubmitting }) => {
             setSubmitting(false)
             dispatch(changeData(values))
-        },
+        }
     })
 
     const avatarRef = useRef<HTMLFormElement>()
 
     const avatarFormik = useFormik({
         initialValues: {
-            avatar: null as File,
+            avatar: null as File
         },
         onSubmit: (values, { setSubmitting, setValues }) => {
             setSubmitting(false)
-            let formData = new FormData()
+            const formData = new FormData()
             formData.append('avatar', values.avatar, values.avatar.name)
             dispatch(changeAvatar(formData))
-        },
+        }
     })
 
     const passwordFormik = useFormik({
         initialValues: {
             oldPassword: '',
-            newPassword: '',
+            newPassword: ''
         },
         validationSchema: yup.object({
             oldPassword: passwordValidationChain,
-            newPassword: passwordValidationChain,
+            newPassword: passwordValidationChain
         }),
         onSubmit: (values, { setSubmitting }) => {
             setSubmitting(false)
             dispatch(changePasswords(values))
-        },
+        }
     })
 
     return (
@@ -117,14 +117,13 @@ const ProfilePage: FC = () => {
                                     onChange={userDataFormik.handleChange}
                                     helper={userDataFormik.errors.login}
                                     state={
-                                        userDataFormik.errors.login &&
-                                        userDataFormik.touched.login
+                                        userDataFormik.errors.login
+                                        && userDataFormik.touched.login
                                             ? 'danger'
                                             : 'default'
                                     }
                                     onBlur={userDataFormik.handleBlur}
-                                    touched={userDataFormik.touched.login}
-                                />
+                                    touched={userDataFormik.touched.login}/>
                                 <Input
                                     type="text"
                                     name="display_name"
@@ -133,16 +132,15 @@ const ProfilePage: FC = () => {
                                     onChange={userDataFormik.handleChange}
                                     helper={userDataFormik.errors.display_name}
                                     state={
-                                        userDataFormik.errors.display_name &&
-                                        userDataFormik.touched.display_name
+                                        userDataFormik.errors.display_name
+                                        && userDataFormik.touched.display_name
                                             ? 'danger'
                                             : 'default'
                                     }
                                     onBlur={userDataFormik.handleBlur}
                                     touched={
                                         userDataFormik.touched.display_name
-                                    }
-                                />
+                                    }/>
                                 <Input
                                     type="text"
                                     name="first_name"
@@ -151,14 +149,13 @@ const ProfilePage: FC = () => {
                                     onChange={userDataFormik.handleChange}
                                     helper={userDataFormik.errors.first_name}
                                     state={
-                                        userDataFormik.errors.first_name &&
-                                        userDataFormik.touched.first_name
+                                        userDataFormik.errors.first_name
+                                        && userDataFormik.touched.first_name
                                             ? 'danger'
                                             : 'default'
                                     }
                                     onBlur={userDataFormik.handleBlur}
-                                    touched={userDataFormik.touched.first_name}
-                                />
+                                    touched={userDataFormik.touched.first_name}/>
                                 <Input
                                     type="text"
                                     name="second_name"
@@ -167,14 +164,13 @@ const ProfilePage: FC = () => {
                                     onChange={userDataFormik.handleChange}
                                     helper={userDataFormik.errors.second_name}
                                     state={
-                                        userDataFormik.errors.second_name &&
-                                        userDataFormik.touched.second_name
+                                        userDataFormik.errors.second_name
+                                        && userDataFormik.touched.second_name
                                             ? 'danger'
                                             : 'default'
                                     }
                                     onBlur={userDataFormik.handleBlur}
-                                    touched={userDataFormik.touched.second_name}
-                                />
+                                    touched={userDataFormik.touched.second_name}/>
                                 <Input
                                     type="text"
                                     name="phone"
@@ -183,14 +179,13 @@ const ProfilePage: FC = () => {
                                     onChange={userDataFormik.handleChange}
                                     helper={userDataFormik.errors.phone}
                                     state={
-                                        userDataFormik.errors.phone &&
-                                        userDataFormik.touched.phone
+                                        userDataFormik.errors.phone
+                                        && userDataFormik.touched.phone
                                             ? 'danger'
                                             : 'default'
                                     }
                                     onBlur={userDataFormik.handleBlur}
-                                    touched={userDataFormik.touched.phone}
-                                />
+                                    touched={userDataFormik.touched.phone}/>
                                 <Input
                                     type="text"
                                     name="email"
@@ -199,14 +194,13 @@ const ProfilePage: FC = () => {
                                     onChange={userDataFormik.handleChange}
                                     helper={userDataFormik.errors.email}
                                     state={
-                                        userDataFormik.errors.email &&
-                                        userDataFormik.touched.email
+                                        userDataFormik.errors.email
+                                        && userDataFormik.touched.email
                                             ? 'danger'
                                             : 'default'
                                     }
                                     onBlur={userDataFormik.handleBlur}
-                                    touched={userDataFormik.touched.email}
-                                />
+                                    touched={userDataFormik.touched.email}/>
 
                                 <ButtonForm>Сохранить</ButtonForm>
                                 <br />
@@ -230,8 +224,7 @@ const ProfilePage: FC = () => {
                                             'avatar',
                                             event.currentTarget.files[0]
                                         )
-                                    }}
-                                >
+                                    }}>
                                     Выберите файл
                                 </FileInput>
                                 <br />
@@ -253,14 +246,13 @@ const ProfilePage: FC = () => {
                                     onChange={passwordFormik.handleChange}
                                     helper={passwordFormik.errors.oldPassword}
                                     state={
-                                        passwordFormik.errors.oldPassword &&
-                                        passwordFormik.touched.oldPassword
+                                        passwordFormik.errors.oldPassword
+                                        && passwordFormik.touched.oldPassword
                                             ? 'danger'
                                             : 'default'
                                     }
                                     onBlur={passwordFormik.handleBlur}
-                                    touched={passwordFormik.touched.oldPassword}
-                                />
+                                    touched={passwordFormik.touched.oldPassword}/>
                                 <Input
                                     type="password"
                                     name="newPassword"
@@ -269,14 +261,13 @@ const ProfilePage: FC = () => {
                                     onChange={passwordFormik.handleChange}
                                     helper={passwordFormik.errors.newPassword}
                                     state={
-                                        passwordFormik.errors.newPassword &&
-                                        passwordFormik.touched.newPassword
+                                        passwordFormik.errors.newPassword
+                                        && passwordFormik.touched.newPassword
                                             ? 'danger'
                                             : 'default'
                                     }
                                     onBlur={passwordFormik.handleBlur}
-                                    touched={passwordFormik.touched.newPassword}
-                                />
+                                    touched={passwordFormik.touched.newPassword}/>
                                 <ButtonForm>Сохранить</ButtonForm>
                             </Container>
                         </Form>

@@ -19,16 +19,21 @@ export interface IParticleOption {
 
 export default class Particle {
     position: { x: number; y: number }
+
     velocity: { x: number; y: number }
+
     opacity: number
+
     fades: boolean = false
+
     color: string
+
     size: { min: number; max: number }
 
     constructor(options: IParticleOption) {
         this.size = {
             min: options.size.min,
-            max: options.size.max,
+            max: options.size.max
         }
         this.position = options.position
         this.velocity = options.velocity

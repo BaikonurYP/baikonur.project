@@ -6,11 +6,11 @@ export const get = async (req: Request, res: Response) => {
         const { id } = req.params
         const [userTheme, created] = await db.UserThemes.findOrCreate({
             defaults: {
-                name: 'dark',
+                name: 'dark'
             },
             where: {
-                user_id: id,
-            },
+                user_id: id
+            }
         })
         return res.json(userTheme)
     } catch (e) {
@@ -22,7 +22,7 @@ export const update = async (req: Request, res: Response) => {
     try {
         const { id, name } = req.body
         const userTheme = await db.UserThemes.update(
-            { name: name },
+            { name },
             { where: { user_id: id } }
         )
         return res.json({ user_id: id, name })

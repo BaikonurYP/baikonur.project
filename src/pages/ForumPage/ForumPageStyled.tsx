@@ -27,13 +27,13 @@ export const ForumTableStyled = styled.table`
         th {
             padding: 16px 10px;
             background: ${(props) =>
-                props.theme === 'dark'
-                    ? getColor('purple')
-                    : getColor('blue-light')};
+        props.theme === 'dark'
+            ? getColor('purple')
+            : getColor('blue-light')};
             color: ${(props) =>
-                props.theme === 'dark'
-                    ? getColor('purple-light')
-                    : getColor('white')};
+        props.theme === 'dark'
+            ? getColor('purple-light')
+            : getColor('white')};
             text-align: left;
         }
     }

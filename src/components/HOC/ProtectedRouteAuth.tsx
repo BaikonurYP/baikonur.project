@@ -10,7 +10,7 @@ interface ProtectedRouteProps {
 
 const ProtectedRouteAuth: FC<ProtectedRouteProps> = ({
     component: Component,
-    path,
+    path
 }) => {
     const { user } = useAppSelector((state) => state.user)
     const { isAuth } = useAppSelector((state) => state.auth)

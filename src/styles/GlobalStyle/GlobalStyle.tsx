@@ -92,9 +92,7 @@ const Global = createGlobalStyle`
   }
 
   :root {
-    ${Object.keys(colors).map((k: keyof typeof colors) => {
-        return `--${k}: ${colors[k]};`
-    })}
+    ${Object.keys(colors).map((k: keyof typeof colors) => `--${k}: ${colors[k]};`)}
     --toastify-font-family: 'Roboto', sans-serif;
   }
 

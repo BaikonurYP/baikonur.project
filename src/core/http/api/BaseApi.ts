@@ -1,5 +1,5 @@
-import { HttpCode, HTTPMethod } from './types/HTTPTypes'
 import axios, { AxiosRequestConfig } from 'axios'
+import { HttpCode, HTTPMethod } from './types/HTTPTypes'
 import { RequestResult } from './types/RequestResult'
 
 /**
@@ -41,10 +41,10 @@ export class BaseApi {
         options?: RequestOptions
     ): Promise<RequestResult<T>> {
         let config: AxiosRequestConfig = {
-            url: url,
+            url,
             baseURL: this.BASE_URL,
-            method: method,
-            withCredentials: true,
+            method,
+            withCredentials: true
         }
         if (data) {
             if (method == HTTPMethod.GET) {
@@ -76,7 +76,7 @@ export class BaseApi {
                 }
                 if (error.response) {
                     result.error = error.response.data
-                    if (typeof result.error == 'object') {
+                    if (typeof result.error === 'object') {
                         if (result.error.reason)
                             result.error = result.error.reason
                         else result.error = JSON.stringify(result.error)

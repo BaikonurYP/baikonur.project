@@ -1,12 +1,12 @@
 import {
     LeadersAction,
     LeadersActionTypes,
-    LeadersState,
+    LeadersState
 } from '../types/leaderTypes'
 
 export const initialState: LeadersState = {
     leaders: [],
-    loading: false,
+    loading: false
 }
 
 export const leadersReducer = (

@@ -14,8 +14,8 @@ const cspHeader: RequestHandler = expressCspHeader({
         'font-src': [SELF, DATA],
         'img-src': [DATA, SELF, INLINE, 'https://ya-praktikum.tech'],
         'style-src': [SELF, INLINE],
-        'worker-src': [SELF],
-    },
+        'worker-src': [SELF]
+    }
 })
 
 export const middlewares = [cookieParser, cspHeader, csrfProtection, auth]

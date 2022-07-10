@@ -66,7 +66,7 @@ class AuthApi extends BaseApi {
     oAuth(data: { code: string }): Promise<RequestResult<string>> {
         return this.request<string>('oauth/yandex', HTTPMethod.POST, {
             code: data.code,
-            redirect_uri: window.location.origin,
+            redirect_uri: window.location.origin
         })
     }
 }

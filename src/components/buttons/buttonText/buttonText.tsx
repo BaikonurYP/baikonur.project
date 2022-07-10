@@ -7,8 +7,6 @@ interface ButtonTextProps {
     onClick: () => void
 }
 
-const ButtonText: FC<ButtonTextProps> = (props) => {
-    return <ButtonTextStyled type="button" {...props}></ButtonTextStyled>
-}
+const ButtonText: FC<ButtonTextProps> = (props) => <ButtonTextStyled type="button" {...props} />
 
 export default ButtonText

@@ -2,7 +2,7 @@ import { UserAction, UserActionTypes, UserState } from '../types/userTypes'
 
 export const initialState: UserState = {
     user: null,
-    loading: false,
+    loading: false
 }
 
 export const userReducer = (
@@ -16,14 +16,14 @@ export const userReducer = (
             return {
                 ...state,
                 loading: false,
-                user: action.payload,
+                user: action.payload
             }
         }
         case UserActionTypes.FETCH_USER_ERROR:
             return {
                 ...state,
                 loading: false,
-                user: null,
+                user: null
             }
 
         case UserActionTypes.LOGIN_REQUEST:
@@ -33,7 +33,7 @@ export const userReducer = (
         case UserActionTypes.LOGIN_REQUEST_ERROR:
             return {
                 ...state,
-                loading: false,
+                loading: false
             }
 
         case UserActionTypes.LOGOUT_REQUEST:
@@ -42,12 +42,12 @@ export const userReducer = (
             return {
                 ...state,
                 loading: false,
-                user: action.payload,
+                user: action.payload
             }
         case UserActionTypes.LOGOUT_REQUEST_ERROR:
             return {
                 ...state,
-                loading: false,
+                loading: false
             }
 
         case UserActionTypes.SIGNUP_REQUEST:
@@ -57,7 +57,7 @@ export const userReducer = (
         case UserActionTypes.SIGNUP_REQUEST_ERROR:
             return {
                 ...state,
-                loading: false,
+                loading: false
             }
 
         case UserActionTypes.CHANGE_DATA_REQUEST:
@@ -66,12 +66,12 @@ export const userReducer = (
             return {
                 ...state,
                 loading: false,
-                user: action.payload.user,
+                user: action.payload.user
             }
         case UserActionTypes.CHANGE_DATA_REQUEST_ERROR:
             return {
                 ...state,
-                loading: false,
+                loading: false
             }
 
         case UserActionTypes.CHANGE_PASSWORDS_REQUEST:
@@ -79,12 +79,12 @@ export const userReducer = (
         case UserActionTypes.CHANGE_PASSWORDS_REQUEST_SUCCESS:
             return {
                 ...state,
-                loading: false,
+                loading: false
             }
         case UserActionTypes.CHANGE_PASSWORDS_REQUEST_ERROR:
             return {
                 ...state,
-                loading: false,
+                loading: false
             }
 
         case UserActionTypes.CHANGE_AVATAR_REQUEST:
@@ -94,12 +94,12 @@ export const userReducer = (
                 ...state,
                 loading: false,
 
-                user: action.payload.user,
+                user: action.payload.user
             }
         case UserActionTypes.CHANGE_AVATAR_REQUEST_ERROR:
             return {
                 ...state,
-                loading: false,
+                loading: false
             }
 
         default:

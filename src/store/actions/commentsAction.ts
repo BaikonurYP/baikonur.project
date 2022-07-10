@@ -1,33 +1,33 @@
 import {
     CommentState,
     CommentActionTypes,
-    Comment,
+    Comment
 } from '../types/commentsTypes'
 
 export const fetchComments = (payload: number) => ({
     type: CommentActionTypes.FETCH_COMMENTS,
-    payload,
+    payload
 })
 
 export const fetchCommentsSuccess = (payload: CommentState) => ({
     type: CommentActionTypes.FETCH_COMMENTS_SUCCESS,
-    payload,
+    payload
 })
 export const fetchCommentsError = (payload: string) => ({
     type: CommentActionTypes.FETCH_COMMENTS_ERROR,
-    payload,
+    payload
 })
 
 export const saveComment = (payload: Comment) => ({
     type: CommentActionTypes.SAVE_COMMENT,
-    payload,
+    payload
 })
 
 export const saveCommentSuccess = (payload: Comment) => ({
     type: CommentActionTypes.SAVE_COMMENT_SUCCESS,
-    payload,
+    payload
 })
 
 export const saveCommentError = () => ({
-    type: CommentActionTypes.SAVE_COMMENT_ERROR,
+    type: CommentActionTypes.SAVE_COMMENT_ERROR
 })

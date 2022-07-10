@@ -7,9 +7,9 @@ const requiredError = 'Поле обязательно для заполнени
 const getSymbolText = (num: number) => {
     let symbol_text = 'символ'
     if (
-        (num >= 10 && num <= 20) ||
-        (num % 10 >= 5 && num % 10 <= 9) ||
-        num % 10 == 0
+        (num >= 10 && num <= 20)
+        || (num % 10 >= 5 && num % 10 <= 9)
+        || num % 10 == 0
     ) {
         symbol_text = 'символов'
     } else if (num % 10 >= 2 && num % 10 <= 4) {
@@ -84,5 +84,5 @@ export {
     nameValidationChain,
     displayNameValidationChain,
     emailValidationChain,
-    phoneValidationChain,
+    phoneValidationChain
 }

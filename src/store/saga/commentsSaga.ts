@@ -6,7 +6,7 @@ import {
     CommentActionTypes,
     CommentState,
     FetchCommentAction,
-    SaveCommentAction,
+    SaveCommentAction
 } from '../types/commentsTypes'
 import { commentsApi } from '../../core/http/api/CommentsApi'
 import * as actions from '../actions/commentsAction'
@@ -46,6 +46,6 @@ function* saveCommentSaga(
 export default function* rootSaga(): Generator<StrictEffect, void, any> {
     yield all([
         yield takeLatest(CommentActionTypes.FETCH_COMMENTS, getCommentsSaga),
-        yield takeLatest(CommentActionTypes.SAVE_COMMENT, saveCommentSaga),
+        yield takeLatest(CommentActionTypes.SAVE_COMMENT, saveCommentSaga)
     ])
 }

@@ -8,7 +8,7 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
         const { data } = await authApi.user({
-            headers: { cookie: req.headers.cookie! },
+            headers: { cookie: req.headers.cookie! }
         })
         res.locals.user = { user: data, loading: false }
         if (data.id) {

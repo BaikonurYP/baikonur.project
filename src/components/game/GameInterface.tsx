@@ -9,7 +9,7 @@ import {
     Bar,
     LiveContainer,
     Live,
-    Points,
+    Points
 } from './GameComponentStyled'
 
 interface GameInterfaceProps {
@@ -18,23 +18,21 @@ interface GameInterfaceProps {
     lives: number
 }
 
-const GameInterface: FC<GameInterfaceProps> = (props) => {
-    return (
-        <Wrapper>
-            {props.children}
-            <Container>
-                <LevelTitle>Уровень 1</LevelTitle>
-                <Bar>
-                    <LiveContainer>
-                        <Live src={ShipImg}></Live>
-                        <Live src={ShipImg}></Live>
-                        <Live src={ShipImg}></Live>
-                    </LiveContainer>
-                    <Points>{props.points}</Points>
-                </Bar>
-            </Container>
-        </Wrapper>
-    )
-}
+const GameInterface: FC<GameInterfaceProps> = (props) => (
+    <Wrapper>
+        {props.children}
+        <Container>
+            <LevelTitle>Уровень 1</LevelTitle>
+            <Bar>
+                <LiveContainer>
+                    <Live src={ShipImg} />
+                    <Live src={ShipImg} />
+                    <Live src={ShipImg} />
+                </LiveContainer>
+                <Points>{props.points}</Points>
+            </Bar>
+        </Container>
+    </Wrapper>
+)
 
 export default GameInterface

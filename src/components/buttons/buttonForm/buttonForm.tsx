@@ -3,7 +3,7 @@ import React, { FC } from 'react'
 import {
     ButtonContainerStyled,
     ButtonFormStyled,
-    ButtonSize,
+    ButtonSize
 } from './buttonFormStyled'
 
 interface ButtonFormProps {
@@ -13,12 +13,10 @@ interface ButtonFormProps {
     size?: ButtonSize
 }
 
-const ButtonForm: FC<ButtonFormProps> = (props) => {
-    return (
-        <ButtonContainerStyled>
-            <ButtonFormStyled type="submit" {...props}></ButtonFormStyled>
-        </ButtonContainerStyled>
-    )
-}
+const ButtonForm: FC<ButtonFormProps> = (props) => (
+    <ButtonContainerStyled>
+        <ButtonFormStyled type="submit" {...props} />
+    </ButtonContainerStyled>
+)
 
 export default ButtonForm

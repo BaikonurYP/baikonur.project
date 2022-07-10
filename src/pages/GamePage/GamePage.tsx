@@ -3,12 +3,10 @@ import GameComponent from '../../components/game/GameComponent'
 
 import { Wrapper } from './GamePageStyled'
 
-const GamePage: FC = () => {
-    return (
-        <Wrapper>
-            <GameComponent></GameComponent>
-        </Wrapper>
-    )
-}
+const GamePage: FC = () => (
+    <Wrapper>
+        <GameComponent />
+    </Wrapper>
+)
 
 export default GamePage

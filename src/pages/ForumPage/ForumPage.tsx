@@ -10,7 +10,7 @@ import {
     ForumWrapperStyled,
     ForumTitleStyled,
     ForumTableStyled,
-    ForumInputStyled,
+    ForumInputStyled
 } from './ForumPageStyled'
 
 import ButtonMain from '../../components/buttons/buttonMain/buttonMain'
@@ -54,7 +54,7 @@ const ForumPage: React.FC = () => {
         const data = {
             name: values.title,
             count: 0,
-            date: date.toLocaleString('ru-RU'),
+            date: date.toLocaleString('ru-RU')
         }
         dispatch(saveTopic(data))
         onClose()
@@ -63,16 +63,16 @@ const ForumPage: React.FC = () => {
         () => [
             {
                 header: 'Тема',
-                key: 'theme',
+                key: 'theme'
             },
             {
                 header: 'Ответы',
-                key: 'answers',
+                key: 'answers'
             },
             {
                 header: 'Дата создания',
-                key: 'date',
-            },
+                key: 'date'
+            }
         ],
         []
     )
@@ -81,7 +81,7 @@ const ForumPage: React.FC = () => {
         dispatch(
             saveTheme({
                 id: user.id,
-                name: theme?.name === 'dark' ? 'light' : 'dark',
+                name: theme?.name === 'dark' ? 'light' : 'dark'
             })
         )
     }
@@ -94,8 +94,7 @@ const ForumPage: React.FC = () => {
                         <ForumTitleStyled>Список форумов</ForumTitleStyled>
                         <Switcher
                             onChange={onChangeTheme}
-                            checked={theme.name === 'light'}
-                        />
+                            checked={theme.name === 'light'}/>
                         <ButtonMain color="yellow" onClick={showAddModal}>
                             + Новый форум
                         </ButtonMain>
@@ -112,8 +111,7 @@ const ForumPage: React.FC = () => {
                             {topics.map((item: Topic, i: number) => (
                                 <tr
                                     onClick={() => goToTheme(item?.id)}
-                                    key={item?.id}
-                                >
+                                    key={item?.id}>
                                     <td>{item?.name}</td>
                                     <td>
                                         {item?.count.toLocaleString('ru-Ru')}
@@ -128,15 +126,12 @@ const ForumPage: React.FC = () => {
                     <Formik initialValues={{ title: '' }} onSubmit={addTheme}>
                         <Form>
                             <Field name="title">
-                                {({ field }) => {
-                                    return (
-                                        <ForumInputStyled
-                                            name={field.name}
-                                            value={field.value}
-                                            onChange={field.onChange}
-                                        />
-                                    )
-                                }}
+                                {({ field }) => (
+                                    <ForumInputStyled
+                                        name={field.name}
+                                        value={field.value}
+                                        onChange={field.onChange}/>
+                                )}
                             </Field>
                             <ButtonMain type="submit" color="yellow">
                                 Создать тему

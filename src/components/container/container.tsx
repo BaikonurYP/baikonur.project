@@ -5,7 +5,7 @@ import {
     ContainerCrossAxisAlign,
     ContainerDirection,
     ContainerMineAxisAlign,
-    ContainerStyled,
+    ContainerStyled
 } from './containerStyled'
 
 type ContainerProps = {
@@ -30,8 +30,7 @@ const Container: Props = (props) => (
         mineAxisAlign={props.mineAxisAlign}
         crossAxisAlign={props.crossAxisAlign}
         contentAlign={props.contentAlign}
-        width={props.width}
-    >
+        width={props.width}>
         {props.children}
     </ContainerStyled>
 )

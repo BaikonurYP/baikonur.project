@@ -20,8 +20,8 @@ export const PopupWrapper = styled.div<PopupWrapperProps>`
     transition: 0.2s;
 
     ${({ isVisible }) =>
-        isVisible &&
-        css`
+        isVisible
+        && css`
             visibility: visible;
             opacity: 1;
         `}

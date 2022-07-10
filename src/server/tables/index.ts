@@ -5,5 +5,5 @@ import { UserThemes } from './themes'
 export const db = {
     Comments,
     Topics,
-    UserThemes,
+    UserThemes
 }

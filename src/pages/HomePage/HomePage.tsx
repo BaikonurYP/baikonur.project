@@ -10,7 +10,7 @@ import {
     HomeTitleStyled,
     SkinWrapStyled,
     SkinAvaStyled,
-    SkinNameStyled,
+    SkinNameStyled
 } from './HomePageStyled'
 
 import Skin1 from '../../images/skins/plain_1.svg'
@@ -24,7 +24,7 @@ const skins = [
     { title: 'Зеленый гоблин', image: Skin1 },
     { title: 'Красная жара', image: Skin2 },
     { title: 'Смурфик', image: Skin3 },
-    { title: 'Желтый карлик', image: Skin4 },
+    { title: 'Желтый карлик', image: Skin4 }
 ]
 
 const userName = 'Великий уравнитель'
@@ -51,7 +51,9 @@ const HomePage: FC = () => {
         <Layout hasMenu>
             <Container direction="column">
                 <HomeTitleStyled>
-                    Привет, {user?.first_name ?? 'коммандор'}
+                    Привет,
+                    {' '}
+                    {user?.first_name ?? 'коммандор'}
                 </HomeTitleStyled>
                 <HomeTextStyled>
                     выберите корабль, которым будете играть
@@ -60,8 +62,7 @@ const HomePage: FC = () => {
                     {skins.map((skin, i) => (
                         <SkinWrapStyled
                             key={skin.image}
-                            onClick={() => toGame(skin.image)}
-                        >
+                            onClick={() => toGame(skin.image)}>
                             <SkinAvaStyled>
                                 <img src={skin.image} alt="skin" />
                             </SkinAvaStyled>

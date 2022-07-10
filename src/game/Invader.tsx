@@ -11,7 +11,9 @@ interface IOption {
 
 export default class Invader extends CanvasObject {
     projectileQuantity: number
+
     scale: number
+
     constructor(shipImg: string, options: IOption) {
         super(shipImg, options.position)
         this.scale = options.scale
@@ -22,7 +24,7 @@ export default class Invader extends CanvasObject {
         }
         this.velocity = {
             x: 0,
-            y: 3,
+            y: 3
         }
     }
 }

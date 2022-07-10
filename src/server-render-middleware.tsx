@@ -75,7 +75,7 @@ export default (req: Request, res: Response) => {
             dataRequirements.push(
                 fetchMethod({
                     dispatch: store.dispatch,
-                    match,
+                    match
                 })
             )
         }

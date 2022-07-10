@@ -26,6 +26,6 @@ export const getInitialState = (
     comments,
     router: {
         location: { pathname, search: '', hash: '', key: '' },
-        action: 'POP',
-    } as RouterState,
+        action: 'POP'
+    } as RouterState
 })

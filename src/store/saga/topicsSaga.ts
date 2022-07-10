@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 import {
     TopicsActionTypes,
     TopicState,
-    SaveTopicAction,
+    SaveTopicAction
 } from '../types/topicTypes'
 import { topicsApi } from '../../core/http/api/TopicsApi'
 import * as actions from '../actions/topicsAction'
@@ -42,6 +42,6 @@ function* saveTopicSaga(
 export default function* rootSaga(): Generator<StrictEffect, void, any> {
     yield all([
         yield takeLatest(TopicsActionTypes.FETCH_TOPICS, getTopicsSaga),
-        yield takeLatest(TopicsActionTypes.SAVE_TOPIC, saveTopicSaga),
+        yield takeLatest(TopicsActionTypes.SAVE_TOPIC, saveTopicSaga)
     ])
 }

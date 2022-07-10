@@ -1,10 +1,16 @@
 export default class CanvasObject {
     image: HTMLImageElement
+
     width: number
+
     height: number
+
     position: { x: number; y: number }
+
     velocity: { x: number; y: number }
+
     img: string
+
     lives: number
 
     constructor(img: string, position: { x: number; y: number }) {
@@ -19,11 +25,11 @@ export default class CanvasObject {
         }
         this.position = {
             x: position.x,
-            y: position.y,
+            y: position.y
         }
         this.velocity = {
             x: 0,
-            y: 0,
+            y: 0
         }
     }
 }

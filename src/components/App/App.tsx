@@ -7,32 +7,28 @@ import ProtectedRouteAuth from '../HOC/ProtectedRouteAuth'
 
 import routes from '../../routes'
 
-const App: FC = () => {
-    return (
-        <Switch>
-            {routes.map(
-                ({ fetchData, isProtected, isProtectedAuth, ...routeProps }) =>
-                    isProtected ? (
-                        <ProtectedRoute key={routeProps.path} {...routeProps} />
-                    ) : isProtectedAuth ? (
-                        <ProtectedRouteAuth
+const App: FC = () => (
+    <Switch>
+        {routes.map(
+            ({ fetchData, isProtected, isProtectedAuth, ...routeProps }) =>
+                isProtected ? (
+                    <ProtectedRoute key={routeProps.path} {...routeProps} />
+                ) : isProtectedAuth ? (
+                    <ProtectedRouteAuth
+                        key={routeProps.path}
+                        {...routeProps}/>
+                ) : (
+                    !isProtectedAuth
+                        && !isProtected && (
+                        <Route
                             key={routeProps.path}
                             {...routeProps}
-                        />
-                    ) : (
-                        !isProtectedAuth &&
-                        !isProtected && (
-                            <Route
-                                key={routeProps.path}
-                                {...routeProps}
-                                exact
-                            />
-                        )
+                            exact/>
                     )
-            )}
-        </Switch>
-    )
-}
+                )
+        )}
+    </Switch>
+)
 
 const Component = hot(App)
 
