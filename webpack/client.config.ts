@@ -67,8 +67,10 @@ const config: Configuration = {
         new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' }),
         !IS_DEV && new CompressionPlugin(),
         new DefinePlugin({
-            'process.env.REACT_APP_API_URL': JSON.stringify(process.env.REACT_APP_API_URL),
-        })
+            'process.env.REACT_APP_API_URL': JSON.stringify(
+                process.env.REACT_APP_API_URL
+            ),
+        }),
     ].filter(Boolean) as SingleEntryPlugin[],
 
     devtool: 'source-map',

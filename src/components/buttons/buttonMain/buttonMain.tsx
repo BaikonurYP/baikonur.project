@@ -6,7 +6,7 @@ export interface ButtonMainProps {
     children: string
     onClick?: () => void
     color?: string
-    type: 'button' | 'submit' | 'reset'
+    type?: 'button' | 'submit' | 'reset'
 }
 
 const ButtonMain: FC<ButtonMainProps> = (props) => {

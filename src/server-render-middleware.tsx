@@ -20,7 +20,15 @@ import routes from './routes'
 export default (req: Request, res: Response) => {
     const location = req.url
     const context: StaticRouterContext = {}
-    const { store } = configureStore(getInitialState(location, res.locals.auth, res.locals.user), location)
+    const { store } = configureStore(
+        getInitialState(
+            location,
+            res.locals.auth,
+            res.locals.user,
+            res.locals.theme
+        ),
+        location
+    )
     function renderApp() {
         const tsx = (
             <ReduxProvider store={store}>
@@ -82,7 +90,13 @@ export default (req: Request, res: Response) => {
         })
 }
 
-function getHtml(reactHtml: string, styleTags: string, reduxState: {}, helmet: HelmetData, nonce: string) {
+function getHtml(
+    reactHtml: string,
+    styleTags: string,
+    reduxState: {},
+    helmet: HelmetData,
+    nonce: string
+) {
     return `
     <!doctype html>
     <html lang="en">

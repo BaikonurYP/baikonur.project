@@ -14,7 +14,7 @@ export const sequelize = new Sequelize({
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    models: [db.Topics, db.Comments],
+    models: [db.Topics, db.Comments, db.UserThemes],
     dialect: 'postgres',
     pool: {
         max: 5,

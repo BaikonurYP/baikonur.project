@@ -6,9 +6,4 @@ describe('Input test', () => {
     it('should render', () => {
         render(<Input />)
     })
-
-    it('should render error', () => {
-        const input = render(<Input helper="Message" />)
-        expect(input.getByText('Message')).toBeInTheDocument
-    })
 })

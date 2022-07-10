@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react'
 import { Formik, Form, Field } from 'formik'
 import Container from '../../components/container/container'
 
-import { Topic } from '../../store/types/topicTypes'
 import {
     ForumAvaStyled,
     ForumTableStyled,
@@ -36,15 +35,14 @@ const ForumThemePage: React.FC = () => {
     const { comments } = useAppSelector((state) => state.comments)
     const { user } = useAppSelector((state) => state.user)
     const { topics } = useAppSelector((state) => state.topics)
+    const theme = useAppSelector((state) => state.theme)
 
     const goBack = () => {
         history.push('/forum')
     }
 
     useEffect(() => {
-        const curTopic = topics.find(
-            (item: Topic) => Number(item.id) === Number(id)
-        )
+        const curTopic = topics.find((item) => Number(item.id) === Number(id))
         setTopicName(curTopic?.name)
         dispatch(fetchComments(id))
     }, [])
@@ -67,8 +65,8 @@ const ForumThemePage: React.FC = () => {
     return (
         <Layout hasMenu>
             <Container direction="column">
-                <ForumWrapperStyled>
-                    <ForumTableStyled>
+                <ForumWrapperStyled theme={theme.name || 'dark'}>
+                    <ForumTableStyled theme={theme.name || 'dark'}>
                         <thead>
                             <tr>
                                 <th>

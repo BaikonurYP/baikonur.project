@@ -1,12 +1,14 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { getColor } from '../../styles/GlobalStyle/colors'
 
 export const ForumWrapperStyled = styled.div`
     width: 1140px;
     padding: 30px;
     font-family: 'Roboto';
-    background-color: ${getColor('purple-light')};
-    color: ${getColor('white')};
+    background-color: ${(props) =>
+        props.theme === 'dark' ? getColor('purple-light') : getColor('white')};
+    color: ${(props) =>
+        props.theme === 'dark' ? getColor('white') : getColor('purple')};
     margin-top: 80px;
 `
 export const ForumTableStyled = styled.table`
@@ -24,7 +26,14 @@ export const ForumTableStyled = styled.table`
         }
         th {
             padding: 16px 10px;
-            background-color: ${getColor('purple')};
+            background: ${(props) =>
+                props.theme === 'dark'
+                    ? getColor('purple')
+                    : getColor('blue-light')};
+            color: ${(props) =>
+                props.theme === 'dark'
+                    ? getColor('purple-light')
+                    : getColor('white')};
             text-align: left;
         }
     }

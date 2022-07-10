@@ -9,12 +9,12 @@ const cookieParser: RequestHandler = cookieParserMiddleware()
 const csrfProtection: RequestHandler = csrfMiddleware({ cookie: true })
 const cspHeader: RequestHandler = expressCspHeader({
     directives: {
-        "default-src": [SELF, "https://ya-praktikum.tech"],
-        "script-src": [SELF, INLINE, EVAL],
-        "font-src": [SELF, DATA],
-        "img-src": [DATA, SELF, INLINE, "https://ya-praktikum.tech"],
-        "style-src": [SELF, INLINE],
-        "worker-src": [SELF],
+        'default-src': [SELF, 'https://ya-praktikum.tech'],
+        'script-src': [SELF, INLINE, EVAL],
+        'font-src': [SELF, DATA],
+        'img-src': [DATA, SELF, INLINE, 'https://ya-praktikum.tech'],
+        'style-src': [SELF, INLINE],
+        'worker-src': [SELF],
     },
 })
 
