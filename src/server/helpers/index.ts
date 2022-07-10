@@ -6,7 +6,7 @@ export type ServerUser = {
     first_name: string
     second_name: string
     email: string
-    avatar?: string | null
+    avatar?: string
 }
 
 export function userIsAuth(res: Response) {
