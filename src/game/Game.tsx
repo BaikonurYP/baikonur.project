@@ -7,7 +7,6 @@ import Invader from './Invader'
 import Particle from './Particle'
 import Perk from './Perk'
 
-import ShipImg from '../images/player/plain_1.svg'
 import MeteorImg from '../images/Meteors/Meteor.png'
 import InvaderImg from '../images/invaders/enemy_1.svg'
 import Invider2Img from '../images/invaders/enemy_2.svg'
@@ -85,6 +84,10 @@ class Game {
 
     complexityTimeStep: number
 
+    gamepad: any
+
+    gamepadAxex: any
+
     constructor(
         ctx: CanvasRenderingContext2D,
         playerImage: string,
@@ -131,6 +134,7 @@ class Game {
         this.invaderTimeStep = 0
         this.perkTimeStep = 0
         this.complexityTimeStep = 0
+        this.gamepad = null
     }
 
     fireUpgrade = () => {
@@ -155,42 +159,38 @@ class Game {
 
     addListeners() {
         addEventListener('keydown', ({ key }) => {
-            switch (key) {
-                case 'w':
-                    keyMap.w = true
-                    break
-                case 'a':
-                    keyMap.a = true
-                    break
-                case 's':
-                    keyMap.s = true
-                    break
-                case 'd':
-                    keyMap.d = true
-                    break
-                case ' ':
-                    keyMap.space = true
-                    break
+            if (key === 'w' || key === 'ц') {
+                keyMap.w = true
+            }
+            if (key === 'a' || key === 'ф') {
+                keyMap.a = true
+            }
+            if (key === 's' || key === 'ы') {
+                keyMap.s = true
+            }
+            if (key === 'd' || key === 'в') {
+                keyMap.d = true
+            }
+            if (key === ' ') {
+                keyMap.space = true
             }
         })
 
         addEventListener('keyup', ({ key }) => {
-            switch (key) {
-                case 'w':
-                    keyMap.w = false
-                    break
-                case 'a':
-                    keyMap.a = false
-                    break
-                case 's':
-                    keyMap.s = false
-                    break
-                case 'd':
-                    keyMap.d = false
-                    break
-                case ' ':
-                    keyMap.space = false
-                    break
+            if (key === 'w' || key === 'ц') {
+                keyMap.w = false
+            }
+            if (key === 'a' || key === 'ф') {
+                keyMap.a = false
+            }
+            if (key === 's' || key === 'ы') {
+                keyMap.s = false
+            }
+            if (key === 'd' || key === 'в') {
+                keyMap.d = false
+            }
+            if (key === ' ') {
+                keyMap.space = false
             }
         })
     }
@@ -205,6 +205,36 @@ class Game {
     }
 
     control() {
+        if (this.gamepad) {
+            const buttons = this.gamepad.buttons
+            if (buttons[14].pressed && this.player.position.x >= 0) {
+                this.player.position.x -= this.playerSpeed
+            }
+            //right
+            if (
+                buttons[15].pressed &&
+                this.player.position.x + this.player.width <=
+                    this.ctx.canvas.width
+            ) {
+                this.player.position.x += this.playerSpeed
+            }
+            //up
+            if (buttons[12].pressed && this.player.position.y >= 200) {
+                this.player.position.y -= this.playerSpeed
+            }
+            //down
+            if (
+                buttons[13].pressed &&
+                this.player.position.y + this.player.height <=
+                    this.ctx.canvas.height
+            ) {
+                this.player.position.y += this.playerSpeed
+            }
+            if (buttons[0].pressed) {
+                this.shoot()
+            }
+        }
+
         if (keyMap.a && this.player.position.x >= 0) {
             this.player.position.x -= this.playerSpeed
         }
@@ -659,6 +689,13 @@ class Game {
     animate = () => {
         if (!this.pause) {
             requestAnimationFrame(this.animate)
+        }
+        if (typeof window !== 'undefined') {
+            const gamepads = navigator.getGamepads()
+            if (gamepads[0]) {
+                this.gamepad = gamepads[0]
+                this.gamepadAxex = gamepads[0].axes
+            }
         }
         this.drawBackground()
         this.particlesUpdate()
