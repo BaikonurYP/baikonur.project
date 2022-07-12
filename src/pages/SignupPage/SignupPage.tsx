@@ -16,10 +16,17 @@ import {
 } from '../../components/inputs/validators'
 import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
 import { fetchUser, signUp } from '../../store/actions/userActions'
+import { Form } from 'components/form/form'
 
 /** Страница регистрации */
 const SignupPage: FC = () => {
     const dispatch = useAppDispatch()
+    const history = useHistory()
+
+    const goToLogin = (e?: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        history.push(`/login`)
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -151,6 +158,13 @@ const SignupPage: FC = () => {
                         <ButtonForm>Зарегистрироваться</ButtonForm>
                     </Container>
                 </form>
+                <Form onSubmit={goToLogin}>
+                    <Container direction="column">
+                        <ButtonForm size="SM">
+                            Логин
+                        </ButtonForm>
+                    </Container>
+                </Form>
             </Container>
         </Layout>
     )
