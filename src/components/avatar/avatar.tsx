@@ -11,6 +11,6 @@ type Props = FC<AvatarProps>
 
 export const Avatar: Props = (props) => (
     <AvatarStyled url={props.url}>
-        <img src={props.url ? `${BASE_IMG_URL}/${props.url}` : defaultAvatar} />
+        <img src={props.url ? `${BASE_IMG_URL}/${props.url}` : defaultAvatar} alt="AVATAR"/>
     </AvatarStyled>
 )

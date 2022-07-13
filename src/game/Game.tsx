@@ -206,27 +206,27 @@ class Game {
 
     control() {
         if (this.gamepad) {
-            const buttons = this.gamepad.buttons
+            const {buttons} = this.gamepad
             if (buttons[14].pressed && this.player.position.x >= 0) {
                 this.player.position.x -= this.playerSpeed
             }
-            //right
+            // right
             if (
-                buttons[15].pressed &&
-                this.player.position.x + this.player.width <=
-                    this.ctx.canvas.width
+                buttons[15].pressed
+                && this.player.position.x + this.player.width
+                    <= this.ctx.canvas.width
             ) {
                 this.player.position.x += this.playerSpeed
             }
-            //up
+            // up
             if (buttons[12].pressed && this.player.position.y >= 200) {
                 this.player.position.y -= this.playerSpeed
             }
-            //down
+            // down
             if (
-                buttons[13].pressed &&
-                this.player.position.y + this.player.height <=
-                    this.ctx.canvas.height
+                buttons[13].pressed
+                && this.player.position.y + this.player.height
+                    <= this.ctx.canvas.height
             ) {
                 this.player.position.y += this.playerSpeed
             }
@@ -401,7 +401,7 @@ class Game {
                 this.meteors.push(meteorite)
             })
         }
-        
+
     }
 
     meteorsUpdate() {
@@ -613,6 +613,7 @@ class Game {
                     )
                     break
                 case 3:
+                default:
                     this.perks.push(
                         new Perk(
                             timePerkImg,
@@ -630,7 +631,7 @@ class Game {
             }
             this.perkTimeStep = perkStep
         }
-        
+
     }
 
     addMeteor() {
@@ -647,7 +648,7 @@ class Game {
             )
             this.meteorTimeStep = meteorStep
         }
-        
+
     }
 
     addInvader() {
@@ -674,7 +675,7 @@ class Game {
             )
             this.invaderTimeStep = invaderStep
         }
-        
+
     }
 
     increaseComplexity() {
@@ -693,6 +694,7 @@ class Game {
         if (typeof window !== 'undefined') {
             const gamepads = navigator.getGamepads()
             if (gamepads[0]) {
+                // eslint-disable-next-line prefer-destructuring
                 this.gamepad = gamepads[0]
                 this.gamepadAxex = gamepads[0].axes
             }
