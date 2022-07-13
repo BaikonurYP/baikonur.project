@@ -106,6 +106,7 @@ function getHtml(
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Байконур</title>
         <script nonce=${nonce} defer src="/main.js"></script>
+        <link href="/main.css" rel="stylesheet">
         ${helmet.title.toString()}
         ${helmet.meta.toString()}
         ${helmet.link.toString()}
