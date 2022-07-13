@@ -135,6 +135,7 @@ export const TooltipStyled = styled.span<{
         switch (props.position ?? 'right') {
             case 'left':
             case 'right':
+            default:
                 return `
                     transform: translateY(-50%);
                     `

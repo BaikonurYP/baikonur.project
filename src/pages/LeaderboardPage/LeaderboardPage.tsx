@@ -37,6 +37,7 @@ const LeaderboardPage: FC = () => {
                             <BoardUserInfoStyled>
                                 <BoardAvaStyled>
                                     <img
+                                        alt="avatar"
                                         src={
                                             leader.data?.avatar
                                                 ? `${BASE_IMG_URL}/${leader.data?.avatar}`
