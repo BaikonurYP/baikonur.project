@@ -2,6 +2,7 @@ import { Formik, useFormik } from 'formik'
 import React, { FC, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import * as yup from 'yup'
+import { Form } from 'components/form/form'
 import ButtonForm from '../../components/buttons/buttonForm/buttonForm'
 import Container from '../../components/container/container'
 import Input from '../../components/inputs/input/input'
@@ -16,7 +17,6 @@ import {
 } from '../../components/inputs/validators'
 import { useAppDispatch, useAppSelector } from '../../store/hooks/useAppHooks'
 import { fetchUser, signUp } from '../../store/actions/userActions'
-import { Form } from 'components/form/form'
 
 /** Страница регистрации */
 const SignupPage: FC = () => {
