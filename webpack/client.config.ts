@@ -64,7 +64,7 @@ const config: Configuration = {
         ],
     },
     plugins: [
-        new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' }),
+        new MiniCssExtractPlugin({ filename: '[name].css' }),
         !IS_DEV && new CompressionPlugin(),
         new DefinePlugin({
             'process.env.REACT_APP_API_URL': JSON.stringify(
