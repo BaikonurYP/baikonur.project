@@ -28,6 +28,11 @@ const LoginPage: FC = () => {
         history.push(`/home`)
     }
 
+    const goToRegister = (e?: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        history.push(`/signup`)
+    }
+
     const { user } = useAppSelector((state) => state.user)
     const dispatch = useAppDispatch()
 
@@ -108,6 +113,13 @@ const LoginPage: FC = () => {
                             {' '}
                             <span className="initial red">Я</span>
                             ндекс
+                        </ButtonForm>
+                    </Container>
+                </Form>
+                <Form onSubmit={goToRegister}>
+                    <Container direction="column">
+                        <ButtonForm size="SM">
+                            Зарегистрироваться
                         </ButtonForm>
                     </Container>
                 </Form>
