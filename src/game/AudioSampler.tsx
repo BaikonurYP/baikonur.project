@@ -1,7 +1,10 @@
 export default class AudioSampler {
     ctx: AudioContext
+
     audio: any
+
     url: string
+
     playSound: any
 
     constructor(url: string) {
