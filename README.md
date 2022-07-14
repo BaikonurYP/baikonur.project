@@ -12,7 +12,7 @@ Space Invaders это 2d игра, пропитанная духом неста�
 - Webpack
 - NodeJS
 - Docker
-- MongoDB
+- PostgreSQL
 - Jest
 - ✨Magic ✨
 
@@ -49,8 +49,7 @@ Space Invaders это 2d игра, пропитанная духом неста�
 | A       | Движение влево  |
 | D       | Движение вправо |
 | Space   | Огонь           |
-| SomeKey | Пауза           |
-| SomeKey | Выход из игры   |
+| Esc     | Пауза           |
 
 ## А зачем, вообще?
 
@@ -74,23 +73,33 @@ npm start
 npm run build
 ```
 
+Запуск контейнера
+```
+npm run docker
+```
+
 ## Ссылки
 
 Необходимо добавить файл .env с описанием переменных окружения
 ```sh
 PORT=3000
 DB_NAME=baikonurdb
-DB_USER=postgres
-DB_PASSWORD=postgres
-DB_HOST=localhost
+DB_USER=supermegauser
+DB_PASSWORD=password
+DB_HOST=postgres
 DB_PORT=5432
 SECRET_KEY=random_secret_key123
 
 REACT_APP_API_URL='https://local.ya-praktikum.tech:3000/'
 
 ```
-
+Если нужно запустить игру в облаке, то нужно последний ключ заменить на 
+```
+REACT_APP_API_URL='https://yourhost/'
+```
 
 Для хождения в API практикума был сгенерирован сертификат SSL
 Необходимо доавить в etc/hosts
+```
 127.0.0.1 local.ya-praktikum.tech
+```
