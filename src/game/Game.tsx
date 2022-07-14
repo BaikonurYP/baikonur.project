@@ -18,13 +18,21 @@ import timePerkImg from '../images/perks/clock.svg'
 
 import { getRandom } from '../utils/getRandom'
 
+import AudioSampler from './AudioSampler'
+
+const playerShootSamplUrl = require('../audioSamples/laser-blast.mp3')
+const enemieShootSampleUrl = require('../audioSamples/rollover-laser-blast.mp3')
+const clapSampleUrl = require('../audioSamples/clap.mp3')
+const boomSampleUrl = require('../audioSamples/clap2.mp3')
+const backgroundAudioUrl = require('../audioSamples/backgroundAudio.mp3')
+
 const keyMap = {
     w: false,
     a: false,
     s: false,
     d: false,
     space: false,
-    esc: false
+    esc: false,
 }
 
 type ShootingObjects = Invader
@@ -87,6 +95,15 @@ class Game {
     gamepad: any
 
     gamepadAxex: any
+    samples: {
+        playerShootSample: AudioSampler
+        enemiShootSample: AudioSampler
+        clapSample: AudioSampler
+        boomSample: AudioSampler
+        backgrounAudio: AudioSampler
+    }
+    isClient: boolean
+    isPlaySound: boolean
 
     constructor(
         ctx: CanvasRenderingContext2D,
@@ -103,8 +120,8 @@ class Game {
         this.player = new Player(playerImage, {
             position: {
                 x: this.canvasWidth / 2,
-                y: this.canvasHeight
-            }
+                y: this.canvasHeight,
+            },
         })
         this.playerSpeed = 7
         this.invaders = []
@@ -112,16 +129,16 @@ class Game {
             new Meteor(MeteorImg, {
                 position: {
                     x: getRandom(10, this.canvasWidth - 10),
-                    y: -20
+                    y: -20,
                 },
-                scale: 1
-            })
+                scale: 1,
+            }),
         ]
         this.projectiles = []
         this.enemiesProjectiles = []
         this.particles = []
         this.stars = []
-
+        this.isClient = typeof window !== 'undefined' ? true : false
         this.perks = []
         this.point = 0
         this.per = 0
@@ -135,6 +152,16 @@ class Game {
         this.perkTimeStep = 0
         this.complexityTimeStep = 0
         this.gamepad = null
+        this.isPlaySound = false
+        if (this.isClient) {
+            this.samples = {
+                playerShootSample: new AudioSampler(playerShootSamplUrl),
+                enemiShootSample: new AudioSampler(enemieShootSampleUrl),
+                clapSample: new AudioSampler(clapSampleUrl),
+                boomSample: new AudioSampler(boomSampleUrl),
+                backgrounAudio: new AudioSampler(backgroundAudioUrl),
+            }
+        }
     }
 
     fireUpgrade = () => {
@@ -206,15 +233,15 @@ class Game {
 
     control() {
         if (this.gamepad) {
-            const {buttons} = this.gamepad
+            const { buttons } = this.gamepad
             if (buttons[14].pressed && this.player.position.x >= 0) {
                 this.player.position.x -= this.playerSpeed
             }
             // right
             if (
-                buttons[15].pressed
-                && this.player.position.x + this.player.width
-                    <= this.ctx.canvas.width
+                buttons[15].pressed &&
+                this.player.position.x + this.player.width <=
+                    this.ctx.canvas.width
             ) {
                 this.player.position.x += this.playerSpeed
             }
@@ -224,9 +251,9 @@ class Game {
             }
             // down
             if (
-                buttons[13].pressed
-                && this.player.position.y + this.player.height
-                    <= this.ctx.canvas.height
+                buttons[13].pressed &&
+                this.player.position.y + this.player.height <=
+                    this.ctx.canvas.height
             ) {
                 this.player.position.y += this.playerSpeed
             }
@@ -240,8 +267,8 @@ class Game {
         }
 
         if (
-            keyMap.d
-            && this.player.position.x + this.player.width <= this.ctx.canvas.width
+            keyMap.d &&
+            this.player.position.x + this.player.width <= this.ctx.canvas.width
         ) {
             this.player.position.x += this.playerSpeed
         }
@@ -251,9 +278,9 @@ class Game {
         }
 
         if (
-            keyMap.s
-            && this.player.position.y + this.player.height
-                <= this.ctx.canvas.height
+            keyMap.s &&
+            this.player.position.y + this.player.height <=
+                this.ctx.canvas.height
         ) {
             this.player.position.y += this.playerSpeed
         }
@@ -287,11 +314,12 @@ class Game {
             new Projectile(PlayerProjectileImg, {
                 position: {
                     x: this.player.position.x + this.player.width / 2,
-                    y: this.player.position.y
+                    y: this.player.position.y,
                 },
-                velocity: { x: 0, y: -10 }
+                velocity: { x: 0, y: -10 },
             })
         )
+        this.isClient && this.samples.playerShootSample.playAudio()
         this.per = per
     }
 
@@ -301,17 +329,17 @@ class Game {
                 new Particle({
                     position: {
                         x: position.x,
-                        y: position.y
+                        y: position.y,
                     },
                     velocity: {
                         x: getRandom(-3, 3),
-                        y: getRandom(-3, 3)
+                        y: getRandom(-3, 3),
                     },
                     size: {
                         min: 0.1,
-                        max: 5
+                        max: 5,
                     },
-                    color: '#BAA0DE'
+                    color: '#BAA0DE',
                 })
             )
         }
@@ -328,8 +356,8 @@ class Game {
             enemy.velocity.x = -3
         }
         if (
-            enemy.position.x - 2 <= this.player.position.x
-            && enemy.position.x + 2 >= this.player.position.x
+            enemy.position.x - 2 <= this.player.position.x &&
+            enemy.position.x + 2 >= this.player.position.x
         ) {
             enemy.velocity.x = 0
 
@@ -344,11 +372,12 @@ class Game {
             new Projectile(InvaderProjectileImg, {
                 position: {
                     x: enemy.position.x + enemy.width / 2,
-                    y: enemy.position.y + enemy.height
+                    y: enemy.position.y + enemy.height,
                 },
-                velocity: { x: 0, y: 5 }
+                velocity: { x: 0, y: 5 },
             })
         )
+        this.isClient && this.samples.enemiShootSample.playAudio()
     }
 
     transformInvider(position: { x: number; y: number }) {
@@ -358,10 +387,10 @@ class Game {
                 new Invader(Invider2Img, {
                     position: {
                         x: position.x,
-                        y: position.y
+                        y: position.y,
                     },
                     scale: 1.2,
-                    lives: 3
+                    lives: 3,
                 })
             )
         }, 0)
@@ -376,18 +405,18 @@ class Game {
                 const firstInvider = this.invaders[0]
                 const secondInvider = this.invaders[1]
                 if (
-                    firstInvider.position.x + firstInvider.width
-                        >= secondInvider.position.x
-                    && firstInvider.position.x + firstInvider.width
-                        <= secondInvider.position.x + secondInvider.width
-                    && firstInvider.position.y + firstInvider.height
-                        >= secondInvider.position.y
-                    && firstInvider.position.y + firstInvider.height
-                        <= secondInvider.position.y + secondInvider.height
+                    firstInvider.position.x + firstInvider.width >=
+                        secondInvider.position.x &&
+                    firstInvider.position.x + firstInvider.width <=
+                        secondInvider.position.x + secondInvider.width &&
+                    firstInvider.position.y + firstInvider.height >=
+                        secondInvider.position.y &&
+                    firstInvider.position.y + firstInvider.height <=
+                        secondInvider.position.y + secondInvider.height
                 ) {
                     this.transformInvider({
                         x: firstInvider.position.x,
-                        y: firstInvider.position.y
+                        y: firstInvider.position.y,
                     })
                 }
             }
@@ -401,14 +430,13 @@ class Game {
                 this.meteors.push(meteorite)
             })
         }
-
     }
 
     meteorsUpdate() {
         this.meteors.forEach((meteor, i) => {
             if (
-                meteor.position.x <= 0
-                || meteor.position.x >= this.ctx.canvas.width - meteor.width
+                meteor.position.x <= 0 ||
+                meteor.position.x >= this.ctx.canvas.width - meteor.width
             ) {
                 meteor.velocity.x = -meteor.velocity.x
             }
@@ -427,19 +455,19 @@ class Game {
     ) {
         this.projectiles.forEach((projectile, j) => {
             if (
-                projectile.position.y + projectile.width
-                    <= enemy.position.y + enemy.height
-                && projectile.position.y + projectile.width > enemy.position.y
-                && projectile.position.x + projectile.width >= enemy.position.x
-                && projectile.position.x + projectile.width
-                    <= enemy.position.x + enemy.width
+                projectile.position.y + projectile.width <=
+                    enemy.position.y + enemy.height &&
+                projectile.position.y + projectile.width > enemy.position.y &&
+                projectile.position.x + projectile.width >= enemy.position.x &&
+                projectile.position.x + projectile.width <=
+                    enemy.position.x + enemy.width
             ) {
                 setTimeout(() => {
                     this.createPaticles({
                         x: projectile.position.x,
-                        y: projectile.position.y
+                        y: projectile.position.y,
                     })
-
+                    this.isClient && this.samples.clapSample.playAudio()
                     if (enemy.lives === 1) {
                         enemiesArr.splice(index, 1)
                         this.projectiles.splice(j, 1)
@@ -465,19 +493,19 @@ class Game {
         objectsArr: CanvasObject[]
     ) {
         if (
-            object.position.y + object.height >= this.player.position.y
-            && object.position.y + object.height
-                <= this.player.position.y + this.player.height
-            && object.position.x + object.width >= this.player.position.x
-            && object.position.x + object.width
-                <= this.player.position.x + this.player.width
+            object.position.y + object.height >= this.player.position.y &&
+            object.position.y + object.height <=
+                this.player.position.y + this.player.height &&
+            object.position.x + object.width >= this.player.position.x &&
+            object.position.x + object.width <=
+                this.player.position.x + this.player.width
         ) {
             objectsArr.splice(index, 1)
             this.createPaticles({
                 x: object.position.x,
-                y: object.position.y
+                y: object.position.y,
             })
-
+            this.isClient && this.samples.boomSample.playAudio()
             this.player.lives -= 1
             this.onChangeLives(this.player.lives)
         }
@@ -498,8 +526,8 @@ class Game {
     enemiesProjectilesUpdate() {
         this.enemiesProjectiles.forEach((projectile, index) => {
             if (
-                projectile.position.y - projectile.height
-                >= this.ctx.canvas.height
+                projectile.position.y - projectile.height >=
+                this.ctx.canvas.height
             ) {
                 setTimeout(() => {
                     this.enemiesProjectiles.splice(index, 1)
@@ -516,18 +544,18 @@ class Game {
                 new Particle({
                     position: {
                         x: getRandom(0, this.canvasWidth),
-                        y: getRandom(0, this.canvasHeight)
+                        y: getRandom(0, this.canvasHeight),
                     },
                     velocity: {
                         x: 0,
-                        y: 0.3
+                        y: 0.3,
                     },
                     size: {
                         min: 0.1,
-                        max: 3
+                        max: 3,
                     },
                     fades: true,
-                    color: 'white'
+                    color: 'white',
                 })
             )
         }
@@ -556,11 +584,11 @@ class Game {
     perksUpdate() {
         this.perks.forEach((perk, i) => {
             if (
-                perk.position.y + perk.height >= this.player.position.y
-                && perk.position.y + perk.height > this.player.position.y
-                && perk.position.x + perk.width >= this.player.position.x
-                && perk.position.x + perk.width
-                    <= this.player.position.x + this.player.width
+                perk.position.y + perk.height >= this.player.position.y &&
+                perk.position.y + perk.height > this.player.position.y &&
+                perk.position.x + perk.width >= this.player.position.x &&
+                perk.position.x + perk.width <=
+                    this.player.position.x + this.player.width
             ) {
                 this.perks.splice(i, 1)
                 perk.upgrade()
@@ -591,7 +619,7 @@ class Game {
                                     this.player.width,
                                     this.canvasWidth - this.player.width
                                 ),
-                                y: -30
+                                y: -30,
                             },
                             this.fireUpgrade
                         )
@@ -606,7 +634,7 @@ class Game {
                                     this.player.width,
                                     this.canvasWidth - this.player.width
                                 ),
-                                y: -30
+                                y: -30,
                             },
                             this.liveUpgrade
                         )
@@ -622,7 +650,7 @@ class Game {
                                     this.player.width,
                                     this.canvasWidth - this.player.width
                                 ),
-                                y: -30
+                                y: -30,
                             },
                             this.timeUpgrade
                         )
@@ -631,7 +659,6 @@ class Game {
             }
             this.perkTimeStep = perkStep
         }
-
     }
 
     addMeteor() {
@@ -641,21 +668,20 @@ class Game {
                 new Meteor(MeteorImg, {
                     position: {
                         x: getRandom(60, this.canvasWidth - 60),
-                        y: -60
+                        y: -60,
                     },
-                    scale: 1
+                    scale: 1,
                 })
             )
             this.meteorTimeStep = meteorStep
         }
-
     }
 
     addInvader() {
         const invaderStep = performance.now()
         if (
-            invaderStep - this.invaderTimeStep
-            > (3000 / this.complexity) * 1.5
+            invaderStep - this.invaderTimeStep >
+            (3000 / this.complexity) * 1.5
         ) {
             if (this.invaders.length >= 2) {
                 return
@@ -667,15 +693,14 @@ class Game {
                 new Invader(InvaderImg, {
                     position: {
                         x: getRandom(0, this.canvasWidth),
-                        y: -40
+                        y: -40,
                     },
                     scale: 1,
-                    lives: 1
+                    lives: 1,
                 })
             )
             this.invaderTimeStep = invaderStep
         }
-
     }
 
     increaseComplexity() {
@@ -691,7 +716,7 @@ class Game {
         if (!this.pause) {
             requestAnimationFrame(this.animate)
         }
-        if (typeof window !== 'undefined') {
+        if (this.isClient) {
             const gamepads = navigator.getGamepads()
             if (gamepads[0]) {
                 // eslint-disable-next-line prefer-destructuring
@@ -716,16 +741,19 @@ class Game {
         this.increaseComplexity()
     }
 
-    start() {
+    start = () => {
         this.addListeners()
         this.animate()
         this.createStars()
+        setTimeout(() => {
+            this.isClient && this.samples.backgrounAudio.playAudio()
+        }, 1500)
     }
 
     restart() {
         this.player.position = {
             x: this.canvasWidth / 2 - this.player.width / 2,
-            y: this.canvasHeight - this.player.height - 20
+            y: this.canvasHeight - this.player.height - 20,
         }
         this.point = 0
         this.player.lives = 3
