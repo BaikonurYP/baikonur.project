@@ -18,7 +18,7 @@ const config: Configuration = {
                 use: ['html-loader'],
             },
             {
-                test: /\.(png|jpe?g|gif|svg|webp|ico)$/i,
+                test: /\.(png|jpe?g|gif|mp3|svg|webp|ico)$/i,
                 type: 'asset',
             },
             {
